@@ -46,7 +46,7 @@ libmlx:
 $(NAME): $(LIBFT) $(OBJECTS)
 	$(CC_FULL) $(OBJECTS) $(LIBFT) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 	mkdir -p $(@D)
 	$(CC_FULL) -c $< -o $@
 
@@ -96,7 +96,7 @@ VG_LOG_FLAGS = $(VG_FLAGS) \
 
 VG_LOG = valgrind_leaks.log
 
-VG_ARGS = 
+VG_ARGS =
 
 vg: vg_build
 	$(VG) $(VG_FLAGS) ./$(NAME) $(VG_ARGS)
