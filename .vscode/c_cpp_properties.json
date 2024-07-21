@@ -4,7 +4,8 @@
             "name": "mine",
             "includePath": [
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/lib/libft"
+                "${workspaceFolder}/lib/libft",
+                "${workspaceFolder}/lib/MLX42/include",
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

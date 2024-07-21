@@ -4,7 +4,7 @@
 CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror
 DB_FLAGS		=	-g
-HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES)
+HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS)
 
 ################################################################################
@@ -31,20 +31,20 @@ OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
 SRCS			=	main.c \
-					test.c
+					basic_equation.c \
 
 ################################################################################
 # RULES
 ################################################################################
 vpath %.c $(SRC_DIR)
 
-all: $(NAME) libmlx
+all: libmlx $(NAME)
 
 libmlx:
 	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build -j4
 
 $(NAME): $(LIBFT) $(OBJECTS)
-	$(CC_FULL) $(OBJECTS) $(LIBFT) -o $(NAME)
+	$(CC_FULL) $(OBJECTS) $(LIBFT) $(MLX42) -o $(NAME)
 
 $(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 	mkdir -p $(@D)

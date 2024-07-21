@@ -1,7 +1,21 @@
 #include <miniRT.h>
 
+t_rtx	*rtx(void)
+{
+	static t_rtx	rtx;
+
+	return (&rtx);
+}
+
+void	start_mlx(void)
+{
+	rtx()->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", 0);
+	rtx()->width = WIDTH;
+	rtx()->height = HEIGHT;
+}
+
 int	main(void)
 {
-	printf("Hello, World!\n");
-	return (0);
+	start_mlx();
+	mlx_loop(rtx()->mlx);
 }

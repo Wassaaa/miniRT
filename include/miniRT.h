@@ -1,11 +1,16 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <math.h>
-# include <stdio.h>
+# include <math.h> // math
+# include <stdio.h> // printf
+# include <MLX42/MLX42.h> // mlx
+
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef struct s_rtx
 {
+	mlx_t	*mlx;
 	int		width;
 	int		height;
 }	t_rtx;

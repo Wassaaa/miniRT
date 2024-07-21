@@ -47,7 +47,7 @@ t_vector	cross_product(t_vector a, t_vector b)
 
 double	vector_length(t_vector a)
 {
-	return (sqrt(dot(a, a)));
+	return (sqrt(dot_product(a, a)));
 }
 
 t_vector	vector_normalize(t_vector a)
@@ -57,4 +57,5 @@ t_vector	vector_normalize(t_vector a)
 	result.x = a.x / vector_length(a);
 	result.y = a.y / vector_length(a);
 	result.x = a.x / vector_length(a);
+	return (result);
 }
