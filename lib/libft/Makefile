@@ -3,14 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
+#    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/05 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/04/09 12:54:47 by jtu              ###   ########.fr        #
+#    Updated: 2024/07/20 19:47:24 by aklein           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-GREEN = \033[0;92m
 
 NAME = libft.a
 
@@ -48,27 +46,30 @@ SRCS = ft_isalpha.c \
 	ft_putstr_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
-	get_next_line/get_next_line_bonus.c \
-	ft_printf/ft_printf.c \
-	ft_printf/ft_put_function.c \
-	ft_printf/ft_specifier.c \
-	ft_printf/ft_numlen.c
+	get_next_line_bonus.c \
+	ft_printf.c \
+	ft_put_function.c \
+	ft_specifier.c \
+	ft_numlen.c
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -static-libsan
+vpath %.c get_next_line ft_printf
 
-OBJS = ${SRCS:.c=.o}
+CFLAGS = -Wall -Wextra -Werror
+
+OBJS = $(addprefix obj/, $(SRCS:%.c=%.o))
 
 all: ${NAME}
 
-%.o: %.c
+obj/%.o: %.c
+	@mkdir -p obj
 	@cc $(CFLAGS) -c $< -o $@
 
 ${NAME}: ${OBJS}
 	@ar rcs $@ $^
-	@echo "$(GREEN)Libft Compiled!$(DEF_COLOR)"
+	@echo "Libft Compiled!"
 
 clean:
-	@rm -f ${OBJS}
+	@rm -rf obj/
 
 fclean: clean
 	@rm -f ${NAME}

@@ -4,7 +4,7 @@
 CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror
 DB_FLAGS		=	-g
-HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) \
+HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES)
 CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS)
 
 ################################################################################
@@ -27,18 +27,18 @@ MLX_DEBUG		= -DDEBUG=1
 NAME			=	miniRT
 INCLUDES		=	./include
 M_HEADERS		=	$(INCLUDES)/miniRT.h
-OBJ_DIR			=	..obj
+OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
-SRCS			=	main.c\
-					test.c\
+SRCS			=	main.c \
+					test.c
 
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/math
+vpath %.c $(SRC_DIR)
 
-all: libmlx $(NAME)
+all: $(NAME) libmlx
 
 libmlx:
 	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build -j4
@@ -46,15 +46,19 @@ libmlx:
 $(NAME): $(LIBFT) $(OBJECTS)
 	$(CC_FULL) $(OBJECTS) $(LIBFT) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.c $(M_HEADERS)
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(@D)
 	$(CC_FULL) -c $< -o $@
 
-$(LIBFT):
+$(LIBFT): libft_force
 	make -C $(LIBFT_DIR)
 
+libft_force:
+	@true
+
 clean:
-	rm -rf $(NAME).dSYM/ obj/
-	rm -rf $(MLX42_DIR)/build
+	@rm -rf $(NAME).dSYM/ $(OBJECTS)
+	@rm -rf $(MLX42_DIR)/build
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
@@ -63,19 +67,14 @@ fclean: clean
 
 re: fclean all
 
-debug:
-	@echo "OBJECTS: $(OBJECTS)"
-	@echo "SRC_DIR: $(SRC_DIR)"
-	@echo "SRCS: $(SRCS)"
-	@echo "OBJ_DIR: $(OBJ_DIR)"
 ################################################################################
 # NORM
 ################################################################################
 norm:
-	norminette . | grep -v "OK!" || true
+	norminette $(SRC_DIR) $(M_HEADERS) | grep -v "OK!" || true
 
 norm2:
-	norminette .
+	norminette $(SRC_DIR) $(M_HEADERS)
 
 ################################################################################
 # VALGRIND
