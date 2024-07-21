@@ -1,13 +1,13 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include <math.h>
 # include <stdio.h>
 
 typedef struct s_rtx
 {
 	int		width;
 	int		height;
-	double	amb_light;
 }	t_rtx;
 
 typedef struct s_vector
@@ -23,6 +23,12 @@ typedef struct s_rgb
 	int	g;
 	int	b;
 }	t_rgb;
+
+typedef struct s_amb_light
+{
+	double	amb_light;
+	t_rgb	rgb;
+}	t_amb_light;
 
 typedef struct s_camera
 {
