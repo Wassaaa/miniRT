@@ -19,6 +19,17 @@ t_sphere	make_sphere(t_vector pos, double diameter, t_rgba color)
 	return (sphere);
 }
 
+t_plane	make_plane(t_vector pos, t_vector dir, t_rgba color)
+{
+	t_plane	plane;
+
+	plane.pos = pos;
+	plane.dir = dir;
+	plane.color = color;
+
+	return (plane);
+}
+
 int	clamp(int value, int min, int max)
 {
 	if (value < min)

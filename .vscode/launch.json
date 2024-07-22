@@ -13,7 +13,7 @@
 			"externalConsole": false,
 			"MIMode": "gdb",
 			"miDebuggerPath": "/usr/bin/gdb",
-			"preLaunchTask": "make",
+			"preLaunchTask": "",
 			"setupCommands": [
 			// {
 			// 	"description": "Follow child processes",
@@ -21,6 +21,16 @@
 			// 	"ignoreFailures": true
 			// }
 			]
+		},
+		{
+			"type": "vgdb",
+			"request": "launch",
+			"name": "vdbg miniRT",
+			"debugger": "gdb",
+			"program": "${workspaceFolder}/miniRT",
+			"args": [],
+			"preLaunchTask": "",
+			"cwd": "${workspaceFolder}",
 		}
 	]
 }
