@@ -1,18 +1,21 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include <libft.h>
 # include <math.h> // math
 # include <stdio.h> // printf
 # include <MLX42/MLX42.h> // mlx
 
 # define WIDTH 1920
 # define HEIGHT 1080
+# define M_PI 3.14159265358979323846
 
 typedef struct s_rtx
 {
-	mlx_t	*mlx;
-	int		width;
-	int		height;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	int			width;
+	int			height;
 }	t_rtx;
 
 typedef struct s_vector
@@ -22,17 +25,24 @@ typedef struct s_vector
 	double	z;
 }	t_vector;
 
-typedef struct s_rgb
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+} t_ray;
+
+typedef struct s_rgba
 {
 	int	r;
 	int	g;
 	int	b;
-}	t_rgb;
+	int	a;
+}	t_rgba;
 
 typedef struct s_amb_light
 {
 	double	amb_light;
-	t_rgb	rgb;
+	t_rgba	color;
 }	t_amb_light;
 
 typedef struct s_camera
@@ -47,21 +57,22 @@ typedef struct s_light
 	t_vector	pos;
 	t_vector	dir;
 	double		bright;
-	t_rgb		rgb;
+	t_rgba		color;
 }	t_light;
 
 typedef struct s_sphere
 {
 	t_vector	pos;
 	double		diameter;
-	t_rgb		color;
+	double		radius;
+	t_rgba		color;
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_vector	pos;
 	t_vector	dir;
-	t_rgb		color;
+	t_rgba		color;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -70,8 +81,25 @@ typedef struct s_cylinder
 	t_vector	dir;
 	double		diameter;
 	double		height;
-	t_rgb		color;
+	t_rgba		color;
 	
 }	t_cylinder;
+
+typedef struct s_quadratic_coeffs
+{
+	double	a;
+	double	b;
+	double	c;
+} t_quadratic_coeffs;
+
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_subtract(t_vector a, t_vector b);
+t_vector	vector_multiply(t_vector a, double scalar);
+double		vector_dot(t_vector a, t_vector b);
+t_vector	vector_cross(t_vector a, t_vector b);
+double		vector_length(t_vector a);
+t_vector	vector_normalize(t_vector a);
+
+int			sphere_intersect(t_ray ray, t_sphere sphere, double* t);
 
 #endif

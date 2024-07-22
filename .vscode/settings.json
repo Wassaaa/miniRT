@@ -12,5 +12,8 @@
         "**/.svn": false,
         "**/CVS": false,
         "**/Thumbs.db": false
+    },
+    "files.associations": {
+        "math.h": "c"
     }
 }

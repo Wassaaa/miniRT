@@ -20,22 +20,22 @@ t_vector	vector_subtract(t_vector a, t_vector b)
 	return (result);
 }
 
-t_vector	vector_multipy(t_vector a, t_vector b)
+t_vector	vector_multiply(t_vector a, double scalar)
 {
 	t_vector	result;
 
-	result.x = a.x * b.x;
-	result.y = a.y * b.y;
-	result.z = a.z * b.z;
+	result.x = a.x * scalar;
+	result.y = a.y * scalar;
+	result.z = a.z * scalar;
 	return (result);
 }
 
-double	dot_product(t_vector a, t_vector b)
+double	vector_dot(t_vector a, t_vector b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-t_vector	cross_product(t_vector a, t_vector b)
+t_vector	vector_cross(t_vector a, t_vector b)
 {
 	t_vector	result;
 
@@ -47,15 +47,21 @@ t_vector	cross_product(t_vector a, t_vector b)
 
 double	vector_length(t_vector a)
 {
-	return (sqrt(dot_product(a, a)));
+	return (sqrt(vector_dot(a, a)));
 }
 
 t_vector	vector_normalize(t_vector a)
 {
 	t_vector	result;
+	double		length;
 
-	result.x = a.x / vector_length(a);
-	result.y = a.y / vector_length(a);
-	result.x = a.x / vector_length(a);
+	ft_bzero(&result, sizeof(t_vector));
+	length = vector_length(a);
+	if (length > 0)
+	{
+		result.x = a.x / length;
+		result.y = a.y / length;
+		result.z = a.z / length;
+	}
 	return (result);
 }

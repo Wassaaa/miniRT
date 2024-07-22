@@ -32,6 +32,7 @@ OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
 SRCS			=	main.c \
 					basic_equation.c \
+					quadratic_formula.c \
 
 ################################################################################
 # RULES

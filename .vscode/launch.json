@@ -2,19 +2,10 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "lldb",
-			"request": "launch",
-			"name": "(lldb) Minishell",
-			"program": "${workspaceFolder}/minishell",
-			"args": [],
-			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "make"
-		},
-		{
-			"name": "(gdb) minishell",
+			"name": "(gdb) miniRT",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/minishell",
+			"program": "${workspaceFolder}/miniRT",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
@@ -24,36 +15,11 @@
 			"miDebuggerPath": "/usr/bin/gdb",
 			"preLaunchTask": "make",
 			"setupCommands": [
-			  {
-				"description": "Pass SIGINT to the program",
-				"text": "handle SIGINT nostop pass noprint",
-				"ignoreFailures": true
-			},
-			{
-				"description": "Pass SIGQUIT to the program",
-				"text": "handle SIGQUIT nostop pass moprint",
-				"ignoreFailures": true
-			},
 			// {
 			// 	"description": "Follow child processes",
 			// 	"text": "-gdb-set follow-fork-mode child",
 			// 	"ignoreFailures": true
 			// }
-			]
-		},
-		{
-			"name": "(gdb) Attach to Process",
-			"type": "cppdbg",
-			"request": "attach",
-			"program": "${workspaceFolder}/minishell",
-			"processId": "${command:pickProcess}",
-			"MIMode": "gdb",
-			"setupCommands": [
-				{
-					"description": "Enable pretty-printing for gdb",
-					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
-				}
 			]
 		}
 	]
