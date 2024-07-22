@@ -13,9 +13,11 @@
 
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
-# define TEST_SPHERE2 (t_vector){-5, -6, 11}, 15, (t_rgba){255, 0, 0, 255}
-# define TEST_SPHERE (t_vector){5, -6, 16}, 15, (t_rgba){255, 0, 0, 255}
-# define TEST_LIGHT (t_vector){14, 22, 25}
+# define TEST_SPHERE (t_vector){5, -6, 16}, 4, (t_rgba){255, 0, 0, 255}
+# define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
+# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 0, 255}
+# define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}
+# define TEST_LIGHT (t_vector){14, 22, -25}
 # define TEST_FOV 80.0
 # define TEST_AMBIENT 0.1
 

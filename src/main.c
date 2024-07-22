@@ -149,14 +149,10 @@ void	render_scene(void)
 
 void	get_shapes(void)
 {
-	t_shape	*sphere;
-	t_shape	*sphere2;
-
-	sphere = make_sphere(TEST_SPHERE);
-	sphere2 = make_sphere(TEST_SPHERE2);
-
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere2));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
 }
 
 void	start_mlx(void)
