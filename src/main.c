@@ -28,13 +28,13 @@ int	clamp(int value, int min, int max)
 	return (value);
 }
 
-int	get_rgba(t_rgba color, double str)
+int	get_rgba(t_rgba color, double intensity)
 {
 	t_rgba	result;
 
-	result.r = clamp((int)(color.r * str), 0, 255);
-	result.g = clamp((int)(color.g * str), 0, 255);
-	result.b = clamp((int)(color.b * str), 0, 255);
+	result.r = clamp((int)(color.r * intensity), 0, 255);
+	result.g = clamp((int)(color.g * intensity), 0, 255);
+	result.b = clamp((int)(color.b * intensity), 0, 255);
 	result.a = clamp(color.a, 0, 255);
 	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
 }
@@ -43,25 +43,25 @@ int	get_pixel_color(t_ray ray, t_sphere sphere, double t)
 {
 	t_vector	hit_point;
 	t_vector	normal;
-	double		str;
-	t_vector	light = vector_normalize((t_vector){1, 1, 1});
+	double		intensity;
+	t_vector	light = vector_normalize(TEST_LIGHT);
 	double		ambient;
 	
 	hit_point = vector_add(ray.origin, vector_multiply(ray.direction, t));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
-	ambient = 0.1;
-	str = fmax(vector_dot(normal, light), 0.0) + ambient;
-	return (get_rgba(sphere.color, str));
+	ambient = TEST_AMBIENT;
+	intensity = fmax(vector_dot(normal, light), 0.0) + ambient;
+	return (get_rgba(sphere.color, intensity));
 }
 
 int get_color(t_ray ray)
 {
 	double		t;
-	t_sphere	sphere = make_sphere((t_vector){-5, 0, -23}, 12, (t_rgba){255, 0, 0, 255});
+	t_sphere	sphere = make_sphere(TEST_SPHERE);
 
 	if (sphere_intersect(ray, sphere, &t))
 		return (get_pixel_color(ray, sphere, t));
-	return (0xFFFFFFFF);
+	return (TEST_BG);
 }
 
 t_ray	generate_ray(int x, int y)
@@ -71,10 +71,10 @@ t_ray	generate_ray(int x, int y)
 	double		fov;
 
 	ft_memset(&ray, 0, sizeof(t_ray));
-	fov = tan(M_PI / 4);
+	fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
-	vector.z = -1;
+	vector.z = 1;
 	ray.direction = vector_normalize(vector);
 	return (ray);
 }

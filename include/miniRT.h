@@ -10,6 +10,12 @@
 # define HEIGHT 1080
 # define M_PI 3.14159265358979323846
 
+# define TEST_BG 0x000000FF
+# define TEST_SPHERE (t_vector){-5, -6, 16}, 15, (t_rgba){255, 0, 0, 255}
+# define TEST_LIGHT (t_vector){14, 22, 25}
+# define TEST_FOV 70.0
+# define TEST_AMBIENT 0.02
+
 typedef struct s_rtx
 {
 	mlx_t		*mlx;
