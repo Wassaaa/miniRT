@@ -14,6 +14,7 @@
 # define WORLD_UP (t_vector){0, 1, 0}
 
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
+# define TEST_PLANE (t_vector){0, 0, -10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
 # define TEST_BG 0x000000FF
 // test shapes
 # define TEST_SPHERE (t_vector){5, -16, 32}, 4, (t_rgba){255, 0, 0, 255}
@@ -140,7 +141,7 @@ typedef struct s_scene
 
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
-t_vector	vector_multiply(t_vector a, double scalar);
+t_vector	vector_scale(t_vector a, double scalar);
 double		vector_dot(t_vector a, t_vector b);
 t_vector	vector_cross(t_vector a, t_vector b);
 double		vector_length(t_vector a);
@@ -148,7 +149,5 @@ t_vector	vector_normalize(t_vector a);
 
 t_rtx		*rtx(void);
 int			intersect_sphare(t_ray ray, t_shape sphere, double* t);
-void		key_hook(mlx_key_data_t keydata, void* param);
-void		render_scene(void);
 
 #endif

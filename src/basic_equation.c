@@ -20,7 +20,7 @@ t_vector	vector_subtract(t_vector a, t_vector b)
 	return (result);
 }
 
-t_vector	vector_multiply(t_vector a, double scalar)
+t_vector	vector_scale(t_vector a, double scalar)
 {
 	t_vector	result;
 

@@ -26,6 +26,7 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_rgba color)
 	t_shape	*plane;
 
 	plane = ft_calloc(1, sizeof(t_shape));
+	plane->type = PLANE;
 	plane->pos = pos;
 	plane->dir = dir;
 	plane->color = color;
@@ -62,7 +63,7 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 	
 	hit_point = vector_add(
 		ray.origin,
-		vector_multiply(ray.direction, rtx()->closest_point));
+		vector_scale(ray.direction, rtx()->closest_point));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
@@ -83,11 +84,11 @@ t_vector	add_panning(t_vector vector)
 	right = vector_cross(WORLD_UP, rtx()->scene->camera.dir);
 	up = vector_cross(rtx()->scene->camera.dir, right);
 	direction = vector_add(
-		vector_multiply(right, vector.x),
-		vector_multiply(up, vector.y));
+		vector_scale(right, vector.x),
+		vector_scale(up, vector.y));
 	direction = vector_add(
 		direction,
-		vector_multiply(rtx()->scene->camera.dir, vector.z));
+		vector_scale(rtx()->scene->camera.dir, vector.z));
 	rtx()->scene->camera.right = right;
 	rtx()->scene->camera.up = up;
 	return (direction);
@@ -117,7 +118,7 @@ int	intersect(t_shape shape, t_ray ray, double *t)
 		intersect_sphare(ray, shape, t);
 	else if (shape.type == PLANE)
 	{
-		//plane function
+		intersect_plane(ray, shape, t);
 	}
 	if (*t < 0)
 		return (0);
