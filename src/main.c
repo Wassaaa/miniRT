@@ -53,7 +53,7 @@ int	get_rgba(t_rgba color, double intensity)
 	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
 }
 
-int	get_pixel_color(t_ray ray, t_shape sphere, double t)
+int	get_pixel_color(t_ray ray, t_shape sphere)
 {
 	t_vector	hit_point;
 	t_vector	normal;
@@ -61,7 +61,7 @@ int	get_pixel_color(t_ray ray, t_shape sphere, double t)
 	t_vector	light = vector_normalize(TEST_LIGHT);
 	double		ambient;
 	
-	hit_point = vector_add(ray.origin, vector_multiply(ray.direction, t));
+	hit_point = vector_add(ray.origin, vector_multiply(ray.direction, rtx()->closest_point));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
 	ambient = TEST_AMBIENT;
 	intensity = fmax(vector_dot(normal, light), 0.0) + ambient;
@@ -105,6 +105,7 @@ int trace_ray(t_ray ray)
 
 	rtx()->closest_point = DBL_MAX;
 	ft_bzero(&closest_shape, sizeof(t_shape));
+	t = 0.0;
 	shapes = rtx()->shapes;
 	while (shapes)
 	{
@@ -121,7 +122,7 @@ int trace_ray(t_ray ray)
 	}
 	if (closest_shape.type == NOTHING)
 		return (TEST_BG);
-	return (get_pixel_color(ray, closest_shape, t));
+	return (get_pixel_color(ray, closest_shape));
 }
 
 void	render_scene(void)
@@ -148,17 +149,14 @@ void	render_scene(void)
 
 void	get_shapes(void)
 {
-	// t_shape	*sphere;
-	// t_shape	*sphere2;
-	t_shape	*plane;
+	t_shape	*sphere;
+	t_shape	*sphere2;
 
-	// sphere = make_sphere(TEST_SPHERE);
-	// sphere2 = make_sphere(TEST_SPHERE2);
-	plane = make_plane(TEST_PLANE);
+	sphere = make_sphere(TEST_SPHERE);
+	sphere2 = make_sphere(TEST_SPHERE2);
 
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(plane));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere2));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere2));
 }
 
 void	start_mlx(void)
