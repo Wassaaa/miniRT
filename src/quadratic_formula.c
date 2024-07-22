@@ -27,15 +27,15 @@ x = (-b ± √(b² - 4ac)) / (2a)
 (D · D)t² + 2((O - C) · D)t + ((O - C) · (O - C) - r²) = 0
 |  a  |     |     b      |    |          c           |
 */
-t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_sphere sphere)
+t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape shape)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
 	
-	oc = vector_subtract(ray.origin, sphere.pos);
+	oc = vector_subtract(ray.origin, shape.pos);
 	coeffs.a = vector_dot(ray.direction, ray.direction);
 	coeffs.b = 2.0 * vector_dot(oc, ray.direction);
-	coeffs.c = vector_dot(oc, oc) - (sphere.radius * sphere.radius);
+	coeffs.c = vector_dot(oc, oc) - (shape.radius * shape.radius);
 	return (coeffs);
 }
 
@@ -43,7 +43,7 @@ t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_sphere sphere)
 t = (-b ± √(b² - 4ac)) / (2a)
            |discriminant|
 */
-int sphere_intersect(t_ray ray, t_sphere sphere, double* t)
+int intersect_sphare(t_ray ray, t_shape sphere, double* t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;

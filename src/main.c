@@ -7,25 +7,28 @@ t_rtx	*rtx(void)
 	return (&rtx);
 }
 
-t_sphere	make_sphere(t_vector pos, double diameter, t_rgba color)
+t_shape	*make_sphere(t_vector pos, double diameter, t_rgba color)
 {
-	t_sphere	sphere;
+	t_shape	*sphere;
 
-	sphere.pos = pos;
-	sphere.diameter = diameter;
-	sphere.radius = sphere.diameter / 2;
-	sphere.color = color;
+	sphere = ft_calloc(1, sizeof(t_shape));
+	sphere->type = SPHARE;
+	sphere->pos = pos;
+	sphere->diameter = diameter;
+	sphere->radius = sphere->diameter / 2;
+	sphere->color = color;
 
 	return (sphere);
 }
 
-t_plane	make_plane(t_vector pos, t_vector dir, t_rgba color)
+t_shape	*make_plane(t_vector pos, t_vector dir, t_rgba color)
 {
-	t_plane	plane;
+	t_shape	*plane;
 
-	plane.pos = pos;
-	plane.dir = dir;
-	plane.color = color;
+	plane = ft_calloc(1, sizeof(t_shape));
+	plane->pos = pos;
+	plane->dir = dir;
+	plane->color = color;
 
 	return (plane);
 }
@@ -50,7 +53,7 @@ int	get_rgba(t_rgba color, double intensity)
 	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
 }
 
-int	get_pixel_color(t_ray ray, t_sphere sphere, double t)
+int	get_pixel_color(t_ray ray, t_shape sphere, double t)
 {
 	t_vector	hit_point;
 	t_vector	normal;
@@ -63,16 +66,6 @@ int	get_pixel_color(t_ray ray, t_sphere sphere, double t)
 	ambient = TEST_AMBIENT;
 	intensity = fmax(vector_dot(normal, light), 0.0) + ambient;
 	return (get_rgba(sphere.color, intensity));
-}
-
-int get_color(t_ray ray)
-{
-	double		t;
-	t_sphere	sphere = make_sphere(TEST_SPHERE);
-
-	if (sphere_intersect(ray, sphere, &t))
-		return (get_pixel_color(ray, sphere, t));
-	return (TEST_BG);
 }
 
 t_ray	generate_ray(int x, int y)
@@ -90,20 +83,82 @@ t_ray	generate_ray(int x, int y)
 	return (ray);
 }
 
+int	intersect(t_shape shape, t_ray ray, double *t)
+{
+	if (shape.type == SPHARE)
+		intersect_sphare(ray, shape, t);
+	else if (shape.type == PLANE)
+	{
+		//plane function
+	}
+	if (*t < 0)
+		return (0);
+	return (*t > 0);
+}
+
+int trace_ray(t_ray ray)
+{
+	double	t;
+	t_list	*shapes;
+	t_shape	shape;
+	t_shape	closest_shape;
+
+	rtx()->closest_point = DBL_MAX;
+	ft_bzero(&closest_shape, sizeof(t_shape));
+	shapes = rtx()->shapes;
+	while (shapes)
+	{
+		shape = *(t_shape *)shapes->content;
+		if (intersect(shape, ray, &t))
+		{
+			if (t < rtx()->closest_point)
+			{
+				rtx()->closest_point = t;
+				closest_shape = shape;
+			}
+		}
+		shapes = shapes->next;
+	}
+	if (closest_shape.type == NOTHING)
+		return (TEST_BG);
+	return (get_pixel_color(ray, closest_shape, t));
+}
+
 void	render_scene(void)
 {
 	t_ray	ray;
 	int		color;
+	int		x;
+	int		y;
 
-	for (int y = 0; y < HEIGHT; y++)
+	y = 0;
+	while(y < HEIGHT)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		x = 0;
+		while(x < WIDTH)
 		{
 			ray = generate_ray(x, y);
-			color = get_color(ray);
+			color = trace_ray(ray);
 			mlx_put_pixel(rtx()->img, x, y, color);
+			x++;
 		}
+		y++;
 	}
+}
+
+void	get_shapes(void)
+{
+	// t_shape	*sphere;
+	// t_shape	*sphere2;
+	t_shape	*plane;
+
+	// sphere = make_sphere(TEST_SPHERE);
+	// sphere2 = make_sphere(TEST_SPHERE2);
+	plane = make_plane(TEST_PLANE);
+
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(plane));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere2));
 }
 
 void	start_mlx(void)
@@ -120,6 +175,7 @@ void	start_mlx(void)
 int	main(void)
 {
 	start_mlx();
+	get_shapes();
 	render_scene();
 	mlx_loop(rtx()->mlx);
 	mlx_terminate(rtx()->mlx);

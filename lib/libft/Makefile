@@ -6,7 +6,7 @@
 #    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/05 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/07/20 19:47:24 by aklein           ###   ########.fr        #
+#    Updated: 2024/07/22 17:07:24 by aklein           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRCS = ft_isalpha.c \
 	ft_printf.c \
 	ft_put_function.c \
 	ft_specifier.c \
-	ft_numlen.c
+	ft_numlen.c \
+	ft_lstadd_back_bonus.c \
+	ft_lstnew_bonus.c \
 
 vpath %.c get_next_line ft_printf
 
