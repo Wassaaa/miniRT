@@ -33,6 +33,7 @@ SRC_DIR			=	./src
 SRCS			=	main.c \
 					basic_equation.c \
 					quadratic_formula.c \
+					game_loop.c \
 
 ################################################################################
 # RULES

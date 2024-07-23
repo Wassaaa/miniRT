@@ -13,19 +13,31 @@
 
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
+// test shapes
 # define TEST_SPHERE (t_vector){5, -6, 16}, 4, (t_rgba){255, 0, 0, 255}
 # define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
 # define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 0, 255}
 # define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}
-# define TEST_LIGHT (t_vector){14, 22, -25}
+//test cam
+# define TEST_CAM_POS (t_vector){0, 0, 0}
+# define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
+
+//test light
+# define TEST_LIGHT_DIR (t_vector){14, 22, -25}
+# define TEST_LIGHT_POS (t_vector){14, 22, -25}
+
 # define TEST_AMBIENT 0.1
+
+typedef struct s_scene t_scene;
+
 
 typedef struct s_rtx
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_list		*shapes;
+	t_scene		*scene;
 	double		closest_point;
 	int			width;
 	int			height;
@@ -80,7 +92,7 @@ typedef struct s_camera
 {
 	t_vector	pos;
 	t_vector	dir;
-	int			fov;
+	double		fov;
 }	t_camera;
 
 typedef struct s_light
@@ -98,6 +110,13 @@ typedef struct s_quadratic_coeffs
 	double	c;
 } t_quadratic_coeffs;
 
+typedef struct s_scene
+{
+	t_camera	camera;
+	t_light		light;
+	t_amb_light	amb;
+}	t_scene;
+
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
 t_vector	vector_multiply(t_vector a, double scalar);
@@ -106,6 +125,9 @@ t_vector	vector_cross(t_vector a, t_vector b);
 double		vector_length(t_vector a);
 t_vector	vector_normalize(t_vector a);
 
+t_rtx		*rtx(void);
 int			intersect_sphare(t_ray ray, t_shape sphere, double* t);
+void		key_hook(mlx_key_data_t keydata, void* param);
+void		render_scene(void);
 
 #endif

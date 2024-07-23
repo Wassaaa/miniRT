@@ -58,13 +58,13 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 	t_vector	hit_point;
 	t_vector	normal;
 	double		intensity;
-	t_vector	light = vector_normalize(TEST_LIGHT);
+	t_vector	light = vector_normalize(rtx()->scene->light.dir);
 	double		ambient;
 	
 	hit_point = vector_add(ray.origin, vector_multiply(ray.direction, rtx()->closest_point));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
-	ambient = TEST_AMBIENT;
-	intensity = fmax(vector_dot(normal, light), 0.0) + ambient;
+	ambient = rtx()->scene->amb.amb_light;
+	intensity = fmax(vector_dot(normal, light), ambient);
 	return (get_rgba(sphere.color, intensity));
 }
 
@@ -73,9 +73,11 @@ t_ray	generate_ray(int x, int y)
 	t_ray		ray;
 	t_vector	vector;
 	double		fov;
+	t_scene		*scene;
 
-	ft_memset(&ray, 0, sizeof(t_ray));
-	fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
+	scene = rtx()->scene;
+	ray.origin = rtx()->scene->camera.pos;
+	fov = tan((scene->camera.fov / 2) * (M_PI / 180.0));
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
 	vector.z = 1;
@@ -166,11 +168,24 @@ void	start_mlx(void)
 	mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0);
 }
 
+void	setup_scene(void)
+{
+	rtx()->scene = ft_calloc(1, sizeof(t_scene));
+	rtx()->scene->amb.amb_light = TEST_AMBIENT;
+	rtx()->scene->camera.pos = TEST_CAM_POS;
+	rtx()->scene->camera.dir = TEST_CAM_DIR;
+	rtx()->scene->camera.fov = TEST_FOV;
+	rtx()->scene->light.pos	= TEST_LIGHT_POS;
+	rtx()->scene->light.dir	= TEST_LIGHT_DIR;
+	get_shapes();
+}
+
 int	main(void)
 {
 	start_mlx();
-	get_shapes();
+	setup_scene();
 	render_scene();
+	mlx_key_hook(rtx()->mlx, key_hook, NULL);
 	mlx_loop(rtx()->mlx);
 	mlx_terminate(rtx()->mlx);
 	return (0);
