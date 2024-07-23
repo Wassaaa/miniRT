@@ -24,6 +24,10 @@
 # define TEST_CAM_POS (t_vector){0, 0, 0}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
+# define FOV_STEP 10.0
+# define MIN_FOV 10.0
+# define MAX_FOV 170.0
+
 # define PAN_AMOUNT M_PI / 10
 # define MOVE_SPEED 5.0
 
@@ -60,7 +64,9 @@ typedef enum e_direction
 	UP,
 	RIGHT,
 	DOWN,
-	LEFT
+	LEFT,
+	FORWARD,
+	BACK
 }	t_direction;
 
 
