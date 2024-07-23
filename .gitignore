@@ -1,3 +1,6 @@
 *.o
 miniRT
 libft.a
+gprof_analysis.txt
+gmon.out
+miniRT_profile

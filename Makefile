@@ -2,7 +2,7 @@
 # COMPILATION
 ################################################################################
 CC				=	cc
-CC_STRICT		=	-Wall -Wextra -Werror -pthread -Og
+CC_STRICT		=	-Wall -Wextra -Werror -pthread
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS)
@@ -79,6 +79,21 @@ norm:
 
 norm2:
 	norminette $(SRC_DIR) $(M_HEADERS)
+
+################################################################################
+# PROFILE
+################################################################################
+PROF_NAME = $(NAME)_profile
+PROF_OUT = gprof_analysis.txt
+GMON_OUT = gmon.out
+
+profile: $(OBJECTS)
+	$(CC_FULL) -pg $(OBJECTS) $(LIBFT) $(MLX42) -o $(PROF_NAME)
+	./$(PROF_NAME)
+	gprof $(NAME)_profile $(GMON_OUT) > $(PROF_OUT)
+
+pclean:
+	rm -f $(PROF_NAME) $(PROF_OUT) $(GMON_OUT)
 
 ################################################################################
 # VALGRIND
