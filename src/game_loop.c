@@ -61,16 +61,44 @@ void	move_camera(t_direction dir)
 		camera->pos = vector_add(
 			camera->pos,
 			vector_multiply(camera->right, -MOVE_SPEED));
+	if (dir == FORWARD)
+		camera->pos = vector_add(
+			camera->pos,
+			vector_multiply(camera->dir, MOVE_SPEED));
+	if (dir == BACK)
+		camera->pos = vector_add(
+			camera->pos,
+			vector_multiply(camera->dir, -MOVE_SPEED));
+}
+
+void	adjust_fov(int direction)
+{
+	double current_fov;
+
+	current_fov = 2 * atan(rtx()->scene->camera.fov) * (180.0 / M_PI);
+	if (direction > 0)
+		current_fov += FOV_STEP;
+	else
+		current_fov -= FOV_STEP;
+	if (current_fov < MIN_FOV)
+		current_fov = MIN_FOV;
+	else if (current_fov > MAX_FOV)
+		current_fov = MAX_FOV;
+	rtx()->scene->camera.fov = tan((current_fov / 2) * (M_PI / 180.0));
 }
 
 void	camera_adjustment(mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_RELEASE)
 		move_camera(UP);
+	if (keydata.key == MLX_KEY_C && keydata.action == MLX_RELEASE)
+		move_camera(DOWN);
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+		move_camera(FORWARD);
 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
 		move_camera(LEFT);
 	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-		move_camera(DOWN);
+		move_camera(BACK);
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 		move_camera(RIGHT);
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_RELEASE)
@@ -82,9 +110,9 @@ void	camera_adjustment(mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
 		pan_camera(-PAN_AMOUNT, 0);
 	if (keydata.key == MLX_KEY_PAGE_UP && keydata.action == MLX_RELEASE)
-		rtx()->scene->camera.fov -= 10;
+		adjust_fov(-1);
 	if (keydata.key == MLX_KEY_PAGE_DOWN && keydata.action == MLX_RELEASE)
-		rtx()->scene->camera.fov += 10;
+		adjust_fov(1);
 
 }
 
