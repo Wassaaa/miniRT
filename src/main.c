@@ -102,7 +102,7 @@ t_ray	generate_ray(int x, int y)
 
 	scene = rtx()->scene;
 	ray.origin = rtx()->scene->camera.pos;
-	fov = tan((scene->camera.fov / 2) * (M_PI / 180.0));
+	fov = scene->camera.fov;
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
 	vector.z = 1;
@@ -199,10 +199,10 @@ void	setup_scene(void)
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
 	rtx()->scene->amb.amb_light = TEST_AMBIENT;
 	rtx()->scene->camera.pos = TEST_CAM_POS;
-	rtx()->scene->camera.dir = TEST_CAM_DIR;
+	rtx()->scene->camera.dir = vector_normalize(TEST_CAM_DIR);
 	rtx()->scene->camera.right = TEST_CAM_DIR;
 	rtx()->scene->camera.up = TEST_CAM_DIR;
-	rtx()->scene->camera.fov = TEST_FOV;
+	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
 	get_shapes();
