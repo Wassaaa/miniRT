@@ -7,8 +7,8 @@
 # include <MLX42/MLX42.h> // mlx
 # include <float.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 600
+# define HEIGHT 400
 # define M_PI 3.14159265358979323846
 
 # define WORLD_UP (t_vector){0, 1, 0}
@@ -16,16 +16,16 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 // test shapes
-# define TEST_SPHERE (t_vector){5, -6, 16}, 4, (t_rgba){255, 0, 0, 255}
+# define TEST_SPHERE (t_vector){5, -6, 32}, 4, (t_rgba){255, 0, 0, 255}
 # define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
-# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 0, 255}
+# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 55, 255}
 # define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0, 0}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
-# define PAN_AMOUNT M_PI / 12
-# define MOVE_SPEED 8.0
+# define PAN_AMOUNT M_PI / 10
+# define MOVE_SPEED 5.0
 
 //test light
 # define TEST_LIGHT_DIR (t_vector){14, 22, -25}

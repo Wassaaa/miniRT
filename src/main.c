@@ -58,7 +58,6 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 	t_vector	hit_point;
 	t_vector	normal;
 	double		intensity;
-	t_vector	light = vector_normalize(rtx()->scene->light.dir);
 	double		ambient;
 	
 	hit_point = vector_add(
@@ -66,11 +65,15 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 		vector_multiply(ray.direction, rtx()->closest_point));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
 	ambient = rtx()->scene->amb.amb_light;
-	intensity = fmax(vector_dot(normal, light), ambient);
+	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
 	return (get_rgba(sphere.color, intensity));
 }
 
-//calculate right and up vectors based on current camera dir
+/*
+calculate right and up vectors based on current camera dir and WORLD_UP
+WORLD_UP x CAMERA_FORWARD = CAM_RIGHT
+CAMERA_FORWARD x CAM_RIGHT = CAM_UP
+*/
 t_vector	add_panning(t_vector vector)
 {
 	t_vector	direction;
@@ -201,7 +204,7 @@ void	setup_scene(void)
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = TEST_FOV;
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
-	rtx()->scene->light.dir	= TEST_LIGHT_DIR;
+	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
 	get_shapes();
 }
 
