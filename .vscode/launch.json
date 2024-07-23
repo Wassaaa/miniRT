@@ -29,7 +29,7 @@
 			"debugger": "gdb",
 			"program": "${workspaceFolder}/miniRT",
 			"args": [],
-			"preLaunchTask": "",
+			"preLaunchTask": "run make",
 			"cwd": "${workspaceFolder}",
 		}
 	]

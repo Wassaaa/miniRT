@@ -7,8 +7,8 @@
 # include <MLX42/MLX42.h> // mlx
 # include <float.h>
 
-# define WIDTH 600
-# define HEIGHT 400
+# define WIDTH 700
+# define HEIGHT 420
 # define M_PI 3.14159265358979323846
 
 # define WORLD_UP (t_vector){0, 1, 0}
@@ -16,7 +16,7 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 // test shapes
-# define TEST_SPHERE (t_vector){5, -6, 32}, 4, (t_rgba){255, 0, 0, 255}
+# define TEST_SPHERE (t_vector){5, -16, 32}, 4, (t_rgba){255, 0, 0, 255}
 # define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
 # define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 55, 255}
 # define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}

@@ -185,7 +185,9 @@ void	get_shapes(void)
 
 void	start_mlx(void)
 {
-	rtx()->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", 0);
+	rtx()->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", 1);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	
 	rtx()->img = mlx_new_image(rtx()->mlx, WIDTH, HEIGHT);
 	if (!rtx()->img)
 		exit(1);
