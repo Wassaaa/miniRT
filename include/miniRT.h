@@ -7,8 +7,8 @@
 # include <MLX42/MLX42.h> // mlx
 # include <float.h>
 
-# define WIDTH 700
-# define HEIGHT 420
+# define WIDTH 1000
+# define HEIGHT 800
 # define M_PI 3.14159265358979323846
 
 # define WORLD_UP (t_vector){0, 1, 0}
@@ -48,14 +48,12 @@ typedef struct s_rtx
 	mlx_image_t	*img;
 	t_list		*shapes;
 	t_scene		*scene;
-	double		closest_point;
 	int			width;
 	int			height;
 }	t_rtx;
 
 typedef enum e_shape_type
 {
-	NOTHING,
 	PLANE,
 	SPHARE,
 	CYLINDER
@@ -140,6 +138,13 @@ typedef struct s_scene
 	t_light		light;
 	t_amb_light	amb;
 }	t_scene;
+
+typedef struct s_intersection
+{
+	double	distance;
+	t_shape	shape;
+	int		hit;
+}	t_intersection;
 
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);

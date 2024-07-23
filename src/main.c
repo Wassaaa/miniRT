@@ -69,7 +69,7 @@ int	get_rgba(t_rgba color, double intensity)
 	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
 }
 
-int	get_pixel_color(t_ray ray, t_shape sphere)
+int	get_pixel_color(t_ray ray, t_intersection intersection)
 {
 	t_vector	hit_point;
 	t_vector	normal;
@@ -78,11 +78,11 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 	
 	hit_point = vector_add(
 		ray.origin,
-		vector_scale(ray.direction, rtx()->closest_point));
-	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
+		vector_multiply(ray.direction, intersection.distance));
+	normal = vector_normalize(vector_subtract(hit_point, intersection.shape.pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
-	return (get_rgba(sphere.color, intensity));
+	return (get_rgba(intersection.shape.color, intensity));
 }
 
 /*
@@ -144,33 +144,38 @@ int	intersect(t_shape shape, t_ray ray, double *t)
 	return (*t > 0);
 }
 
-int trace_ray(t_ray ray)
+t_intersection	find_closest(t_ray ray, t_list *shapes)
 {
-	double	t;
-	t_list	*shapes;
-	t_shape	shape;
-	t_shape	closest_shape;
+	t_intersection	result;
+	double			t;
+	t_shape			*shape;
 
-	rtx()->closest_point = DBL_MAX;
-	ft_bzero(&closest_shape, sizeof(t_shape));
-	t = 0.0;
-	shapes = rtx()->shapes;
+	result = (t_intersection){DBL_MAX, {0}, 0};
 	while (shapes)
 	{
-		shape = *(t_shape *)shapes->content;
-		if (intersect(shape, ray, &t))
+		shape = (t_shape *)shapes->content;
+		if (intersect(*shape, ray, &t))
 		{
-			if (t < rtx()->closest_point)
+			if (t < result.distance)
 			{
-				rtx()->closest_point = t;
-				closest_shape = shape;
+				result.distance = t;
+				result.shape = *shape;
+				result.hit = 1;
 			}
 		}
 		shapes = shapes->next;
 	}
-	if (closest_shape.type == NOTHING)
+	return (result);
+}
+
+int trace_ray (t_ray ray)
+{
+	t_intersection	intersection;
+
+	intersection = find_closest(ray, rtx()->shapes);
+	if (!intersection.hit)
 		return (TEST_BG);
-	return (get_pixel_color(ray, closest_shape));
+	return (get_pixel_color(ray, intersection));
 }
 
 void	render_scene(void)
