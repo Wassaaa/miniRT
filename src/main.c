@@ -61,11 +61,33 @@ int	get_pixel_color(t_ray ray, t_shape sphere)
 	t_vector	light = vector_normalize(rtx()->scene->light.dir);
 	double		ambient;
 	
-	hit_point = vector_add(ray.origin, vector_multiply(ray.direction, rtx()->closest_point));
+	hit_point = vector_add(
+		ray.origin,
+		vector_multiply(ray.direction, rtx()->closest_point));
 	normal = vector_normalize(vector_subtract(hit_point, sphere.pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, light), ambient);
 	return (get_rgba(sphere.color, intensity));
+}
+
+//calculate right and up vectors based on current camera dir
+t_vector	add_panning(t_vector vector)
+{
+	t_vector	direction;
+	t_vector	right;
+	t_vector	up;
+
+	right = vector_cross(WORLD_UP, rtx()->scene->camera.dir);
+	up = vector_cross(rtx()->scene->camera.dir, right);
+	direction = vector_add(
+		vector_multiply(right, vector.x),
+		vector_multiply(up, vector.y));
+	direction = vector_add(
+		direction,
+		vector_multiply(rtx()->scene->camera.dir, vector.z));
+	rtx()->scene->camera.right = right;
+	rtx()->scene->camera.up = up;
+	return (direction);
 }
 
 t_ray	generate_ray(int x, int y)
@@ -81,7 +103,8 @@ t_ray	generate_ray(int x, int y)
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
 	vector.z = 1;
-	ray.direction = vector_normalize(vector);
+	ray.direction = add_panning(vector);
+	ray.direction = vector_normalize(ray.direction);
 	return (ray);
 }
 
@@ -174,6 +197,8 @@ void	setup_scene(void)
 	rtx()->scene->amb.amb_light = TEST_AMBIENT;
 	rtx()->scene->camera.pos = TEST_CAM_POS;
 	rtx()->scene->camera.dir = TEST_CAM_DIR;
+	rtx()->scene->camera.right = TEST_CAM_DIR;
+	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = TEST_FOV;
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= TEST_LIGHT_DIR;

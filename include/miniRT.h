@@ -11,6 +11,8 @@
 # define HEIGHT 1080
 # define M_PI 3.14159265358979323846
 
+# define WORLD_UP (t_vector){0, 1, 0}
+
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 // test shapes
@@ -22,6 +24,8 @@
 # define TEST_CAM_POS (t_vector){0, 0, 0}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
+# define PAN_AMOUNT M_PI / 12
+# define MOVE_SPEED 8.0
 
 //test light
 # define TEST_LIGHT_DIR (t_vector){14, 22, -25}
@@ -50,6 +54,15 @@ typedef enum e_shape_type
 	SPHARE,
 	CYLINDER
 }	t_shape_type;
+
+typedef enum e_direction
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+}	t_direction;
+
 
 typedef struct s_vector
 {
@@ -92,6 +105,8 @@ typedef struct s_camera
 {
 	t_vector	pos;
 	t_vector	dir;
+	t_vector	right;
+	t_vector	up;
 	double		fov;
 }	t_camera;
 
