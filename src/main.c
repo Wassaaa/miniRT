@@ -244,7 +244,7 @@ void	setup_scene(void)
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
-	rtx()->bvh_cache = bvh_cache_init();
+	cache_init(rtx()->cache);
 	get_shapes();
 }
 

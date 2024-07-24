@@ -213,30 +213,3 @@ bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
 	}
 	return (false);
 }
-
-bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
-{
-	bool	cached;
-	bool	hit;
-
-	cached = bvh_cache_check(rtx()->bvh_cache, node->id);
-	if (cached)
-	{
-		rtx()->cache_hits++;
-		if (node->shape)
-			return (update_hit(node, t, ray));
-		else
-			return (next_branches(node, ray, t));
-	}
-	if (!intersect_aabb(ray, node->box, t->distance))
-	{
-		bvh_cache_update(rtx()->bvh_cache, node->id, false);
-		return (false);
-	}
-	if (node->shape)
-		hit = update_hit(node, t, ray);
-	else
-		hit = next_branches(node, ray, t);
-	bvh_cache_update(rtx()->bvh_cache, node->id, hit);
-	return (hit);
-}

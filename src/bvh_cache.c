@@ -1,49 +1,53 @@
 #include <miniRT.h>
 
-t_bvh_cache	*bvh_cache_init(void)
+void	cache_init(t_cache *cache)
 {
-	t_bvh_cache	*cache;
-	int			i;
-
-	rtx()->bvh_node_id = 0;
-	rtx()->cache_hits = 0;
-	cache = ft_calloc(1, sizeof(t_bvh_cache));
-	if (!cache)
-		return (NULL);
-	i = 0;
-	while (i < CACHE_SIZE)
-	{
-		cache->entries[i].node_id = -1;
-		cache->entries[i].hit = 0;
-		i++;
-	}
-	cache->current_index = 0;
-	return (cache);
+	ft_memset(cache->entries, 0, sizeof(t_cache_entry) * CACHE_SIZE);
 }
 
-void	bvh_cache_free(t_bvh_cache *cache)
+static inline bool	cache_chk_upd(t_cache *cache, int node_id, bool hit)
 {
-	if (cache)
-		free(cache);
-}
-
-bool	bvh_cache_check(t_bvh_cache *cache, int node_id)
-{
-	int	i;
-
-	i = 0;
-	while (i < CACHE_SIZE)
+	int				index;
+	t_cache_entry	*entry;
+	bool			cached_hit;
+	
+	index = node_id & (CACHE_SIZE - 1);
+	entry = &cache->entries[index];
+	if (entry->node_id == node_id)
 	{
-		if (cache->entries[i].node_id == node_id)
-			return (cache->entries[i].hit);
-		i++;
+		cached_hit = entry->hit;
+		entry->hit |= hit;
+		return (cached_hit);
 	}
+	entry->node_id = node_id;
+	entry->hit = hit;
 	return (false);
 }
 
-void bvh_cache_update(t_bvh_cache *cache, int node_id, bool hit)
+bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
 {
-	cache->entries[cache->current_index].node_id = node_id;
-	cache->entries[cache->current_index].hit = hit;
-	cache->current_index = (cache->current_index + 1) % CACHE_SIZE;
+	bool	cached;
+	bool	hit;
+
+	if (CACHE_SIZE > 0)
+	{
+		cached = cache_chk_upd(rtx()->cache, node->id, false);
+		if (cached)
+		{
+			rtx()->cache_hits++;
+			if (node->shape)
+				return (update_hit(node, t, ray));
+			else
+				return (next_branches(node, ray, t));
+		}
+	}
+	if (!intersect_aabb(ray, node->box, t->distance))
+		return (false);
+	if (node->shape)
+		hit = update_hit(node, t, ray);
+	else
+		hit = next_branches(node, ray, t);
+	if (CACHE_SIZE > 0)
+		cache_chk_upd(rtx()->cache, node->id, true);
+	return (hit);
 }

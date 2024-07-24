@@ -13,7 +13,7 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
-# define CACHE_SIZE 12
+# define CACHE_SIZE 0
 
 # define AXIS_X 1
 # define AXIS_Y 2
@@ -52,17 +52,16 @@ typedef struct s_aabb t_aabb;
 typedef struct s_cache t_cache;
 
 
-typedef struct s_bvh_cache_entry
+typedef struct s_cache_entry
 {
 	int node_id;
 	bool hit;
-}	t_bvh_cache_entry;
+}	t_cache_entry;
 
-typedef struct s_bvh_cache
+typedef struct s_cache
 {
-	t_bvh_cache_entry entries[CACHE_SIZE];
-	int current_index;
-}	t_bvh_cache;
+	t_cache_entry entries[CACHE_SIZE];
+}	t_cache;
 
 typedef enum e_shape_type
 {
@@ -195,7 +194,7 @@ typedef struct s_rtx
 	t_bvh		*bvh;
 	int			width;
 	int			height;
-	t_bvh_cache	*bvh_cache;
+	t_cache		cache[CACHE_SIZE];
 	int			bvh_node_id;
 	int			cache_hits;
 }	t_rtx;
@@ -217,9 +216,9 @@ bool		intersect(t_shape *shape, t_ray ray, double *t);
 bool		intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
 
-t_bvh_cache	*bvh_cache_init(void);
-void		bvh_cache_free(t_bvh_cache *cache);
-bool		bvh_cache_check(t_bvh_cache *cache, int node_id);
-void 		bvh_cache_update(t_bvh_cache *cache, int node_id, bool hit);
+void		cache_init(t_cache *cache);
+
+bool		update_hit(t_bvh *node, t_intersection *t, t_ray ray);
+bool		next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 
 #endif
