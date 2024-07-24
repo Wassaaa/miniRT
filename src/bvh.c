@@ -140,6 +140,7 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	if (!node)
 		return (NULL);
 	node->box = compute_box(shapes, num_shapes);
+	node->id = rtx()->bvh_node_id++;
 	if (num_shapes == 1)
 	{
 		node->shape = shapes[0];
@@ -215,11 +216,27 @@ bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
 
 bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
 {
+	bool	cached;
+	bool	hit;
+
+	cached = bvh_cache_check(rtx()->bvh_cache, node->id);
+	if (cached)
+	{
+		rtx()->cache_hits++;
+		if (node->shape)
+			return (update_hit(node, t, ray));
+		else
+			return (next_branches(node, ray, t));
+	}
 	if (!intersect_aabb(ray, node->box, t->distance))
+	{
+		bvh_cache_update(rtx()->bvh_cache, node->id, false);
 		return (false);
+	}
 	if (node->shape)
-		return (update_hit(node, t, ray));
+		hit = update_hit(node, t, ray);
 	else
-		return (next_branches(node, ray, t));
-	return (t->hit);
+		hit = next_branches(node, ray, t);
+	bvh_cache_update(rtx()->bvh_cache, node->id, hit);
+	return (hit);
 }

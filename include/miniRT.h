@@ -13,6 +13,13 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
+# define CACHE_SIZE 12
+
+# define AXIS_X 1
+# define AXIS_Y 2
+# define AXIS_Z 3
+
+// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
@@ -43,6 +50,19 @@ typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
 typedef struct s_cache t_cache;
+
+
+typedef struct s_bvh_cache_entry
+{
+	int node_id;
+	bool hit;
+}	t_bvh_cache_entry;
+
+typedef struct s_bvh_cache
+{
+	t_bvh_cache_entry entries[CACHE_SIZE];
+	int current_index;
+}	t_bvh_cache;
 
 typedef enum e_shape_type
 {
@@ -159,17 +179,12 @@ typedef struct s_intersection
 
 typedef struct s_bvh
 {
+	int				id;
 	t_aabb			box;
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 	t_shape			*shape;
 }	t_bvh;
-
-typedef struct s_cache
-{
-	int		index;
-	t_shape	*shape[CACHE_SIZE];
-}	t_cache;
 
 typedef struct s_rtx
 {
@@ -178,9 +193,11 @@ typedef struct s_rtx
 	t_list		*shapes;
 	t_scene		*scene;
 	t_bvh		*bvh;
-	t_cache		cache;
 	int			width;
 	int			height;
+	t_bvh_cache	*bvh_cache;
+	int			bvh_node_id;
+	int			cache_hits;
 }	t_rtx;
 
 t_vector	vector_add(t_vector a, t_vector b);
@@ -199,5 +216,10 @@ void		render_scene(void);
 bool		intersect(t_shape *shape, t_ray ray, double *t);
 bool		intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
+
+t_bvh_cache	*bvh_cache_init(void);
+void		bvh_cache_free(t_bvh_cache *cache);
+bool		bvh_cache_check(t_bvh_cache *cache, int node_id);
+void 		bvh_cache_update(t_bvh_cache *cache, int node_id, bool hit);
 
 #endif

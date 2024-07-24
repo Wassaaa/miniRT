@@ -38,6 +38,7 @@ SRCS			=	main.c \
 					cylinder.c
 					bvh.c \
 					aabb_intersect.c \
+					bvh_cache.c \
 
 ################################################################################
 # RULES

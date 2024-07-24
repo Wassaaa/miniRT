@@ -233,19 +233,6 @@ void	start_mlx(void)
 	mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0);
 }
 
-void	setup_cache(void)
-{
-	int	i;
-
-	rtx()->cache.index = 0;
-	i = 0;
-	while (i < CACHE_SIZE)
-	{
-		rtx()->cache.shape[i] = NULL;
-		i++;
-	}
-}
-
 void	setup_scene(void)
 {
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
@@ -257,8 +244,8 @@ void	setup_scene(void)
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
+	rtx()->bvh_cache = bvh_cache_init();
 	get_shapes();
-	setup_cache();
 }
 
 void	loop_hook(void *data)
@@ -282,6 +269,7 @@ void	loop_hook(void *data)
 	printf("\e[4;1HFOV [%.2f]\e[K\n", camera.fov);
 	printf("\e[5;1HCamera position [{%.2f, %.2f, %.2f}]\e[K\n", camera.pos.x, camera.pos.y, camera.pos.z);
 	printf("\e[6;1HCamera direction [{%.2f, %.2f, %.2f}]\e[K\n", camera.dir.x, camera.dir.y, camera.dir.z);
+	printf("\e[7;1HCache Hits [%d]\e[K\n", rtx()->cache_hits);
 }
 
 int	main(void)
