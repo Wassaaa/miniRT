@@ -113,9 +113,9 @@ int	partition_shapes(t_shape **shapes, int num_shapes, int axis)
 	j = num_shapes - 1;
 	while (i <= j)
 	{
-		while (coord_on_axis(shapes[i], axis) < median)
+		while (i >= 0 && coord_on_axis(shapes[i], axis) < median)
 			i++;
-		while (coord_on_axis(shapes[j], axis) >= median)
+		while (j >= 0 && coord_on_axis(shapes[j], axis) >= median)
 			j--;
 		if (i < j)
 		{
