@@ -82,7 +82,7 @@ int	get_pixel_color(t_ray ray, t_intersection intersection)
 	normal = vector_normalize(vector_subtract(hit_point, intersection.shape.pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
-	return (get_rgba(intersection.shape.color, intensity));
+	return (get_rgba(intersection.shape->color, intensity));
 }
 
 /*
@@ -134,8 +134,11 @@ t_ray	generate_ray(int x, int y)
 
 bool	intersect(t_shape *shape, t_ray ray, double *t)
 {
+	bool	hit;
+
+	hit = false;
 	if (shape->type == SPHERE)
-		intersect_sphere(ray, shape, t);
+		hit = intersect_sphere(ray, shape, t);
 	else if (shape->type == PLANE)
 	{
 		intersect_plane(ray, shape, t);
@@ -146,7 +149,7 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 	}
 	if (*t < 0)
 		return (false);
-	return (*t > 0);
+	return (hit && *t > 0);
 }
 
 t_intersection	intersect_shape(t_ray ray, t_list *shapes)
@@ -155,7 +158,8 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 	double			t;
 	t_shape			*shape;
 
-	result = (t_intersection){DBL_MAX, {0}, 0};
+	t = INFINITY;
+	result = (t_intersection){INFINITY, NULL, 0};
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
@@ -164,8 +168,8 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 			if (t < result.distance)
 			{
 				result.distance = t;
-				result.shape = *shape;
-				result.hit = 1;
+				result.shape = shape;
+				result.hit = true;
 			}
 		}
 		shapes = shapes->next;
@@ -175,12 +179,14 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 
 int trace_ray (t_ray ray)
 {
-	t_intersection	intersection;
+	t_intersection	t;
 
-	intersection = intersect_shape(ray, rtx()->shapes);
-	if (!intersection.hit)
+	t = (t_intersection){INFINITY, NULL, false};
+	t.hit = intersect_bvh(rtx()->bvh, ray, &t);
+	// t = intersect_shape(ray, rtx()->shapes);
+	if (!t.hit)
 		return (TEST_BG);
-	return (get_pixel_color(ray, intersection));
+	return (get_pixel_color(ray, t));
 }
 
 void	render_scene(void)
@@ -255,12 +261,36 @@ void	setup_scene(void)
 	setup_cache();
 }
 
+void	loop_hook(void *data)
+{
+	(void)data;
+	static int		fps = 1;
+	static double	i = 0;
+	t_camera		camera;
+
+	camera = rtx()->scene->camera;
+	i += rtx()->mlx->delta_time;
+	fps++;
+	if (i >= 1)
+	{
+		printf("\e[1;1Hfps [%d]\e[K\n", fps);
+		i = 0;
+		fps = 0;
+	}
+	printf("\e[2;1HLast Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
+
+	printf("\e[4;1HFOV [%.2f]\e[K\n", camera.fov);
+	printf("\e[5;1HCamera position [{%.2f, %.2f, %.2f}]\e[K\n", camera.pos.x, camera.pos.y, camera.pos.z);
+	printf("\e[6;1HCamera direction [{%.2f, %.2f, %.2f}]\e[K\n", camera.dir.x, camera.dir.y, camera.dir.z);
+}
+
 int	main(void)
 {
 	start_mlx();
 	setup_scene();
 	render_scene();
 	mlx_key_hook(rtx()->mlx, key_hook, NULL);
+	mlx_loop_hook(rtx()->mlx, loop_hook, NULL);
 	mlx_loop(rtx()->mlx);
 	mlx_terminate(rtx()->mlx);
 	return (0);

@@ -42,19 +42,7 @@
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
-
-
-typedef struct s_rtx
-{
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_list		*shapes;
-	t_scene		*scene;
-	t_bvh		*bvh;
-	t_cache		cache;
-	int			width;
-	int			height;
-}	t_rtx;
+typedef struct s_cache t_cache;
 
 typedef enum e_shape_type
 {
@@ -145,18 +133,29 @@ typedef struct s_scene
 	t_amb_light	amb;
 }	t_scene;
 
-typedef struct s_intersection
-{
-	double	distance;
-	t_shape	shape;
-	int		hit;
-}	t_intersection;
-
 typedef struct s_aabb
 {
 	t_vector min;
 	t_vector max;
 }	t_aabb;
+
+typedef struct s_shape
+{
+	t_shape_type	type;
+	t_vector		pos;
+	t_vector		dir;
+	double			diameter;
+	double			radius;
+	t_rgba			color;
+	t_aabb			box;
+}	t_shape;
+
+typedef struct s_intersection
+{
+	double	distance;
+	t_shape	*shape;
+	bool	hit;
+}	t_intersection;
 
 typedef struct s_bvh
 {
@@ -166,21 +165,39 @@ typedef struct s_bvh
 	t_shape			*shape;
 }	t_bvh;
 
+typedef struct s_cache
+{
+	int		index;
+	t_shape	*shape[CACHE_SIZE];
+}	t_cache;
+
+typedef struct s_rtx
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+	t_list		*shapes;
+	t_scene		*scene;
+	t_bvh		*bvh;
+	t_cache		cache;
+	int			width;
+	int			height;
+}	t_rtx;
+
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
-t_vector	vector_scale(t_vector a, double scalar);
+t_vector	vector_multiply(t_vector a, double scalar);
 double		vector_dot(t_vector a, t_vector b);
 t_vector	vector_cross(t_vector a, t_vector b);
 double		vector_length(t_vector a);
 t_vector	vector_normalize(t_vector a);
 
 t_rtx		*rtx(void);
-int			intersect_plane(t_ray ray, t_shape plane, double *t);
-int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
-int			intersect_sphere(t_ray ray, t_shape sphere, double* t);
+void		bvh(t_list *shapes);
+bool		intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void		key_hook(mlx_key_data_t keydata, void* param);
 void		render_scene(void);
-void		bvh(t_list *shapes);
 bool		intersect(t_shape *shape, t_ray ray, double *t);
+bool		intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
+bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
 
 #endif

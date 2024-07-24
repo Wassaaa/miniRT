@@ -172,16 +172,54 @@ void	bvh(t_list *shapes)
 	free(shape_array);
 }
 
-bool	intersect_bvh(t_bvh *node, t_ray ray, double *t, t_shape *shape)
+bool	update_hit(t_bvh *node, t_intersection *t, t_ray ray)
+{
+	double	current_t;
+
+	if (intersect(node->shape, ray, &current_t))
+	{
+		if (current_t < t->distance)
+		{
+			t->shape = node->shape;
+			t->distance = current_t;
+			t->hit = true;
+			return (true);
+		}
+	}
+	return (false);
+}
+
+bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
 {
 	bool	hit_left;
 	bool	hit_right;
+	t_intersection	right;
+	t_intersection	left;
 
-	if (!intersect_aabb(node->box, ray))
+	left = (t_intersection){INFINITY, NULL, false};
+	right = (t_intersection){INFINITY, NULL, false};
+	hit_left = intersect_bvh(node->left, ray, &left);
+	hit_right = intersect_bvh(node->right, ray, &right);
+	if (hit_left && (!hit_right || left.distance < right.distance))
+	{
+		*t = left;
+		return (true);
+	}
+	else if (hit_right)
+	{
+		*t = right;
+		return (true);
+	}
+	return (false);
+}
+
+bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
+{
+	if (!intersect_aabb(ray, node->box, t->distance))
 		return (false);
 	if (node->shape)
-		return (intersect(node->shape, ray, t));
-	hit_left = intersect_bvh(node->left, ray, t, shape);
-	hit_right = intersect_bvh(node->right, ray, t, shape);
-	return (hit_left || hit_right);
+		return (update_hit(node, t, ray));
+	else
+		return (next_branches(node, ray, t));
+	return (t->hit);
 }
