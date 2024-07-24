@@ -113,6 +113,8 @@ void	camera_adjustment(mlx_key_data_t keydata)
 		adjust_fov(-1);
 	if (keydata.key == MLX_KEY_PAGE_DOWN && keydata.action == MLX_RELEASE)
 		adjust_fov(1);
+	if (keydata.key == MLX_KEY_B && keydata.action == MLX_RELEASE)
+		rtx()->wireframe = !rtx()->wireframe;
 	if (keydata.action == MLX_RELEASE)
 		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
 

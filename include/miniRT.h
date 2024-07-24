@@ -6,9 +6,12 @@
 # include <stdio.h> // printf
 # include <MLX42/MLX42.h> // mlx
 # include <float.h>
+# include <colors.h> //colors
 
-# define WIDTH 1000
-# define HEIGHT 800
+
+
+# define WIDTH 800
+# define HEIGHT 600
 # define M_PI 3.14159265358979323846
 
 # define WORLD_UP (t_vector){0, 1, 0}
@@ -25,10 +28,10 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANE (t_vector){5, -6, 10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
 # define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, (t_rgba){0, 255, 255, 255}
-# define TEST_SPHERE (t_vector){5, -6, 32}, 4, (t_rgba){255, 0, 0, 255}
-# define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
-# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 55, 255}
-# define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}
+# define TEST_SPHERE (t_vector){0, 0, 5}, 4, RGBA(COLOR_CYAN, 1)
+# define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, RGBA(COLOR_RED, 1)
+# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, RGBA(COLOR_LIME, 1)
+# define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, RGBA(COLOR_MAROON, 1)
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0, -10}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
@@ -197,8 +200,10 @@ typedef struct s_rtx
 	t_cache		cache[CACHE_SIZE];
 	int			bvh_node_id;
 	int			cache_hits;
+	int			wireframe;
 }	t_rtx;
 
+//basic vector equation
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
 t_vector	vector_multiply(t_vector a, double scalar);
@@ -207,6 +212,7 @@ t_vector	vector_cross(t_vector a, t_vector b);
 double		vector_length(t_vector a);
 t_vector	vector_normalize(t_vector a);
 
+//rtx
 t_rtx		*rtx(void);
 void		bvh(t_list *shapes);
 bool		intersect_sphere(t_ray ray, t_shape *sphere, double* t);
@@ -215,10 +221,17 @@ void		render_scene(void);
 bool		intersect(t_shape *shape, t_ray ray, double *t);
 bool		intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
+int			get_pixel_color(t_ray ray, t_intersection intersection);
 
 void		cache_init(t_cache *cache);
 
 bool		update_hit(t_bvh *node, t_intersection *t, t_ray ray);
 bool		next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 
+int			get_rgba(t_rgba color, double intensity);
+t_ray		generate_ray(int x, int y);
+
+
+//testing
+void		render_scene_with_aabb(void);
 #endif

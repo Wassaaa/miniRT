@@ -196,6 +196,8 @@ void	render_scene(void)
 	int		x;
 	int		y;
 
+	if (rtx()->wireframe)
+		return (render_scene_with_aabb());
 	y = 0;
 	while(y < HEIGHT)
 	{
@@ -245,6 +247,7 @@ void	setup_scene(void)
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
 	cache_init(rtx()->cache);
+	rtx()->wireframe = 0;
 	get_shapes();
 }
 
