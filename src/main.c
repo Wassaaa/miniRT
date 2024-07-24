@@ -124,14 +124,19 @@ t_ray	generate_ray(int x, int y)
 	vector.z = 1;
 	ray.direction = add_panning(vector);
 	ray.direction = vector_normalize(ray.direction);
+	ray.inv_dir = (t_vector){
+		1.0 / ray.direction.x,
+		1.0 / ray.direction.y,
+		1.0 / ray.direction.z
+	};
 	return (ray);
 }
 
-int	intersect(t_shape shape, t_ray ray, double *t)
+bool	intersect(t_shape *shape, t_ray ray, double *t)
 {
-	if (shape.type == SPHERE)
+	if (shape->type == SPHERE)
 		intersect_sphere(ray, shape, t);
-	else if (shape.type == PLANE)
+	else if (shape->type == PLANE)
 	{
 		intersect_plane(ray, shape, t);
 	}
@@ -140,11 +145,11 @@ int	intersect(t_shape shape, t_ray ray, double *t)
 		intersect_cylinder(ray, shape, t);
 	}
 	if (*t < 0)
-		return (0);
+		return (false);
 	return (*t > 0);
 }
 
-t_intersection	find_closest(t_ray ray, t_list *shapes)
+t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 {
 	t_intersection	result;
 	double			t;
@@ -154,7 +159,7 @@ t_intersection	find_closest(t_ray ray, t_list *shapes)
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
-		if (intersect(*shape, ray, &t))
+		if (intersect(shape, ray, &t))
 		{
 			if (t < result.distance)
 			{
@@ -172,7 +177,7 @@ int trace_ray (t_ray ray)
 {
 	t_intersection	intersection;
 
-	intersection = find_closest(ray, rtx()->shapes);
+	intersection = intersect_shape(ray, rtx()->shapes);
 	if (!intersection.hit)
 		return (TEST_BG);
 	return (get_pixel_color(ray, intersection));
@@ -202,12 +207,11 @@ void	render_scene(void)
 
 void	get_shapes(void)
 {
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_plane(TEST_PLANE)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	bvh(rtx()->shapes);
 }
 
 void	start_mlx(void)
@@ -223,6 +227,19 @@ void	start_mlx(void)
 	mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0);
 }
 
+void	setup_cache(void)
+{
+	int	i;
+
+	rtx()->cache.index = 0;
+	i = 0;
+	while (i < CACHE_SIZE)
+	{
+		rtx()->cache.shape[i] = NULL;
+		i++;
+	}
+}
+
 void	setup_scene(void)
 {
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
@@ -235,6 +252,7 @@ void	setup_scene(void)
 	rtx()->scene->light.pos	= TEST_LIGHT_POS;
 	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
 	get_shapes();
+	setup_cache();
 }
 
 int	main(void)

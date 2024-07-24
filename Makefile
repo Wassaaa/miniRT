@@ -36,6 +36,8 @@ SRCS			=	main.c \
 					game_loop.c \
 					plane.c \
 					cylinder.c
+					bvh.c \
+					aabb_intersect.c \
 
 ################################################################################
 # RULES

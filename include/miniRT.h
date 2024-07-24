@@ -40,6 +40,8 @@
 # define TEST_AMBIENT 0.7
 
 typedef struct s_scene t_scene;
+typedef struct s_bvh t_bvh;
+typedef struct s_aabb t_aabb;
 
 
 typedef struct s_rtx
@@ -48,6 +50,8 @@ typedef struct s_rtx
 	mlx_image_t	*img;
 	t_list		*shapes;
 	t_scene		*scene;
+	t_bvh		*bvh;
+	t_cache		cache;
 	int			width;
 	int			height;
 }	t_rtx;
@@ -94,13 +98,15 @@ typedef struct s_shape
 	double			radius;
 	double			height;
 	t_rgba			color;
+	t_aabb			box;
 }	t_shape;
 
 typedef struct s_ray
 {
 	t_vector	origin;
 	t_vector	direction;
-} t_ray;
+	t_vector	inv_dir;
+}	t_ray;
 
 typedef struct s_amb_light
 {
@@ -174,5 +180,7 @@ int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 int			intersect_sphere(t_ray ray, t_shape sphere, double* t);
 void		key_hook(mlx_key_data_t keydata, void* param);
 void		render_scene(void);
+void		bvh(t_list *shapes);
+bool		intersect(t_shape *shape, t_ray ray, double *t);
 
 #endif

@@ -27,15 +27,15 @@ x = (-b ± √(b² - 4ac)) / (2a)
 (D · D)t² + 2((O - C) · D)t + ((O - C) · (O - C) - r²) = 0
 |  a  |     |     b      |    |          c           |
 */
-t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape shape)
+t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape *shape)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
 	
-	oc = vector_subtract(ray.origin, shape.pos);
+	oc = vector_subtract(ray.origin, shape->pos);
 	coeffs.a = vector_dot(ray.direction, ray.direction);
 	coeffs.b = 2.0 * vector_dot(oc, ray.direction);
-	coeffs.c = vector_dot(oc, oc) - (shape.radius * shape.radius);
+	coeffs.c = vector_dot(oc, oc) - (shape->radius * shape->radius);
 	return (coeffs);
 }
 
@@ -43,7 +43,7 @@ t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape shape)
 t = (-b ± √(b² - 4ac)) / (2a)
            |discriminant|
 */
-int intersect_sphere(t_ray ray, t_shape sphere, double* t)
+bool intersect_sphere(t_ray ray, t_shape *sphere, double* t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
@@ -51,7 +51,7 @@ int intersect_sphere(t_ray ray, t_shape sphere, double* t)
 	coeffs = calculate_quadratic_coeffs(ray, sphere);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
-		return (0);
+		return (false);
 	*t = (-coeffs.b - sqrt(discriminant)) / (2.0 * coeffs.a);
 	return (*t > 0);
 }
