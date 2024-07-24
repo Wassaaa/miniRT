@@ -55,7 +55,7 @@ typedef struct s_rtx
 typedef enum e_shape_type
 {
 	PLANE,
-	SPHARE,
+	SPHERE,
 	CYLINDER
 }	t_shape_type;
 
@@ -146,6 +146,20 @@ typedef struct s_intersection
 	int		hit;
 }	t_intersection;
 
+typedef struct s_aabb
+{
+	t_vector min;
+	t_vector max;
+}	t_aabb;
+
+typedef struct s_bvh
+{
+	t_aabb			box;
+	struct s_bvh	*left;
+	struct s_bvh	*right;
+	t_shape			*shape;
+}	t_bvh;
+
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_subtract(t_vector a, t_vector b);
 t_vector	vector_scale(t_vector a, double scalar);
@@ -155,9 +169,9 @@ double		vector_length(t_vector a);
 t_vector	vector_normalize(t_vector a);
 
 t_rtx		*rtx(void);
-int			intersect_sphare(t_ray ray, t_shape sphere, double* t);
 int			intersect_plane(t_ray ray, t_shape plane, double *t);
-int		intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+int			intersect_sphere(t_ray ray, t_shape sphere, double* t);
 void		key_hook(mlx_key_data_t keydata, void* param);
 void		render_scene(void);
 

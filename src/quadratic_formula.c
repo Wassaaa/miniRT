@@ -43,7 +43,7 @@ t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape shape)
 t = (-b ± √(b² - 4ac)) / (2a)
            |discriminant|
 */
-int intersect_sphare(t_ray ray, t_shape sphere, double* t)
+int intersect_sphere(t_ray ray, t_shape sphere, double* t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;

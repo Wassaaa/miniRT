@@ -12,7 +12,7 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_rgba color)
 	t_shape	*sphere;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
-	sphere->type = SPHARE;
+	sphere->type = SPHERE;
 	sphere->pos = pos;
 	sphere->diameter = diameter;
 	sphere->radius = sphere->diameter / 2;
@@ -78,7 +78,7 @@ int	get_pixel_color(t_ray ray, t_intersection intersection)
 	
 	hit_point = vector_add(
 		ray.origin,
-		vector_multiply(ray.direction, intersection.distance));
+		vector_scale(ray.direction, intersection.distance));
 	normal = vector_normalize(vector_subtract(hit_point, intersection.shape.pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
@@ -129,8 +129,8 @@ t_ray	generate_ray(int x, int y)
 
 int	intersect(t_shape shape, t_ray ray, double *t)
 {
-	if (shape.type == SPHARE)
-		intersect_sphare(ray, shape, t);
+	if (shape.type == SPHERE)
+		intersect_sphere(ray, shape, t);
 	else if (shape.type == PLANE)
 	{
 		intersect_plane(ray, shape, t);
