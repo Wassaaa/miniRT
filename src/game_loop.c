@@ -48,27 +48,27 @@ void	move_camera(t_direction dir)
 	if (dir == UP)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->up, MOVE_SPEED));
+			vector_scale(camera->up, MOVE_SPEED));
 	if (dir == RIGHT)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->right, MOVE_SPEED));
+			vector_scale(camera->right, MOVE_SPEED));
 	if (dir == DOWN)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->up, -MOVE_SPEED));
+			vector_scale(camera->up, -MOVE_SPEED));
 	if (dir == LEFT)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->right, -MOVE_SPEED));
+			vector_scale(camera->right, -MOVE_SPEED));
 	if (dir == FORWARD)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->dir, MOVE_SPEED));
+			vector_scale(camera->dir, MOVE_SPEED));
 	if (dir == BACK)
 		camera->pos = vector_add(
 			camera->pos,
-			vector_multiply(camera->dir, -MOVE_SPEED));
+			vector_scale(camera->dir, -MOVE_SPEED));
 }
 
 void	adjust_fov(int direction)

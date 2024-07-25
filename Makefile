@@ -34,7 +34,8 @@ SRCS			=	main.c \
 					basic_equation.c \
 					quadratic_formula.c \
 					game_loop.c \
-					plane.c
+					plane.c \
+					cylinder.c
 
 ################################################################################
 # RULES

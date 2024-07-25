@@ -13,16 +13,17 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
-// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
-# define TEST_PLANE (t_vector){0, 0, -10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
 # define TEST_BG 0x000000FF
 // test shapes
-# define TEST_SPHERE (t_vector){5, -16, 32}, 4, (t_rgba){255, 0, 0, 255}
+// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
+# define TEST_PLANE (t_vector){5, -6, 10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
+# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, (t_rgba){0, 255, 255, 255}
+# define TEST_SPHERE (t_vector){5, -6, 32}, 4, (t_rgba){255, 0, 0, 255}
 # define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, (t_rgba){255, 255, 0, 255}
 # define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, (t_rgba){178, 0, 55, 255}
 # define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, (t_rgba){255, 0, 255, 255}
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0, 0}
+# define TEST_CAM_POS (t_vector){0, 0, -10}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
@@ -36,7 +37,7 @@
 # define TEST_LIGHT_DIR (t_vector){14, 22, -25}
 # define TEST_LIGHT_POS (t_vector){14, 22, -25}
 
-# define TEST_AMBIENT 0.1
+# define TEST_AMBIENT 0.7
 
 typedef struct s_scene t_scene;
 
@@ -93,6 +94,7 @@ typedef struct s_shape
 	t_vector		dir;
 	double			diameter;
 	double			radius;
+	double			height;
 	t_rgba			color;
 }	t_shape;
 
@@ -149,5 +151,9 @@ t_vector	vector_normalize(t_vector a);
 
 t_rtx		*rtx(void);
 int			intersect_sphare(t_ray ray, t_shape sphere, double* t);
+int			intersect_plane(t_ray ray, t_shape plane, double *t);
+int		intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+void		key_hook(mlx_key_data_t keydata, void* param);
+void		render_scene(void);
 
 #endif

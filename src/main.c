@@ -34,6 +34,21 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_rgba color)
 	return (plane);
 }
 
+t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_rgba color)
+{
+	t_shape	*cylinder;
+
+	cylinder = ft_calloc(1, sizeof(t_shape));
+	cylinder->type = CYLINDER;
+	cylinder->pos = pos;
+	cylinder->dir = dir;
+	cylinder->diameter = diameter;
+	cylinder->height = height;
+	cylinder->color = color;
+
+	return (cylinder);
+}
+
 int	clamp(int value, int min, int max)
 {
 	if (value < min)
@@ -120,6 +135,10 @@ int	intersect(t_shape shape, t_ray ray, double *t)
 	{
 		intersect_plane(ray, shape, t);
 	}
+	else if (shape.type == CYLINDER)
+	{
+		intersect_cylinder(ray, shape, t);
+	}
 	if (*t < 0)
 		return (0);
 	return (*t > 0);
@@ -178,10 +197,12 @@ void	render_scene(void)
 
 void	get_shapes(void)
 {
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_plane(TEST_PLANE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
 }
 
 void	start_mlx(void)
@@ -221,3 +242,4 @@ int	main(void)
 	mlx_terminate(rtx()->mlx);
 	return (0);
 }
+
