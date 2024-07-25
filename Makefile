@@ -35,7 +35,7 @@ SRCS			=	main.c \
 					quadratic_formula.c \
 					game_loop.c \
 					plane.c \
-					cylinder.c
+					cylinder.c \
 					bvh.c \
 					aabb_intersect.c \
 					bvh_cache.c \
