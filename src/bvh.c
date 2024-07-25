@@ -175,6 +175,8 @@ void	bvh(t_list *shapes)
 	t_shape	**shape_array;
 	int		i;
 
+	if (!shapes)
+		return ;
 	num_shapes = ft_lstsize(shapes);
 	shape_array = ft_calloc(num_shapes, sizeof(t_shape *));
 	i = 0;

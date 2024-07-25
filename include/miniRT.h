@@ -26,14 +26,19 @@
 # define TEST_BG 0x000000FF
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
-# define TEST_PLANE (t_vector){5, -6, 10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
-# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, (t_rgba){0, 255, 255, 255}
-# define TEST_SPHERE (t_vector){4, 0, 5}, 4, RGBA(COLOR_CYAN, 1)
-# define TEST_SPHERE2 (t_vector){0, 0, 40}, 42, RGBA(COLOR_RED, 1)
-# define TEST_SPHERE3 (t_vector){0, 0, 15}, 2, RGBA(COLOR_LIME, 1)
-# define TEST_SPHERE4 (t_vector){3, 2, 32}, 3, RGBA(COLOR_BLUE, 1)
+# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
+# define TEST_PLANEB (t_vector){0, 0, -15}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
+# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN, 1)
+# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NEON_GREEN, 1)
+# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)
+# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)
+# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
+# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK, 1)
+# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
+# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
+# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED, 1)
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0, -10}
+# define TEST_CAM_POS (t_vector){0, 0, -14}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
@@ -44,10 +49,10 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT_BRIGHTNESS 1.0
-# define TEST_LIGHT_POS (t_vector){0, 0, 7}
+# define TEST_LIGHT_BRIGHTNESS 0.7
+# define TEST_LIGHT_POS (t_vector){0, 13, 0}
 
-# define TEST_AMBIENT 0.2
+# define TEST_AMBIENT 0.1
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -196,13 +201,13 @@ typedef struct s_rtx
 }	t_rtx;
 
 //basic vector equation
-t_vector	vector_add(t_vector a, t_vector b);
-t_vector	vector_subtract(t_vector a, t_vector b);
-t_vector	vector_scale(t_vector a, double scalar);
-double		vector_dot(t_vector a, t_vector b);
-t_vector	vector_cross(t_vector a, t_vector b);
-double		vector_length(t_vector a);
-t_vector	vector_normalize(t_vector a);
+t_vector		vector_add(t_vector a, t_vector b);
+t_vector		vector_subtract(t_vector a, t_vector b);
+t_vector		vector_scale(t_vector a, double scalar);
+double			vector_dot(t_vector a, t_vector b);
+t_vector		vector_cross(t_vector a, t_vector b);
+double			vector_length(t_vector a);
+t_vector		vector_normalize(t_vector a);
 
 //rtx
 t_rtx			*rtx(void);
@@ -227,6 +232,8 @@ double			light_intensity(t_intersection *t);
 t_light			create_point_light(t_vector pos, double bright);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+
+bool			check_unbound(t_ray *ray, t_intersection *t);
 
 
 //testing

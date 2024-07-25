@@ -12,5 +12,5 @@ int	intersect_plane(t_ray ray, t_shape plane, double *t)
 	oc = vector_subtract(plane.pos, ray.origin);
 	numerator = vector_dot(oc, plane.dir);
 	*t = numerator / denominator;
-	return (*t > 0);
+	return (*t > 1e-6);
 }

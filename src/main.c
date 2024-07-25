@@ -69,16 +69,22 @@ int	get_rgba(t_rgba color, double intensity)
 	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
 }
 
+void	fix_hit_normal(t_intersection *t)
+{
+	if (t->shape->type == PLANE)
+		t->normal = t->shape->dir;
+	else
+		t->normal = vector_normalize(vector_subtract(t->hit_point, t->shape->pos));
+}
+
 int	get_pixel_color(t_ray ray, t_intersection intersection)
 {
-	double		intensity;
-	double		ambient;
+	double	intensity;
 	
 	intersection.hit_point = vector_add(
 		ray.origin,
 		vector_scale(ray.direction, intersection.distance));
-	intersection.normal = vector_normalize(vector_subtract(intersection.hit_point, intersection.shape->pos));
-	ambient = rtx()->scene->amb.amb_light;
+	fix_hit_normal(&intersection);
 	intensity = light_intensity(&intersection);
 	return (get_rgba(intersection.shape->color, intensity));
 }
@@ -137,14 +143,8 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 	hit = false;
 	if (shape->type == SPHERE)
 		hit = intersect_sphere(ray, shape, t);
-	else if (shape->type == PLANE)
-	{
-		intersect_plane(ray, *shape, t);
-	}
 	else if (shape->type == CYLINDER)
-	{
-		intersect_cylinder(ray, *shape, t);
-	}
+		hit = intersect_cylinder(ray, *shape, t);
 	if (*t < 0)
 		return (false);
 	return (hit && *t > 0);
@@ -175,25 +175,31 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
-void	check_unbound(t_ray *ray, t_intersection *t)
+bool	check_unbound(t_ray *ray, t_intersection *t)
 {
 	t_list	*unbound;
 	t_shape	*shape;
 	double	distance;
 
-	distance = INFINITY;
 	unbound = rtx()->unbound;
 	while (unbound)
 	{
 		shape = (t_shape *)unbound->content;
 		if (shape->type == PLANE)
 		{
-			intersect_plane(*ray, *shape, &distance);
-			if (distance < t->distance)
-				t->distance = distance;
+			if (intersect_plane(*ray, *shape, &distance) && distance < t->distance)
+			{
+				if (distance > 0.001 && distance < t->distance)
+				{
+					t->distance = distance;
+					t->shape = shape;
+					t->hit = true;
+				}
+			}
 		}
 		unbound = unbound->next;
 	}
+	return (t->hit);
 }
 
 int trace_ray (t_ray ray)
@@ -201,9 +207,10 @@ int trace_ray (t_ray ray)
 	t_intersection	t;
 
 	t = (t_intersection){INFINITY, NULL, false, VV, VV};
-	t.hit = intersect_bvh(rtx()->bvh, ray, &t);
+	if (rtx()->bvh)
+		t.hit = intersect_bvh(rtx()->bvh, ray, &t);
 	// t = intersect_shape(ray, rtx()->shapes);
-	check_unbound(&ray, &t);
+	t.hit = check_unbound(&ray, &t);
 	if (!t.hit)
 		return (TEST_BG);
 	return (get_pixel_color(ray, t));
@@ -236,7 +243,12 @@ void	render_scene(void)
 //SPHERE, CYLINDER to shapes
 void	get_shapes(void)
 {
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANE)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEF)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEB)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEU)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANED)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
@@ -268,6 +280,7 @@ void	setup_scene(void)
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light = create_point_light(TEST_LIGHT_POS, TEST_LIGHT_BRIGHTNESS);
+	rtx()->bvh = NULL;
 	cache_init(rtx()->cache);
 	rtx()->wireframe = 0;
 	get_shapes();

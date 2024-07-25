@@ -12,37 +12,47 @@ t_light	create_point_light(t_vector pos, double bright)
 
 bool	check_shadow(t_intersection *t)
 {
-	bool	shadow;
-	t_ray	shadow_ray;
+	t_ray			shadow_ray;
+	t_intersection	temp;
+	double			light_distance;
 	
-	shadow_ray.origin = t->hit_point;
-	shadow_ray.direction = vector_normalize(
-		vector_subtract(
+	shadow_ray.origin = vector_add(t->hit_point, vector_scale(t->normal, 0.001));
+	shadow_ray.direction = vector_subtract(
 			rtx()->scene->light.pos,
-			shadow_ray.origin));
+			shadow_ray.origin);
+	light_distance = vector_length(shadow_ray.direction);
+	shadow_ray.direction = vector_scale(shadow_ray.direction, 1.0 / light_distance);
 	shadow_ray.inv_dir = (t_vector){
 		1.0 / shadow_ray.direction.x,
 		1.0 / shadow_ray.direction.y,
 		1.0 / shadow_ray.direction.z
 	};
-	shadow = intersect_bvh(rtx()->bvh, shadow_ray, t);
-	return (shadow);
+	temp.distance = light_distance;
+	if (rtx()->bvh && intersect_bvh(rtx()->bvh, shadow_ray, &temp) && temp.distance < light_distance)
+		return (true);
+	temp.distance = light_distance;
+	if (check_unbound(&shadow_ray, &temp) && temp.distance < light_distance)
+		return (true);
+	return (false);
 }
 
 double light_intensity(t_intersection *t)
 {
-	double		intentsity;
-	double		brightness;
-	t_vector	light;
+	double		intensity;
+	double		diffuse;
+	t_vector	light_dir;
 
-	brightness = rtx()->scene->amb.amb_light;
-	light = vector_subtract(
+	intensity = rtx()->scene->amb.amb_light;
+	light_dir = vector_subtract(
 		rtx()->scene->light.pos,
 		t->hit_point);
-	light = vector_normalize(light);
+	light_dir = vector_normalize(light_dir);
 	if (!check_shadow(t))
-		brightness = vector_dot(t->normal, light) * rtx()->scene->light.bright;
-	intentsity = fmax(brightness, rtx()->scene->amb.amb_light);
+	{
+		diffuse = fmax(vector_dot(t->normal, light_dir), 0.0) * rtx()->scene->light.bright;
+		intensity += diffuse;
+	}
+	intensity = fmin(fmax(intensity, 0.0), 1.0);
 
-	return (intentsity);
+	return (intensity);
 }
