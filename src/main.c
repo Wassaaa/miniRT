@@ -79,7 +79,7 @@ int	get_pixel_color(t_ray ray, t_intersection intersection)
 	hit_point = vector_add(
 		ray.origin,
 		vector_scale(ray.direction, intersection.distance));
-	normal = vector_normalize(vector_subtract(hit_point, intersection.shape.pos));
+	normal = vector_normalize(vector_subtract(hit_point, intersection.shape->pos));
 	ambient = rtx()->scene->amb.amb_light;
 	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
 	return (get_rgba(intersection.shape->color, intensity));

@@ -2,7 +2,7 @@
 # COMPILATION
 ################################################################################
 CC				=	cc
-CC_STRICT		=	-Wall -Wextra -Werror -pthread
+CC_STRICT		=	-Wall -Wextra -Werror -pthread -Og
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS)

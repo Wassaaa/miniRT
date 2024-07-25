@@ -118,8 +118,8 @@ bool intersect_aabb_line(t_ray ray, t_aabb_line *line, double *t)
 	if (line_t > 1)
 		line_t = 1;
 
-	t_vector closest_point_on_line = vector_add(line->start, vector_multiply(line->direction, line_t));
-	t_vector closest_point_on_ray = vector_add(ray.origin, vector_multiply(ray.direction, ray_t));
+	t_vector closest_point_on_line = vector_add(line->start, vector_scale(line->direction, line_t));
+	t_vector closest_point_on_ray = vector_add(ray.origin, vector_scale(ray.direction, ray_t));
 
 	double distance_sq = vector_dot(
 		vector_subtract(closest_point_on_line, closest_point_on_ray),

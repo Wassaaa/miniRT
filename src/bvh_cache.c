@@ -2,7 +2,15 @@
 
 void	cache_init(t_cache *cache)
 {
-	ft_memset(cache->entries, 0, sizeof(t_cache_entry) * CACHE_SIZE);
+	int	i;
+
+	i = 0;
+	while (i < CACHE_SIZE)
+	{
+		cache->entries->hit = false;
+		cache->entries->node_id = -1;
+		i++;
+	}
 }
 
 static inline bool	cache_chk_upd(t_cache *cache, int node_id, bool hit)
@@ -29,6 +37,7 @@ bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
 	bool	cached;
 	bool	hit;
 
+	cached = false;
 	if (CACHE_SIZE > 0)
 	{
 		cached = cache_chk_upd(rtx()->cache, node->id, false);
@@ -36,18 +45,21 @@ bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t)
 		{
 			rtx()->cache_hits++;
 			if (node->shape)
-				return (update_hit(node, t, ray));
+				hit = update_hit(node, t, ray);
 			else
-				return (next_branches(node, ray, t));
+				hit = next_branches(node, ray, t);
 		}
 	}
-	if (!intersect_aabb(ray, node->box, t->distance))
-		return (false);
-	if (node->shape)
-		hit = update_hit(node, t, ray);
-	else
-		hit = next_branches(node, ray, t);
-	if (CACHE_SIZE > 0)
-		cache_chk_upd(rtx()->cache, node->id, true);
+	if (!cached)
+	{
+		if (!intersect_aabb(ray, node->box, t->distance))
+			return (false);
+		if (node->shape)
+			hit = update_hit(node, t, ray);
+		else
+			hit = next_branches(node, ray, t);
+	}
+	if (CACHE_SIZE > 0 && hit && node->shape)
+		cache_chk_upd(rtx()->cache, node->id, hit);
 	return (hit);
 }

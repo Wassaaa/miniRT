@@ -16,7 +16,7 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
-# define CACHE_SIZE 0
+# define CACHE_SIZE 64
 
 # define AXIS_X 1
 # define AXIS_Y 2
@@ -40,8 +40,8 @@
 # define MIN_FOV 10.0
 # define MAX_FOV 170.0
 
-# define PAN_AMOUNT M_PI / 10
-# define MOVE_SPEED 5.0
+# define PAN_AMOUNT M_PI / 14
+# define MOVE_SPEED 3.0
 
 //test light
 # define TEST_LIGHT_DIR (t_vector){14, 22, -25}
@@ -204,34 +204,34 @@ typedef struct s_rtx
 }	t_rtx;
 
 //basic vector equation
-t_vector	vector_add(t_vector a, t_vector b);
-t_vector	vector_subtract(t_vector a, t_vector b);
-t_vector	vector_multiply(t_vector a, double scalar);
-double		vector_dot(t_vector a, t_vector b);
-t_vector	vector_cross(t_vector a, t_vector b);
-double		vector_length(t_vector a);
-t_vector	vector_normalize(t_vector a);
+inline t_vector	vector_add(t_vector a, t_vector b);
+inline t_vector	vector_subtract(t_vector a, t_vector b);
+inline t_vector	vector_scale(t_vector a, double scalar);
+inline double	vector_dot(t_vector a, t_vector b);
+inline t_vector	vector_cross(t_vector a, t_vector b);
+inline double	vector_length(t_vector a);
+inline t_vector	vector_normalize(t_vector a);
 
 //rtx
-t_rtx		*rtx(void);
-void		bvh(t_list *shapes);
-bool		intersect_sphere(t_ray ray, t_shape *sphere, double* t);
-void		key_hook(mlx_key_data_t keydata, void* param);
-void		render_scene(void);
-bool		intersect(t_shape *shape, t_ray ray, double *t);
-bool		intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
-bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
-int			get_pixel_color(t_ray ray, t_intersection intersection);
+t_rtx			*rtx(void);
+void			bvh(t_list *shapes);
+bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
+void			key_hook(mlx_key_data_t keydata, void* param);
+void			render_scene(void);
+bool			intersect(t_shape *shape, t_ray ray, double *t);
+bool			intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
+bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);
+int				get_pixel_color(t_ray ray, t_intersection intersection);
 
-void		cache_init(t_cache *cache);
+void			cache_init(t_cache *cache);
 
-bool		update_hit(t_bvh *node, t_intersection *t, t_ray ray);
-bool		next_branches(t_bvh *node, t_ray ray, t_intersection *t);
+bool			update_hit(t_bvh *node, t_intersection *t, t_ray ray);
+bool			next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 
-int			get_rgba(t_rgba color, double intensity);
-t_ray		generate_ray(int x, int y);
+int				get_rgba(t_rgba color, double intensity);
+t_ray			generate_ray(int x, int y);
 
 
 //testing
-void		render_scene_with_aabb(void);
+void			render_scene_with_aabb(void);
 #endif
