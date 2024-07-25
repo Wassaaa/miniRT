@@ -204,13 +204,13 @@ typedef struct s_rtx
 }	t_rtx;
 
 //basic vector equation
-inline t_vector	vector_add(t_vector a, t_vector b);
-inline t_vector	vector_subtract(t_vector a, t_vector b);
-inline t_vector	vector_scale(t_vector a, double scalar);
-inline double	vector_dot(t_vector a, t_vector b);
-inline t_vector	vector_cross(t_vector a, t_vector b);
-inline double	vector_length(t_vector a);
-inline t_vector	vector_normalize(t_vector a);
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_subtract(t_vector a, t_vector b);
+t_vector	vector_scale(t_vector a, double scalar);
+double		vector_dot(t_vector a, t_vector b);
+t_vector	vector_cross(t_vector a, t_vector b);
+double		vector_length(t_vector a);
+t_vector	vector_normalize(t_vector a);
 
 //rtx
 t_rtx			*rtx(void);
