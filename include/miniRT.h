@@ -208,6 +208,8 @@ double			vector_dot(t_vector a, t_vector b);
 t_vector		vector_cross(t_vector a, t_vector b);
 double			vector_length(t_vector a);
 t_vector		vector_normalize(t_vector a);
+double			vector_length_squared(t_vector a);
+
 
 //rtx
 t_rtx			*rtx(void);

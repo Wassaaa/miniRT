@@ -30,9 +30,14 @@ inline t_vector	vector_cross(t_vector a, t_vector b)
 	return (result);
 }
 
+inline double	vector_length_squared(t_vector a)
+{
+	return (vector_dot(a, a));
+}
+
 inline double	vector_length(t_vector a)
 {
-	return (sqrt(vector_dot(a, a)));
+	return (sqrt(vector_length_squared(a)));
 }
 
 inline t_vector	vector_normalize(t_vector a)
