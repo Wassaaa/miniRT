@@ -42,6 +42,18 @@ void	box_sphere(t_shape sphere, t_aabb *box)
 	box->min = vector_min(box->min, sphere_box.min);
 }
 
+void	box_cylinder(t_shape sphere, t_aabb *box)
+{
+	t_vector	radius_vec;
+	t_aabb		sphere_box;
+
+	radius_vec = (t_vector){sphere.radius, sphere.radius, sphere.radius};
+	sphere_box.min = vector_subtract(sphere.pos, radius_vec);
+	sphere_box.max = vector_add(sphere.pos, radius_vec);
+	box->max = vector_max(box->max, sphere_box.max);
+	box->min = vector_min(box->min, sphere_box.min);
+}
+
 /*
 go throught the array of all the shapes in the current partition
 and assign appropriate box around all the objects by adjusting the 
@@ -62,6 +74,8 @@ t_aabb compute_box(t_shape **shapes, int num_shapes)
 		shape = shapes[i];
 		if (shape->type == SPHERE)
 			box_sphere(*shape, &end_box);
+		if (shape->type == CYLINDER)
+			box_cylinder(*shape, &end_box);
 		i++;
 	}
 	return (end_box);

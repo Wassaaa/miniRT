@@ -184,6 +184,7 @@ typedef struct s_rtx
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_list		*shapes;
+	t_list		*unbound;
 	t_scene		*scene;
 	t_bvh		*bvh;
 	int			width;

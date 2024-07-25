@@ -175,6 +175,27 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
+void	check_unbound(t_ray *ray, t_intersection *t)
+{
+	t_list	*unbound;
+	t_shape	*shape;
+	double	distance;
+
+	distance = INFINITY;
+	unbound = rtx()->unbound;
+	while (unbound)
+	{
+		shape = (t_shape *)unbound->content;
+		if (shape->type == PLANE)
+		{
+			intersect_plane(*ray, *shape, &distance);
+			if (distance < t->distance)
+				t->distance = distance;
+		}
+		unbound = unbound->next;
+	}
+}
+
 int trace_ray (t_ray ray)
 {
 	t_intersection	t;
@@ -182,6 +203,7 @@ int trace_ray (t_ray ray)
 	t = (t_intersection){INFINITY, NULL, false, VV, VV};
 	t.hit = intersect_bvh(rtx()->bvh, ray, &t);
 	// t = intersect_shape(ray, rtx()->shapes);
+	check_unbound(&ray, &t);
 	if (!t.hit)
 		return (TEST_BG);
 	return (get_pixel_color(ray, t));
@@ -210,13 +232,16 @@ void	render_scene(void)
 		y++;
 	}
 }
-
+//PLANES to unbound
+//SPHERE, CYLINDER to shapes
 void	get_shapes(void)
 {
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
 	bvh(rtx()->shapes);
 }
 
