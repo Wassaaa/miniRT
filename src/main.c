@@ -139,11 +139,11 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 		hit = intersect_sphere(ray, shape, t);
 	else if (shape->type == PLANE)
 	{
-		intersect_plane(ray, shape, t);
+		intersect_plane(ray, *shape, t);
 	}
-	else if (shape.type == CYLINDER)
+	else if (shape->type == CYLINDER)
 	{
-		intersect_cylinder(ray, shape, t);
+		intersect_cylinder(ray, *shape, t);
 	}
 	if (*t < 0)
 		return (false);

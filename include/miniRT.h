@@ -47,7 +47,7 @@
 # define TEST_LIGHT_BRIGHTNESS 1.0
 # define TEST_LIGHT_POS (t_vector){0, 0, 7}
 
-# define TEST_AMBIENT 0.7
+# define TEST_AMBIENT 0.2
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -98,18 +98,6 @@ typedef struct s_rgba
 	int	b;
 	int	a;
 }	t_rgba;
-
-typedef struct s_shape
-{
-	t_shape_type	type;
-	t_vector		pos;
-	t_vector		dir;
-	double			diameter;
-	double			radius;
-	double			height;
-	t_rgba			color;
-	t_aabb			box;
-}	t_shape;
 
 typedef struct s_ray
 {
@@ -170,6 +158,7 @@ typedef struct s_shape
 	double			radius;
 	t_rgba			color;
 	t_aabb			box;
+	double			height;
 }	t_shape;
 
 typedef struct s_intersection
@@ -235,6 +224,8 @@ t_ray			generate_ray(int x, int y);
 
 double			light_intensity(t_intersection *t);
 t_light			create_point_light(t_vector pos, double bright);
+int				intersect_plane(t_ray ray, t_shape plane, double *t);
+int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 
 
 //testing
