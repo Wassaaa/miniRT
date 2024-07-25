@@ -197,8 +197,8 @@ bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
 	t_intersection	right;
 	t_intersection	left;
 
-	left = (t_intersection){INFINITY, NULL, false};
-	right = (t_intersection){INFINITY, NULL, false};
+	left = (t_intersection){INFINITY, NULL, false, VV, VV};
+	right = (t_intersection){INFINITY, NULL, false, VV, VV};
 	hit_left = intersect_bvh(node->left, ray, &left);
 	hit_right = intersect_bvh(node->right, ray, &right);
 	if (hit_left && (!hit_right || left.distance < right.distance))

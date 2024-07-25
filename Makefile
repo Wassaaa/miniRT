@@ -40,6 +40,7 @@ SRCS			=	main.c \
 					aabb_intersect.c \
 					bvh_cache.c \
 					aabb_rays.c \
+					point_light.c \
 
 ################################################################################
 # RULES

@@ -71,17 +71,15 @@ int	get_rgba(t_rgba color, double intensity)
 
 int	get_pixel_color(t_ray ray, t_intersection intersection)
 {
-	t_vector	hit_point;
-	t_vector	normal;
 	double		intensity;
 	double		ambient;
 	
-	hit_point = vector_add(
+	intersection.hit_point = vector_add(
 		ray.origin,
 		vector_scale(ray.direction, intersection.distance));
-	normal = vector_normalize(vector_subtract(hit_point, intersection.shape->pos));
+	intersection.normal = vector_normalize(vector_subtract(intersection.hit_point, intersection.shape->pos));
 	ambient = rtx()->scene->amb.amb_light;
-	intensity = fmax(vector_dot(normal, rtx()->scene->light.dir), ambient);
+	intensity = light_intensity(&intersection);
 	return (get_rgba(intersection.shape->color, intensity));
 }
 
@@ -159,7 +157,7 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 	t_shape			*shape;
 
 	t = INFINITY;
-	result = (t_intersection){INFINITY, NULL, 0};
+	result = (t_intersection){INFINITY, NULL, false, VV, VV};
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
@@ -181,7 +179,7 @@ int trace_ray (t_ray ray)
 {
 	t_intersection	t;
 
-	t = (t_intersection){INFINITY, NULL, false};
+	t = (t_intersection){INFINITY, NULL, false, VV, VV};
 	t.hit = intersect_bvh(rtx()->bvh, ray, &t);
 	// t = intersect_shape(ray, rtx()->shapes);
 	if (!t.hit)
@@ -244,8 +242,7 @@ void	setup_scene(void)
 	rtx()->scene->camera.right = TEST_CAM_DIR;
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
-	rtx()->scene->light.pos	= TEST_LIGHT_POS;
-	rtx()->scene->light.dir	= vector_normalize(TEST_LIGHT_DIR);
+	rtx()->scene->light = create_point_light(TEST_LIGHT_POS, TEST_LIGHT_BRIGHTNESS);
 	cache_init(rtx()->cache);
 	rtx()->wireframe = 0;
 	get_shapes();

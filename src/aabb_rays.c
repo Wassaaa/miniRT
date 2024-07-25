@@ -144,7 +144,7 @@ bool intersect_aabb_line(t_ray ray, t_aabb_line *line, double *t)
 
 int trace_ray_with_aabb(t_ray ray, t_list *aabb_lines)
 {
-	t_intersection t = {INFINITY, NULL, false};
+	t_intersection t = {INFINITY, NULL, false, VV, VV};
 	double line_t;
 
 	t.hit = intersect_bvh(rtx()->bvh, ray, &t);

@@ -8,7 +8,7 @@
 # include <float.h>
 # include <colors.h> //colors
 
-
+#define VV  (t_vector){0, 0, 0} //dummy 0 vector for initializations
 
 # define WIDTH 800
 # define HEIGHT 600
@@ -28,10 +28,10 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANE (t_vector){5, -6, 10}, (t_vector){0, 1, 0}, (t_rgba){0, 0, 255, 255}
 # define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, (t_rgba){0, 255, 255, 255}
-# define TEST_SPHERE (t_vector){0, 0, 5}, 4, RGBA(COLOR_CYAN, 1)
-# define TEST_SPHERE2 (t_vector){4, 7, 11}, 5, RGBA(COLOR_RED, 1)
-# define TEST_SPHERE3 (t_vector){-5, -6, 16}, 6, RGBA(COLOR_LIME, 1)
-# define TEST_SPHERE4 (t_vector){3, 2, 16}, 9, RGBA(COLOR_MAROON, 1)
+# define TEST_SPHERE (t_vector){4, 0, 5}, 4, RGBA(COLOR_CYAN, 1)
+# define TEST_SPHERE2 (t_vector){0, 0, 40}, 42, RGBA(COLOR_RED, 1)
+# define TEST_SPHERE3 (t_vector){0, 0, 15}, 2, RGBA(COLOR_LIME, 1)
+# define TEST_SPHERE4 (t_vector){3, 2, 32}, 3, RGBA(COLOR_BLUE, 1)
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0, -10}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
@@ -44,8 +44,8 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT_DIR (t_vector){14, 22, -25}
-# define TEST_LIGHT_POS (t_vector){14, 22, -25}
+# define TEST_LIGHT_BRIGHTNESS 1.0
+# define TEST_LIGHT_POS (t_vector){0, 0, 7}
 
 # define TEST_AMBIENT 0.7
 
@@ -136,9 +136,9 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_vector	pos;
-	t_vector	dir;
-	double		bright;
 	t_rgba		color;
+	double		bright;
+	double		intensity;
 }	t_light;
 
 typedef struct s_quadratic_coeffs
@@ -174,9 +174,11 @@ typedef struct s_shape
 
 typedef struct s_intersection
 {
-	double	distance;
-	t_shape	*shape;
-	bool	hit;
+	double		distance;
+	t_shape		*shape;
+	bool		hit;
+	t_vector	normal;
+	t_vector	hit_point;
 }	t_intersection;
 
 typedef struct s_bvh
@@ -231,7 +233,11 @@ bool			next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 int				get_rgba(t_rgba color, double intensity);
 t_ray			generate_ray(int x, int y);
 
+double			light_intensity(t_intersection *t);
+t_light			create_point_light(t_vector pos, double bright);
+
 
 //testing
 void			render_scene_with_aabb(void);
+
 #endif
