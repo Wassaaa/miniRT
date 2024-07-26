@@ -1,25 +1,5 @@
 #include <miniRT.h>
 
-t_vector	vector_min(t_vector a, t_vector b)
-{
-	t_vector	result;
-
-	result.x = fmin(a.x, b.x);
-	result.y = fmin(a.y, b.y);
-	result.z = fmin(a.z, b.z);
-	return (result);
-}
-
-t_vector	vector_max(t_vector a, t_vector b)
-{
-	t_vector	result;
-
-	result.x = fmax(a.x, b.x);
-	result.y = fmax(a.y, b.y);
-	result.z = fmax(a.z, b.z);
-	return (result);
-}
-
 /*
 Axis-Aligned Bounding Boxes (AABB)
 find the aabb box that can be drawn around a sphere shape

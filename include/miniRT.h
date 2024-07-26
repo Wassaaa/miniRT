@@ -8,7 +8,7 @@
 # include <float.h>
 # include <colors.h> //colors
 
-#define VV  (t_vector){0, 0, 0} //dummy 0 vector for initializations
+# define VV (t_vector){0, 0, 0} //dummy 0 vector for initializations
 
 # define WIDTH 800
 # define HEIGHT 600
@@ -209,6 +209,8 @@ t_vector		vector_cross(t_vector a, t_vector b);
 double			vector_length(t_vector a);
 t_vector		vector_normalize(t_vector a);
 double			vector_length_squared(t_vector a);
+t_vector		vector_min(t_vector a, t_vector b);
+t_vector		vector_max(t_vector a, t_vector b);
 
 
 //rtx

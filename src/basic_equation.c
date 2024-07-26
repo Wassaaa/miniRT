@@ -20,6 +20,16 @@ inline double	vector_dot(t_vector a, t_vector b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
+t_vector	vector_min(t_vector a, t_vector b)
+{
+	return ((t_vector){fmin(a.x, b.x), fmin(a.y, b.y), fmin(a.z, b.z)});
+}
+
+t_vector	vector_max(t_vector a, t_vector b)
+{
+	return ((t_vector){fmax(a.x, b.x), fmax(a.y, b.y), fmax(a.z, b.z)});
+}
+
 inline t_vector	vector_cross(t_vector a, t_vector b)
 {
 	t_vector	result;
