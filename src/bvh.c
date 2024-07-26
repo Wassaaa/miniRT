@@ -22,16 +22,36 @@ void	box_sphere(t_shape sphere, t_aabb *box)
 	box->min = vector_min(box->min, sphere_box.min);
 }
 
-void	box_cylinder(t_shape sphere, t_aabb *box)
+void	box_cylinder(t_shape cylinder, t_aabb *box)
 {
 	t_vector	radius_vec;
-	t_aabb		sphere_box;
+	t_vector	start;
+	t_vector	end;
+	t_aabb		cylinder_box;
 
-	radius_vec = (t_vector){sphere.radius, sphere.radius, sphere.radius};
-	sphere_box.min = vector_subtract(sphere.pos, radius_vec);
-	sphere_box.max = vector_add(sphere.pos, radius_vec);
-	box->max = vector_max(box->max, sphere_box.max);
-	box->min = vector_min(box->min, sphere_box.min);
+	start = vector_subtract(cylinder.pos, vector_scale(cylinder.dir, cylinder.height / 2));
+	end = vector_add(cylinder.pos, vector_scale(cylinder.dir, cylinder.height / 2));
+	radius_vec = (t_vector){cylinder.radius, cylinder.radius, cylinder.radius};
+	cylinder_box.min = vector_subtract(vector_min(start, end), radius_vec);
+	cylinder_box.max = vector_add(vector_max(start, end), radius_vec);
+	box->max = vector_max(box->max, cylinder_box.max);
+	box->min = vector_min(box->min, cylinder_box.min);
+}
+
+void	box_line(t_shape line, t_aabb *box)
+{
+	t_vector	radius_vec;
+	t_vector	start;
+	t_vector	end;
+	t_aabb		line_box;
+
+	start = line.pos;
+	end = vector_add(line.pos, line.dir);
+	radius_vec = (t_vector){line.radius, line.radius, line.radius};
+	line_box.min = vector_subtract(vector_min(start, end), radius_vec);
+	line_box.max = vector_add(vector_max(start, end), radius_vec);
+	box->max = vector_max(box->max, line_box.max);
+	box->min = vector_min(box->min, line_box.min);
 }
 
 /*
@@ -46,8 +66,8 @@ t_aabb compute_box(t_shape **shapes, int num_shapes)
 	t_aabb	end_box;
 	int		i;
 
-	end_box.min = (t_vector){DBL_MAX, DBL_MAX, DBL_MAX};
-	end_box.max = (t_vector){DBL_MIN, DBL_MIN, DBL_MIN};
+	end_box.min = (t_vector){INFINITY, INFINITY, INFINITY};
+	end_box.max = (t_vector){-INFINITY, -INFINITY, -INFINITY};
 	i = 0;
 	while (i < num_shapes)
 	{
@@ -56,6 +76,8 @@ t_aabb compute_box(t_shape **shapes, int num_shapes)
 			box_sphere(*shape, &end_box);
 		if (shape->type == CYLINDER)
 			box_cylinder(*shape, &end_box);
+		if (shape->type == LINE)
+			box_line(*shape, &end_box);
 		i++;
 	}
 	return (end_box);
@@ -138,6 +160,7 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	if (num_shapes == 1)
 	{
 		node->shape = shapes[0];
+		shapes[0]->box = node->box;
 		return (node);
 	}
 	split_axis = find_longest_axis(node->box);
@@ -149,24 +172,38 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	return (node);
 }
 
-void	bvh(t_list *shapes)
+t_shape	**shapes_to_arr(t_list *shapes, int num_shapes)
 {
-	int		num_shapes;
 	t_shape	**shape_array;
 	int		i;
 
-	if (!shapes)
-		return ;
-	num_shapes = ft_lstsize(shapes);
 	shape_array = ft_calloc(num_shapes, sizeof(t_shape *));
+	if (!shape_array)
+		return (NULL);
 	i = 0;
 	while (shapes)
 	{
 		shape_array[i++] = (t_shape *)shapes->content;
 		shapes = shapes->next;
 	}
-	rtx()->bvh = build_bvh(shape_array, num_shapes);
+	return (shape_array);
+}
+
+t_bvh	*bvh(t_list *shapes)
+{
+	t_shape	**shape_array;
+	int		num_shapes;
+	t_bvh	*bvh;
+
+	if (!shapes)
+		return (NULL);
+	num_shapes = ft_lstsize(shapes);
+	shape_array = shapes_to_arr(shapes, num_shapes);
+	bvh = build_bvh(shape_array, num_shapes);
+	if (!bvh)
+		return (NULL);
 	free(shape_array);
+	return (bvh);
 }
 
 bool	update_hit(t_bvh *node, t_intersection *t, t_ray ray)

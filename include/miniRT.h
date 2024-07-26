@@ -193,6 +193,7 @@ typedef struct s_rtx
 	t_list		*unbound;
 	t_scene		*scene;
 	t_bvh		*bvh;
+	t_bvh		*wireframe_bvh;
 	int			width;
 	int			height;
 	t_cache		cache[CACHE_SIZE];
@@ -216,7 +217,7 @@ t_vector		vector_max(t_vector a, t_vector b);
 
 //rtx
 t_rtx			*rtx(void);
-void			bvh(t_list *shapes);
+t_bvh			*bvh(t_list *shapes);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
 void			render_scene(void);

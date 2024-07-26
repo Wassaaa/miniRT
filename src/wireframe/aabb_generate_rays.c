@@ -24,6 +24,8 @@ static void	add_aabb_line(t_list **lines, t_vector start, t_vector end, t_rgba c
 	line->pos = start;
 	line->color = color;
 	line->dir = vector_subtract(end, start);
+	line->diameter = AABB_LINE_THICKNESS * 2;
+	line->radius = AABB_LINE_THICKNESS;
 	ft_lstadd_back(lines, ft_lstnew(line));
 }
 

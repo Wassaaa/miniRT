@@ -43,9 +43,9 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->pos = pos;
 	cylinder->dir = dir;
 	cylinder->diameter = diameter;
+	cylinder->radius = diameter * 0.5;
 	cylinder->height = height;
 	cylinder->color = color;
-
 	return (cylinder);
 }
 
@@ -253,15 +253,15 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
-	bvh(rtx()->shapes);
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
+	rtx()->bvh = bvh(rtx()->shapes);
 }
 
 void	start_mlx(void)
 {
+	ft_bzero(rtx(), sizeof(t_rtx));
 	rtx()->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", 1);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	
 	rtx()->img = mlx_new_image(rtx()->mlx, WIDTH, HEIGHT);
 	if (!rtx()->img)
 		exit(1);
@@ -280,9 +280,7 @@ void	setup_scene(void)
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light = create_point_light(TEST_LIGHT_POS, TEST_LIGHT_BRIGHTNESS);
-	rtx()->bvh = NULL;
 	cache_init(rtx()->cache);
-	rtx()->wireframe = 0;
 	get_shapes();
 }
 
