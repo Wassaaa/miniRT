@@ -76,7 +76,7 @@ t_aabb compute_box(t_shape **shapes, int num_shapes)
 			box_sphere(*shape, &end_box);
 		if (shape->type == CYLINDER)
 			box_cylinder(*shape, &end_box);
-		if (shape->type == LINE)
+		if (shape->type == LINE || shape->type == WIREFRAME)
 			box_line(*shape, &end_box);
 		i++;
 	}

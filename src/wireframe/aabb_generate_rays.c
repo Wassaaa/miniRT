@@ -20,7 +20,7 @@ static void	add_aabb_line(t_list **lines, t_vector start, t_vector end, t_rgba c
 	line = ft_calloc(1, sizeof(t_shape));
 	if (!line)
 		return ;
-	line->type = LINE;
+	line->type = WIREFRAME;
 	line->pos = start;
 	line->color = color;
 	line->dir = vector_subtract(end, start);

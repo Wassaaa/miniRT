@@ -4,7 +4,7 @@
 # include <miniRT.h>
 
 # define MAX_DEPTH 10
-# define AABB_LINE_THICKNESS 0.05
+# define AABB_LINE_THICKNESS 0.1
 # define EPSILON 1e-6
 
 
@@ -29,8 +29,5 @@ typedef struct s_coeff
 	double	d;
 	double	e;
 }	t_coeff;
-
-void	generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
-bool	intersect_aabb_line(t_ray ray, t_shape *line, double *t);
 
 #endif

@@ -16,7 +16,7 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
-# define CACHE_SIZE 64
+# define CACHE_SIZE 0
 
 # define AXIS_X 1
 # define AXIS_Y 2
@@ -76,7 +76,8 @@ typedef enum e_shape_type
 	PLANE,
 	SPHERE,
 	CYLINDER,
-	LINE
+	LINE,
+	WIREFRAME
 }	t_shape_type;
 
 typedef enum e_direction
@@ -243,6 +244,7 @@ bool			check_unbound(t_ray *ray, t_intersection *t);
 
 
 //testing
-void			render_scene_with_aabb(void);
+bool			intersect_aabb_line(t_ray ray, t_shape *line, double *t);
+void			generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
 #endif
