@@ -75,7 +75,8 @@ typedef enum e_shape_type
 {
 	PLANE,
 	SPHERE,
-	CYLINDER
+	CYLINDER,
+	LINE
 }	t_shape_type;
 
 typedef enum e_direction

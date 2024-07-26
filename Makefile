@@ -26,7 +26,7 @@ MLX_DEBUG		= -DDEBUG=1
 ################################################################################
 NAME			=	miniRT
 INCLUDES		=	./include
-M_HEADERS		=	$(INCLUDES)/miniRT.h
+M_HEADERS		=	$(INCLUDES)/miniRT.h $(INCLUDES)/wireframe.h
 OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
@@ -39,13 +39,16 @@ SRCS			=	main.c \
 					bvh.c \
 					aabb_intersect.c \
 					bvh_cache.c \
-					aabb_rays.c \
 					point_light.c \
+					 \
+					aabb_rays.c \
+					aabb_intersect_line.c \
+					aabb_generate_rays.c \
 
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR)
+vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe
 
 all: libmlx $(NAME)
 
@@ -66,7 +69,7 @@ libft_force:
 	@true
 
 clean:
-	@rm -rf $(NAME).dSYM/ $(OBJECTS)
+	@rm -rf $(NAME).dSYM/ $(OBJECTS) $(OBJ_DIR)
 	@rm -rf $(MLX42_DIR)/build
 	make clean -C $(LIBFT_DIR)
 
