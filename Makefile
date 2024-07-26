@@ -2,10 +2,14 @@
 # COMPILATION
 ################################################################################
 CC				=	cc
-CC_STRICT		=	-Wall -Wextra -Werror -pthread -Og
+CC_STRICT		=	-Wall -Wextra -Werror -pthread
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
-CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS)
+AGGR_OPTI		=	-ffast-math -mavx2 -mfma -fopenmp -fno-exceptions
+OPTIMIZATION	=	-Ofast -march=native -flto -fno-signed-zeros \
+					-fno-trapping-math -funroll-loops \
+					$(AGGR_OPTI)
+CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) $(OPTIMIZATION)
 
 ################################################################################
 # LIBFT
@@ -19,7 +23,7 @@ LIBFT_INCLUDES	=	$(LIBFT_DIR)
 ################################################################################
 MLX42			= $(MLX42_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 MLX42_DIR		= ./lib/MLX42
-MLX_DEBUG		= -DDEBUG=1
+MLX_DEBUG		= -DDEBUG=0
 
 ################################################################################
 # MANDATORY
