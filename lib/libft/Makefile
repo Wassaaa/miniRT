@@ -6,7 +6,7 @@
 #    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/05 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/07/24 21:06:21 by aklein           ###   ########.fr        #
+#    Updated: 2024/07/26 23:36:10 by aklein           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,9 @@ SRCS = ft_isalpha.c \
 	ft_lstdelone_bonus.c \
 
 vpath %.c get_next_line ft_printf
+OPTIMIZATION = -Ofast -march=native -flto -fno-signed-zeros -fno-trapping-math -funroll-loops
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror $(OPTIMIZATION)
 
 OBJS = $(addprefix obj/, $(SRCS:%.c=%.o))
 
