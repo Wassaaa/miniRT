@@ -26,8 +26,8 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN, 1)
-# define TEST_PLANED (t_vector){0, 0, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_ORANGE, 1)
+# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NAVY, 1)
+# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)	
 # define TEST_CYLINDER (t_vector){0, 4, -5}, (t_vector){0, 1, 0}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
@@ -49,7 +49,9 @@
 
 //test light
 # define TEST_LIGHT_BRIGHTNESS 0.7
-# define TEST_LIGHT_POS (t_vector){0, 13, 0}
+# define TEST_LIGHT_POS (t_vector){0, 10, 0}
+
+# define TEST_LIGHT (t_vector){0, 10, 0}, RGBA(COLOR_WHITE, 1), 1.0
 
 # define TEST_AMBIENT 0.3
 
@@ -133,7 +135,7 @@ typedef struct s_quadratic_coeffs
 typedef struct s_scene
 {
 	t_camera	camera;
-	t_light		light;
+	t_list		*lights;
 	t_amb_light	amb;
 }	t_scene;
 

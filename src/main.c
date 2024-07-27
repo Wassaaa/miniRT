@@ -277,6 +277,22 @@ void	get_shapes(void)
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }
 
+t_light	*make_light(t_vector pos, t_rgba color, double birght)
+{
+	t_light	*new_light;
+
+	new_light = ft_calloc(1, sizeof(t_light));
+	new_light->pos = pos;
+	new_light->color = color;
+	new_light->bright = birght;
+	return (new_light);
+}
+
+void	get_lights(void)
+{
+	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
+}
+
 void	start_mlx(void)
 {
 	ft_bzero(rtx(), sizeof(t_rtx));
