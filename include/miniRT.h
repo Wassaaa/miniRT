@@ -186,6 +186,7 @@ typedef struct s_bvh
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 	t_shape			*shape;
+	struct s_bvh	**array;
 }	t_bvh;
 
 typedef struct s_rtx
@@ -220,19 +221,13 @@ t_vector		vector_max(t_vector a, t_vector b);
 
 //rtx
 t_rtx			*rtx(void);
-t_bvh			*bvh(t_list *shapes);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
 void			render_scene(void);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
-bool			intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
-bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);
 int				get_pixel_color(t_ray ray, t_intersection intersection);
 
 void			cache_init(t_cache *cache);
-
-bool			update_hit(t_bvh *node, t_intersection *t, t_ray ray);
-bool			next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 
 int				get_rgba(t_rgba color, double intensity);
 t_ray			generate_ray(int x, int y);
@@ -242,11 +237,24 @@ t_light			create_point_light(t_vector pos, double bright);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 
+
+//bvh
+t_bvh			*bvh(t_list *shapes);
+bool			intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
+bool			update_hit(t_bvh *node, t_intersection *t, t_ray ray);
+bool			next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 bool			check_unbound(t_ray *ray, t_intersection *t);
 
 //shapes
 t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_rgba color);
 int				intersect_cone(t_ray ray, t_shape *cone, double *t);
+//axis-aligned bounding boxes
+bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);
+t_aabb			box_sphere(t_shape sphere);
+t_aabb			box_cylinder(t_shape cylinder);
+t_aabb			box_line(t_shape line);
+
+
 
 //testing
 bool			intersect_aabb_line(t_ray ray, t_shape *line, double *t);

@@ -17,6 +17,7 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_rgba color)
 	sphere->diameter = diameter;
 	sphere->radius = sphere->diameter / 2;
 	sphere->color = color;
+	sphere->box = box_sphere(*sphere);
 
 	return (sphere);
 }
@@ -46,6 +47,7 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->radius = diameter * 0.5;
 	cylinder->height = height;
 	cylinder->color = color;
+	cylinder->box = box_cylinder(*cylinder);
 	return (cylinder);
 }
 

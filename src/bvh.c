@@ -1,60 +1,6 @@
 #include <miniRT.h>
 
 /*
-Axis-Aligned Bounding Boxes (AABB)
-find the aabb box that can be drawn around a sphere shape
-radius_vector represents the distance from the center of the sphere
-to any corner of its bounding box in 3D space.
-By adding or subtracting this vector from the center,
-we reach the corners of the bounding box.
-then we compare the new box values with the incoming box and
-update the values if needed
-*/
-void	box_sphere(t_shape sphere, t_aabb *box)
-{
-	t_vector	radius_vec;
-	t_aabb		sphere_box;
-
-	radius_vec = (t_vector){sphere.radius, sphere.radius, sphere.radius};
-	sphere_box.min = vector_subtract(sphere.pos, radius_vec);
-	sphere_box.max = vector_add(sphere.pos, radius_vec);
-	box->max = vector_max(box->max, sphere_box.max);
-	box->min = vector_min(box->min, sphere_box.min);
-}
-
-void	box_cylinder(t_shape cylinder, t_aabb *box)
-{
-	t_vector	radius_vec;
-	t_vector	start;
-	t_vector	end;
-	t_aabb		cylinder_box;
-
-	start = vector_subtract(cylinder.pos, vector_scale(cylinder.dir, cylinder.height / 2));
-	end = vector_add(cylinder.pos, vector_scale(cylinder.dir, cylinder.height / 2));
-	radius_vec = (t_vector){cylinder.radius, cylinder.radius, cylinder.radius};
-	cylinder_box.min = vector_subtract(vector_min(start, end), radius_vec);
-	cylinder_box.max = vector_add(vector_max(start, end), radius_vec);
-	box->max = vector_max(box->max, cylinder_box.max);
-	box->min = vector_min(box->min, cylinder_box.min);
-}
-
-void	box_line(t_shape line, t_aabb *box)
-{
-	t_vector	radius_vec;
-	t_vector	start;
-	t_vector	end;
-	t_aabb		line_box;
-
-	start = line.pos;
-	end = vector_add(line.pos, line.dir);
-	radius_vec = (t_vector){line.radius, line.radius, line.radius};
-	line_box.min = vector_subtract(vector_min(start, end), radius_vec);
-	line_box.max = vector_add(vector_max(start, end), radius_vec);
-	box->max = vector_max(box->max, line_box.max);
-	box->min = vector_min(box->min, line_box.min);
-}
-
-/*
 go throught the array of all the shapes in the current partition
 and assign appropriate box around all the objects by adjusting the 
 min and max values of the box while going through all the objects in the partition
@@ -72,12 +18,8 @@ t_aabb compute_box(t_shape **shapes, int num_shapes)
 	while (i < num_shapes)
 	{
 		shape = shapes[i];
-		if (shape->type == SPHERE)
-			box_sphere(*shape, &end_box);
-		if (shape->type == CYLINDER)
-			box_cylinder(*shape, &end_box);
-		if (shape->type == LINE || shape->type == WIREFRAME)
-			box_line(*shape, &end_box);
+		end_box.min = vector_min(end_box.min, shape->box.min);
+		end_box.max = vector_max(end_box.max, shape->box.max);
 		i++;
 	}
 	return (end_box);
@@ -146,7 +88,7 @@ int	partition_shapes(t_shape **shapes, int num_shapes, int axis)
 Bounding Volume Hierarchy (BVH) system for generating a box around each object
 gives us an ability to discard the need for calculation on many rays.
 */
-t_bvh *build_bvh(t_shape **shapes, int num_shapes)
+t_bvh *build_bvh(t_shape **shapes, int num_shapes, t_bvh **node_array)
 {
 	t_bvh	*node;
 	int		split_axis;
@@ -155,20 +97,23 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	node = ft_calloc(1, sizeof(t_bvh));
 	if (!node)
 		return (NULL);
-	node->box = compute_box(shapes, num_shapes);
+	node_array[node->id] = node;
+	node->array = node_array;
 	node->id = rtx()->bvh_node_id++;
 	if (num_shapes == 1)
 	{
+		node->box = shapes[0]->box;
 		node->shape = shapes[0];
 		shapes[0]->box = node->box;
 		return (node);
 	}
+	node->box = compute_box(shapes, num_shapes);
 	split_axis = find_longest_axis(node->box);
 	split_index = partition_shapes(shapes, num_shapes, split_axis);
 	if (split_index == 0 || split_index == num_shapes)
 		split_index = num_shapes / 2;
-	node->left = build_bvh(shapes, split_index);
-	node->right = build_bvh(shapes + split_index, num_shapes - split_index);
+	node->left = build_bvh(shapes, split_index, node_array);
+	node->right = build_bvh(shapes + split_index, num_shapes - split_index, node_array);
 	return (node);
 }
 
@@ -194,12 +139,17 @@ t_bvh	*bvh(t_list *shapes)
 	t_shape	**shape_array;
 	int		num_shapes;
 	t_bvh	*bvh;
+	t_bvh	**node_array;
 
+	rtx()->bvh_node_id = 0;
 	if (!shapes)
 		return (NULL);
 	num_shapes = ft_lstsize(shapes);
 	shape_array = shapes_to_arr(shapes, num_shapes);
-	bvh = build_bvh(shape_array, num_shapes);
+	node_array = ft_calloc(num_shapes, sizeof(t_bvh *));
+	if (!shape_array || !node_array)
+		return (NULL);
+	bvh = build_bvh(shape_array, num_shapes, node_array);
 	if (!bvh)
 		return (NULL);
 	free(shape_array);
