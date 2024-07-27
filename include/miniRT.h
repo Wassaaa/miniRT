@@ -16,8 +16,6 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
-# define CACHE_SIZE 0
-
 # define AXIS_X 1
 # define AXIS_Y 2
 # define AXIS_Z 3
@@ -58,19 +56,6 @@
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
-typedef struct s_cache t_cache;
-
-
-typedef struct s_cache_entry
-{
-	int node_id;
-	bool hit;
-}	t_cache_entry;
-
-typedef struct s_cache
-{
-	t_cache_entry entries[CACHE_SIZE];
-}	t_cache;
 
 typedef enum e_shape_type
 {
@@ -186,7 +171,6 @@ typedef struct s_bvh
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 	t_shape			*shape;
-	struct s_bvh	**array;
 }	t_bvh;
 
 typedef struct s_rtx
@@ -200,7 +184,6 @@ typedef struct s_rtx
 	t_bvh		*wireframe_bvh;
 	int			width;
 	int			height;
-	t_cache		cache[CACHE_SIZE];
 	int			bvh_node_id;
 	int			cache_hits;
 	int			wireframe;
@@ -227,8 +210,6 @@ void			render_scene(void);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
 int				get_pixel_color(t_ray ray, t_intersection intersection);
 
-void			cache_init(t_cache *cache);
-
 int				get_rgba(t_rgba color, double intensity);
 t_ray			generate_ray(int x, int y);
 
@@ -241,8 +222,6 @@ int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 //bvh
 t_bvh			*bvh(t_list *shapes);
 bool			intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
-bool			update_hit(t_bvh *node, t_intersection *t, t_ray ray);
-bool			next_branches(t_bvh *node, t_ray ray, t_intersection *t);
 bool			check_unbound(t_ray *ray, t_intersection *t);
 
 //shapes

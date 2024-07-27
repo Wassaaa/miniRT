@@ -4,7 +4,7 @@
 - [x] Shadows with 1 light
 - [ ] Parsing of scene files
 - [ ] Shadows with multiple lights
-- [ ] Fix Cache for BVH, maybe leaf cache
+- [x] Fix Cache for BVH, maybe leaf cache (removed cache for now)
 - [ ] restructure main.c into different parts and folders
 - [ ] change all make_shape functions to take pointers as argument
 - [ ] separate the header file to functions and structs

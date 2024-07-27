@@ -40,9 +40,9 @@ SRCS			=	main.c \
 					game_loop.c \
 					plane.c \
 					cylinder.c \
-					bvh.c \
 					aabb_intersect.c \
-					bvh_cache.c \
+					bvh.c \
+					intersect_bvh.c \
 					point_light.c \
 					 \
 					aabb_intersect_line.c \
@@ -53,7 +53,7 @@ SRCS			=	main.c \
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe
+vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh
 
 all: libmlx $(NAME)
 

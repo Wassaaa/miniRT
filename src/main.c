@@ -300,7 +300,6 @@ void	setup_scene(void)
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
 	rtx()->scene->light = create_point_light(TEST_LIGHT_POS, TEST_LIGHT_BRIGHTNESS);
-	cache_init(rtx()->cache);
 	get_shapes();
 }
 

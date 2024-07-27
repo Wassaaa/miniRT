@@ -88,7 +88,7 @@ int	partition_shapes(t_shape **shapes, int num_shapes, int axis)
 Bounding Volume Hierarchy (BVH) system for generating a box around each object
 gives us an ability to discard the need for calculation on many rays.
 */
-t_bvh *build_bvh(t_shape **shapes, int num_shapes, t_bvh **node_array)
+t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 {
 	t_bvh	*node;
 	int		split_axis;
@@ -97,8 +97,6 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes, t_bvh **node_array)
 	node = ft_calloc(1, sizeof(t_bvh));
 	if (!node)
 		return (NULL);
-	node_array[node->id] = node;
-	node->array = node_array;
 	node->id = rtx()->bvh_node_id++;
 	if (num_shapes == 1)
 	{
@@ -112,8 +110,8 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes, t_bvh **node_array)
 	split_index = partition_shapes(shapes, num_shapes, split_axis);
 	if (split_index == 0 || split_index == num_shapes)
 		split_index = num_shapes / 2;
-	node->left = build_bvh(shapes, split_index, node_array);
-	node->right = build_bvh(shapes + split_index, num_shapes - split_index, node_array);
+	node->left = build_bvh(shapes, split_index);
+	node->right = build_bvh(shapes + split_index, num_shapes - split_index);
 	return (node);
 }
 
@@ -147,52 +145,12 @@ t_bvh	*bvh(t_list *shapes)
 	num_shapes = ft_lstsize(shapes);
 	shape_array = shapes_to_arr(shapes, num_shapes);
 	node_array = ft_calloc(num_shapes, sizeof(t_bvh *));
-	if (!shape_array || !node_array)
+	if (!shape_array)
 		return (NULL);
-	bvh = build_bvh(shape_array, num_shapes, node_array);
+	bvh = build_bvh(shape_array, num_shapes);
 	if (!bvh)
 		return (NULL);
 	free(shape_array);
 	return (bvh);
 }
 
-bool	update_hit(t_bvh *node, t_intersection *t, t_ray ray)
-{
-	double	current_t;
-
-	if (intersect(node->shape, ray, &current_t))
-	{
-		if (current_t < t->distance)
-		{
-			t->shape = node->shape;
-			t->distance = current_t;
-			t->hit = true;
-			return (true);
-		}
-	}
-	return (false);
-}
-
-bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
-{
-	bool	hit_left;
-	bool	hit_right;
-	t_intersection	right;
-	t_intersection	left;
-
-	left = (t_intersection){INFINITY, NULL, false, VV, VV};
-	right = (t_intersection){INFINITY, NULL, false, VV, VV};
-	hit_left = intersect_bvh(node->left, ray, &left);
-	hit_right = intersect_bvh(node->right, ray, &right);
-	if (hit_left && (!hit_right || left.distance < right.distance))
-	{
-		*t = left;
-		return (true);
-	}
-	else if (hit_right)
-	{
-		*t = right;
-		return (true);
-	}
-	return (false);
-}
