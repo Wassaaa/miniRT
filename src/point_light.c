@@ -10,13 +10,13 @@ t_light	create_point_light(t_vector pos, double bright)
 	return (light);
 }
 
-bool	check_shadow(t_intersection *t, t_light *light)
+bool	check_shadow(t_hit *hit, t_light *light)
 {
 	t_ray			shadow_ray;
-	t_intersection	temp;
+	t_hit	temp;
 	double			light_distance;
 	
-	shadow_ray.origin = vector_add(t->hit_point, vector_scale(t->normal, 0.001));
+	shadow_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, 0.001));
 	shadow_ray.direction = vector_subtract(
 			light->pos,
 			shadow_ray.origin);
@@ -35,68 +35,44 @@ bool	check_shadow(t_intersection *t, t_light *light)
 		return (true);
 	return (false);
 }
-t_rgba	color_scale(t_rgba color, double intensity)
-{
-	t_rgba	result;
 
-	result.r = clamp((int)(color.r * intensity), 0, 255);
-	result.g = clamp((int)(color.g * intensity), 0, 255);
-	result.b = clamp((int)(color.b * intensity), 0, 255);
-	result.a = clamp(color.a, 0, 255);
-	return (result);
-}
 
-t_rgba	diffuse_one(t_light *light, t_intersection *t)
+double	diffuse_one(t_light *light, t_hit *hit)
 {
-	t_rgba		diffuse;
 	t_vector	light_dir;
 	double		intensity;
 
 	light_dir = vector_normalize(
-		vector_subtract(light->pos, t->hit_point));
-	intensity = vector_dot(t->normal, light_dir);
+		vector_subtract(light->pos, hit->hit_point));
+	intensity = vector_dot(hit->normal, light_dir);
 	intensity = fmax(intensity, 0.0);
 	intensity *= light->bright;
-	diffuse = color_scale(light->color, intensity);
-	return (diffuse);
+	return (intensity);
 }
 
-get_diffuse(t_intersection *t)
+t_color	get_diffuse(t_hit *hit)
 {
-	t_scene	*scene;
 	t_list	*lights;
 	t_light	*current_light;
-	t_rgba	total_diffuse;
-	t_rgba	light_diffuse;
+	t_color	total_light;
+	t_color	light_contribution;
+	double	intensity;
 
-	total_diffuse = (t_rgba){0, 0, 0, 0};
-	scene = rtx()->scene;
-	lights = scene->lights;
+	total_light = (t_color){0, 0, 0};
+	lights = rtx()->scene->lights;
 	while (lights)
 	{
 		current_light = (t_light *)lights->content;
-		diffuse_one(current_light, t);
-		if (!check_shadow)
-		total_diffuse = 
+		if (!check_shadow(hit, current_light))
+		{
+			intensity = diffuse_one(current_light, hit);
+			light_contribution = color_scale(current_light->color, intensity);
+			light_contribution = color_multiply(light_contribution, hit->shape->color);
+			total_light = color_add(total_light, light_contribution);
+		}
+		lights = lights->next;
 	}
-}
-
-double light_intensity(t_intersection *t)
-{
-	double		intensity;
-	double		diffuse;
-	t_vector	light_dir;
-
-	intensity = rtx()->scene->amb.amb_light;
-	light_dir = vector_subtract(
-		rtx()->scene->light.pos,
-		t->hit_point);
-	light_dir = vector_normalize(light_dir);
-	if (!check_shadow(t))
-	{
-		diffuse = fmax(vector_dot(t->normal, light_dir), 0.0) * rtx()->scene->light.bright;
-		intensity += diffuse;
-	}
-
-	return (intensity);
+	light_contribution = color_multiply(rtx()->scene->ambient, hit->shape->color);
+	total_light = color_add(total_light, light_contribution);
+	return (color_clamp(total_light));
 }

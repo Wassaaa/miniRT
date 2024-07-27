@@ -7,7 +7,7 @@ t_rtx	*rtx(void)
 	return (&rtx);
 }
 
-t_shape	*make_sphere(t_vector pos, double diameter, t_rgba color)
+t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 {
 	t_shape	*sphere;
 
@@ -16,13 +16,13 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_rgba color)
 	sphere->pos = pos;
 	sphere->diameter = diameter;
 	sphere->radius = sphere->diameter / 2;
-	sphere->color = color;
+	sphere->color = color_from_int(color.r, color.g, color.b);
 	sphere->box = box_sphere(*sphere);
 
 	return (sphere);
 }
 
-t_shape	*make_plane(t_vector pos, t_vector dir, t_rgba color)
+t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 {
 	t_shape	*plane;
 
@@ -30,12 +30,12 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_rgba color)
 	plane->type = PLANE;
 	plane->pos = pos;
 	plane->dir = dir;
-	plane->color = color;
+	plane->color = color_from_int(color.r, color.g, color.b);
 
 	return (plane);
 }
 
-t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_rgba color)
+t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color)
 {
 	t_shape	*cylinder;
 
@@ -46,51 +46,17 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->diameter = diameter;
 	cylinder->radius = diameter * 0.5;
 	cylinder->height = height;
-	cylinder->color = color;
+	cylinder->color = color_from_int(color.r, color.g, color.b);
 	cylinder->box = box_cylinder(*cylinder);
 	return (cylinder);
 }
 
-int	clamp(int value, int min, int max)
+void	fix_hit_normal(t_hit *hit)
 {
-	if (value < min)
-		return (min);
-	if (value > max)
-		return (max);
-	return (value);
-}
-
-int	get_rgba(t_rgba color, double intensity)
-{
-	t_rgba	result;
-
-	result.r = clamp((int)(color.r * intensity), 0, 255);
-	result.g = clamp((int)(color.g * intensity), 0, 255);
-	result.b = clamp((int)(color.b * intensity), 0, 255);
-	result.a = clamp(color.a, 0, 255);
-	return (result.r << 24 | result.g << 16 | result.b << 8 | result.a);
-}
-
-void	fix_hit_normal(t_intersection *t)
-{
-	if (t->shape->type == PLANE)
-		t->normal = t->shape->dir;
+	if (hit->shape->type == PLANE)
+		hit->normal = hit->shape->dir;
 	else
-		t->normal = vector_normalize(vector_subtract(t->hit_point, t->shape->pos));
-}
-
-int	get_pixel_color(t_ray ray, t_intersection intersection)
-{
-	double	intensity;
-	
-	intersection.hit_point = vector_add(
-		ray.origin,
-		vector_scale(ray.direction, intersection.distance));
-	fix_hit_normal(&intersection);
-	if (intersection.shape->type == WIREFRAME)
-		return (get_rgba(intersection.shape->color, 1.0));
-	intensity = light_intensity(&intersection);
-	return (get_rgba(intersection.shape->color, intensity));
+		hit->normal = vector_normalize(vector_subtract(hit->hit_point, hit->shape->pos));
 }
 
 /*
@@ -158,7 +124,7 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 	return (hit && *t > 0);
 }
 
-bool	check_unbound(t_ray *ray, t_intersection *t)
+bool	check_unbound(t_ray *ray, t_hit *hit)
 {
 	t_list	*unbound;
 	t_shape	*shape;
@@ -170,29 +136,29 @@ bool	check_unbound(t_ray *ray, t_intersection *t)
 		shape = (t_shape *)unbound->content;
 		if (shape->type == PLANE)
 		{
-			if (intersect_plane(*ray, *shape, &distance) && distance < t->distance)
+			if (intersect_plane(*ray, *shape, &distance) && distance < hit->distance)
 			{
-				if (distance > 0.001 && distance < t->distance)
+				if (distance > 0.001 && distance < hit->distance)
 				{
-					t->distance = distance;
-					t->shape = shape;
-					t->hit = true;
+					hit->distance = distance;
+					hit->shape = shape;
+					hit->hit = true;
 				}
 			}
 		}
 		unbound = unbound->next;
 	}
-	return (t->hit);
+	return (hit->hit);
 }
 
-t_intersection	intersect_shape(t_ray ray, t_list *shapes)
+t_hit	intersect_shape(t_ray ray, t_list *shapes)
 {
-	t_intersection	result;
+	t_hit			result;
 	double			t;
 	t_shape			*shape;
 
 	t = INFINITY;
-	result = (t_intersection){INFINITY, NULL, false, VV, VV};
+	result = (t_hit){INFINITY, NULL, false, VV, VV};
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
@@ -210,20 +176,19 @@ t_intersection	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
-int trace_ray (t_ray ray)
+int trace_ray (t_ray *ray)
 {
-	t_intersection	t;
+	t_hit	hit;
 
-	t = (t_intersection){INFINITY, NULL, false, VV, VV};
-	t = intersect_shape(ray, rtx()->shapes);
-	// if (rtx()->wireframe_bvh && rtx()->wireframe)
-	// 	t.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &t);
-	// if (rtx()->bvh)
-	// 	t.hit |= intersect_bvh(rtx()->bvh, ray, &t);
-	// t.hit |= check_unbound(&ray, &t);
-	if (!t.hit)
+	hit = (t_hit){INFINITY, NULL, false, VV, VV};
+	if (rtx()->wireframe_bvh && rtx()->wireframe)
+		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, *ray, &hit);
+	if (rtx()->bvh)
+		hit.hit |= intersect_bvh(rtx()->bvh, *ray, &hit);
+	hit.hit |= check_unbound(ray, &hit);
+	if (!hit.hit)
 		return (TEST_BG);
-	return (get_pixel_color(ray, t));
+	return (get_pixel_color(ray, &hit));
 }
 
 void	render_scene(void)
@@ -240,7 +205,7 @@ void	render_scene(void)
 		while(x < WIDTH)
 		{
 			ray = generate_ray(x, y);
-			color = trace_ray(ray);
+			color = trace_ray(&ray);
 			mlx_put_pixel(rtx()->img, x, y, color);
 			x++;
 		}
@@ -272,18 +237,18 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
 	//ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }
 
-t_light	*make_light(t_vector pos, t_rgba color, double birght)
+t_light	*make_light(t_vector pos, t_color color, double birght)
 {
 	t_light	*new_light;
 
 	new_light = ft_calloc(1, sizeof(t_light));
 	new_light->pos = pos;
-	new_light->color = color;
+	new_light->color = color_scale(color, 1.0 / 255.0);
 	new_light->bright = birght;
 	return (new_light);
 }
@@ -291,6 +256,7 @@ t_light	*make_light(t_vector pos, t_rgba color, double birght)
 void	get_lights(void)
 {
 	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
+	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 }
 
 void	start_mlx(void)
@@ -309,14 +275,15 @@ void	start_mlx(void)
 void	setup_scene(void)
 {
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
-	rtx()->scene->amb.amb_light = TEST_AMBIENT;
+	rtx()->scene->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
+	rtx()->scene->ambient = color_scale(rtx()->scene->ambient, TEST_AMBIENT_INT);
 	rtx()->scene->camera.pos = TEST_CAM_POS;
 	rtx()->scene->camera.dir = vector_normalize(TEST_CAM_DIR);
 	rtx()->scene->camera.right = TEST_CAM_DIR;
 	rtx()->scene->camera.up = TEST_CAM_DIR;
 	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
-	rtx()->scene->light = create_point_light(TEST_LIGHT_POS, TEST_LIGHT_BRIGHTNESS);
 	get_shapes();
+	get_lights();
 }
 
 void	loop_hook(void *data)

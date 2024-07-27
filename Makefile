@@ -49,11 +49,15 @@ SRCS			=	main.c \
 					aabb_generate_rays.c \
 					cone.c \
 					aabb_boxes.c \
+					color.c \
+					color_utils.c \
+					color_utils2.c \
+					clamp.c \
 
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh
+vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors
 
 all: libmlx $(NAME)
 
@@ -79,7 +83,7 @@ clean:
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(OBJ_DIR)
 	make fclean -C $(LIBFT_DIR)
 
 re: fclean all

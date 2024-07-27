@@ -1,15 +1,15 @@
 # define TEST_BG 0x000000FF
-# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEB (t_vector){0, 0, -15}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN, 1)
-# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NEON_GREEN, 1)
-# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
-# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK, 1)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
-# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
-# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED, 1)
+# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY)
+# define TEST_PLANEB (t_vector){0, 0, -15}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY)
+# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN)
+# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NEON_GREEN)
+# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY)
+# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY)
+# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK)
+# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
+# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0, -14}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}

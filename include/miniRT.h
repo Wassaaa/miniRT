@@ -20,22 +20,21 @@
 # define AXIS_Y 2
 # define AXIS_Z 3
 
-// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
+// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_color){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
-# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)	
-# define TEST_CYLINDER (t_vector){0, 4, -5}, (t_vector){0, 1, 0}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
-# define TEST_CONE (t_vector){0, 4, -5}, (t_vector){0, 1, 0}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
-# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK, 1)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
-# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
-# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED, 1)
+# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY)
+# define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY)
+# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NAVY)
+# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NAVY)
+# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY)
+# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY)
+# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK)
+# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
+# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 //test cam
 # define TEST_CAM_POS (t_vector){0, 1, -14}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
@@ -51,9 +50,10 @@
 # define TEST_LIGHT_BRIGHTNESS 0.7
 # define TEST_LIGHT_POS (t_vector){0, 10, 0}
 
-# define TEST_LIGHT (t_vector){0, 10, 0}, RGBA(COLOR_WHITE, 1), 1.0
+# define TEST_LIGHT (t_vector){0, 10, 0}, RGBA(COLOR_WHITE), 1.0
 
-# define TEST_AMBIENT 0.3
+# define TEST_AMBIENT_COL RGBA(COLOR_WHITE)
+# define TEST_AMBIENT_INT 0.1
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -87,13 +87,12 @@ typedef struct s_vector
 	double	z;
 }	t_vector;
 
-typedef struct s_rgba
+typedef struct s_color
 {
-	int	r;
-	int	g;
-	int	b;
-	int	a;
-}	t_rgba;
+	double	r;
+	double	g;
+	double	b;
+}			t_color;
 
 typedef struct s_ray
 {
@@ -101,12 +100,6 @@ typedef struct s_ray
 	t_vector	direction;
 	t_vector	inv_dir;
 }	t_ray;
-
-typedef struct s_amb_light
-{
-	double	amb_light;
-	t_rgba	color;
-}	t_amb_light;
 
 typedef struct s_camera
 {
@@ -120,7 +113,7 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_vector	pos;
-	t_rgba		color;
+	t_color		color;
 	double		bright;
 	double		intensity;
 }	t_light;
@@ -136,7 +129,7 @@ typedef struct s_scene
 {
 	t_camera	camera;
 	t_list		*lights;
-	t_amb_light	amb;
+	t_color		ambient;
 }	t_scene;
 
 typedef struct s_aabb
@@ -152,19 +145,19 @@ typedef struct s_shape
 	t_vector		dir;
 	double			diameter;
 	double			radius;
-	t_rgba			color;
+	t_color			color;
 	t_aabb			box;
 	double			height;
 }	t_shape;
 
-typedef struct s_intersection
+typedef struct s_hit
 {
 	double		distance;
 	t_shape		*shape;
 	bool		hit;
 	t_vector	normal;
 	t_vector	hit_point;
-}	t_intersection;
+}	t_hit;
 
 typedef struct s_bvh
 {
@@ -203,6 +196,25 @@ double			vector_length_squared(t_vector a);
 t_vector		vector_min(t_vector a, t_vector b);
 t_vector		vector_max(t_vector a, t_vector b);
 
+//clamp
+int				clampi(int value, int min, int max);
+double			clampd(double value, double min, double max);
+
+//lights
+t_color			get_diffuse(t_hit *hit);
+
+void			fix_hit_normal(t_hit *hit);
+//colors
+int				get_pixel_color(t_ray *ray, t_hit *hit);
+int				color_to_int(t_color c);
+t_color			color_from_int(int r, int g, int b);
+t_color			color_from_hex(unsigned int hex);
+t_color			color_clamp(t_color c);
+t_color			color_scale(t_color c, double scale);
+t_color			color_multiply(t_color c1, t_color c2);
+t_color			color_subtract(t_color c1, t_color c2);
+t_color			color_add(t_color c1, t_color c2);
+t_color			color_create(double r, double g, double b);
 
 //rtx
 t_rtx			*rtx(void);
@@ -210,12 +222,9 @@ bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
 void			render_scene(void);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
-int				get_pixel_color(t_ray ray, t_intersection intersection);
 
-int				get_rgba(t_rgba color, double intensity);
 t_ray			generate_ray(int x, int y);
 
-double			light_intensity(t_intersection *t);
 t_light			create_point_light(t_vector pos, double bright);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
@@ -223,11 +232,11 @@ int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 
 //bvh
 t_bvh			*bvh(t_list *shapes);
-bool			intersect_bvh(t_bvh *node, t_ray ray, t_intersection *t);
-bool			check_unbound(t_ray *ray, t_intersection *t);
+bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
+bool			check_unbound(t_ray *ray, t_hit *hit);
 
 //shapes
-t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_rgba color);
+t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
 int				intersect_cone(t_ray ray, t_shape *cone, double *t);
 //axis-aligned bounding boxes
 bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);

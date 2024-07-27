@@ -13,7 +13,7 @@ static void	set_corners(t_aabb box, t_vector *corners)
 	corners[7] = (t_vector){box.max.x, box.max.y, box.max.z};
 }
 
-static void	add_aabb_line(t_list **lines, t_vector start, t_vector end, t_rgba color)
+static void	add_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color)
 {
 	t_shape	*line;
 
@@ -22,7 +22,7 @@ static void	add_aabb_line(t_list **lines, t_vector start, t_vector end, t_rgba c
 		return ;
 	line->type = WIREFRAME;
 	line->pos = start;
-	line->color = color;
+	line->color = color_from_int(color.r, color.g, color.b);
 	line->dir = vector_subtract(end, start);
 	line->diameter = AABB_LINE_THICKNESS * 2;
 	line->radius = AABB_LINE_THICKNESS;
@@ -35,7 +35,7 @@ Front Face = first 4
 Back Face = middle 4
 connecting edges = last 4
 */
-static void	add_lines(t_list **lines, t_vector *corners, t_rgba color)
+static void	add_lines(t_list **lines, t_vector *corners, t_color color)
 {
 	add_aabb_line(lines, corners[0], corners[1], color);
 	add_aabb_line(lines, corners[1], corners[3], color);
@@ -51,7 +51,7 @@ static void	add_lines(t_list **lines, t_vector *corners, t_rgba color)
 	add_aabb_line(lines, corners[3], corners[7], color);
 }
 static void	add_connecting_edges(t_list **lines, t_vector *corners,
-				t_rgba color)
+				t_color color)
 {
 	add_aabb_line(lines, corners[0], corners[4], color);
 	add_aabb_line(lines, corners[1], corners[5], color);
@@ -71,7 +71,7 @@ static void	add_connecting_edges(t_list **lines, t_vector *corners,
  */
 void	generate_aabb_lines(t_bvh *node, int depth, t_list **lines)
 {
-	t_rgba		color;
+	t_color		color;
 	t_vector	corners[8];
 
 	if (!node)

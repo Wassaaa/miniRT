@@ -1,6 +1,6 @@
 #include <miniRT.h>
 
-t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_rgba color)
+t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color)
 {
 	t_shape	*cone;
 
@@ -11,7 +11,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->diameter = diameter;
 	cone->radius = diameter * 0.5;
 	cone->height = height;
-	cone->color = color;
+	cone->color = color_from_int(color.r, color.g, color.b);
 	return (cone);
 }
 

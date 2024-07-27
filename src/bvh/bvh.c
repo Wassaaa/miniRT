@@ -137,14 +137,12 @@ t_bvh	*bvh(t_list *shapes)
 	t_shape	**shape_array;
 	int		num_shapes;
 	t_bvh	*bvh;
-	t_bvh	**node_array;
 
 	rtx()->bvh_node_id = 0;
 	if (!shapes)
 		return (NULL);
 	num_shapes = ft_lstsize(shapes);
 	shape_array = shapes_to_arr(shapes, num_shapes);
-	node_array = ft_calloc(num_shapes, sizeof(t_bvh *));
 	if (!shape_array)
 		return (NULL);
 	bvh = build_bvh(shape_array, num_shapes);

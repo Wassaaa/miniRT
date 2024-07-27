@@ -1,7 +1,7 @@
 #include <miniRT.h>
 
 
-static inline bool	update_hit(t_bvh *node, t_intersection *t, t_ray ray)
+static inline bool	update_hit(t_bvh *node, t_hit *t, t_ray ray)
 {
 	double	current_t;
 
@@ -18,45 +18,45 @@ static inline bool	update_hit(t_bvh *node, t_intersection *t, t_ray ray)
 	return (false);
 }
 
-static inline bool	next_branches(t_bvh *node, t_ray ray, t_intersection *t)
+static inline bool	next_branches(t_bvh *node, t_ray ray, t_hit *hit)
 {
 	bool	hit_left;
 	bool	hit_right;
-	t_intersection	right;
-	t_intersection	left;
+	t_hit	right;
+	t_hit	left;
 
-	left = (t_intersection){INFINITY, NULL, false, VV, VV};
-	right = (t_intersection){INFINITY, NULL, false, VV, VV};
+	left = (t_hit){INFINITY, NULL, false, VV, VV};
+	right = (t_hit){INFINITY, NULL, false, VV, VV};
 	hit_left = intersect_bvh(node->left, ray, &left);
 	hit_right = intersect_bvh(node->right, ray, &right);
 	if (hit_left && (!hit_right || left.distance < right.distance))
 	{
-		*t = left;
+		*hit = left;
 		return (true);
 	}
 	else if (hit_right)
 	{
-		*t = right;
+		*hit = right;
 		return (true);
 	}
 	return (false);
 }
 
-bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *old_t)
+bool	intersect_bvh(t_bvh *node, t_ray ray, t_hit *old_t)
 {
-	bool			hit;
-	t_intersection	t;
+	bool	curr_hit;
+	t_hit	hit;
 
-	t = (t_intersection){INFINITY, NULL, false, VV, VV};
-	hit = false;
+	hit = (t_hit){INFINITY, NULL, false, VV, VV};
+	curr_hit = false;
 
-	if (!intersect_aabb(ray, node->box, t.distance))
+	if (!intersect_aabb(ray, node->box, hit.distance))
 		return (false);
 	if (node->shape)
-		hit = update_hit(node, &t, ray);
+		curr_hit = update_hit(node, &hit, ray);
 	else
-		hit = next_branches(node, ray, &t);
-	if (hit && t.distance < old_t->distance)
-		*old_t = t;
-	return (hit);
+		curr_hit = next_branches(node, ray, &hit);
+	if (curr_hit && hit.distance < old_t->distance)
+		*old_t = hit;
+	return (curr_hit);
 }
