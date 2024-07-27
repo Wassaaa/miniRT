@@ -40,6 +40,7 @@ bool	intersect_bvh(t_bvh *node, t_ray ray, t_intersection *old_t)
 
 	t = (t_intersection){INFINITY, NULL, false, VV, VV};
 	cached = false;
+	hit = false;
 	if (CACHE_SIZE > 0)
 	{
 		cached = cache_chk_upd(rtx()->cache, node->id, false);

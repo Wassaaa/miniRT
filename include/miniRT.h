@@ -10,8 +10,8 @@
 
 # define VV (t_vector){0, 0, 0} //dummy 0 vector for initializations
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 640
+# define HEIGHT 360
 # define M_PI 3.14159265358979323846
 
 # define WORLD_UP (t_vector){0, 1, 0}
@@ -27,7 +27,7 @@
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEB (t_vector){0, 0, -15}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
+# define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN, 1)
 # define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NEON_GREEN, 1)
 # define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)

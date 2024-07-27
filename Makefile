@@ -5,7 +5,7 @@ CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror -pthread
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
-AGGR_OPTI		=	-ffast-math -mavx2 -mfma -fopenmp -fno-exceptions
+AGGR_OPTI		=	-ffast-math -mavx2 -mfma -fno-exceptions
 OPTIMIZATION	=	-Ofast -march=native -flto -fno-signed-zeros \
 					-fno-trapping-math -funroll-loops \
 					$(AGGR_OPTI)
