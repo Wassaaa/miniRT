@@ -147,6 +147,8 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 		hit = intersect_sphere(ray, shape, t);
 	else if (shape->type == CYLINDER)
 		hit = intersect_cylinder(ray, *shape, t);
+	else if (shape->type == CONE)
+		hit = intersect_cone(ray, shape, t);
 	else if (shape->type == LINE || shape->type == WIREFRAME)
 		hit = intersect_aabb_line(ray, shape, t);
 	if (*t < 0)
@@ -181,16 +183,42 @@ bool	check_unbound(t_ray *ray, t_intersection *t)
 	return (t->hit);
 }
 
+t_intersection	intersect_shape(t_ray ray, t_list *shapes)
+{
+	t_intersection	result;
+	double			t;
+	t_shape			*shape;
+
+	t = INFINITY;
+	result = (t_intersection){INFINITY, NULL, false, VV, VV};
+	while (shapes)
+	{
+		shape = (t_shape *)shapes->content;
+		if (intersect(shape, ray, &t))
+		{
+			if (t < result.distance)
+			{
+				result.distance = t;
+				result.shape = shape;
+				result.hit = true;
+			}
+		}
+		shapes = shapes->next;
+	}
+	return (result);
+}
+
 int trace_ray (t_ray ray)
 {
 	t_intersection	t;
 
 	t = (t_intersection){INFINITY, NULL, false, VV, VV};
-	if (rtx()->wireframe_bvh && rtx()->wireframe)
-		t.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &t);
-	if (rtx()->bvh)
-		t.hit |= intersect_bvh(rtx()->bvh, ray, &t);
-	t.hit |= check_unbound(&ray, &t);
+	t = intersect_shape(ray, rtx()->shapes);
+	// if (rtx()->wireframe_bvh && rtx()->wireframe)
+	// 	t.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &t);
+	// if (rtx()->bvh)
+	// 	t.hit |= intersect_bvh(rtx()->bvh, ray, &t);
+	// t.hit |= check_unbound(&ray, &t);
 	if (!t.hit)
 		return (TEST_BG);
 	return (get_pixel_color(ray, t));
@@ -241,7 +269,8 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
+	//ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }

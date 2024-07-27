@@ -2,10 +2,12 @@
 
 - [x] Set up project structure
 - [x] Shadows with 1 light
+- [ ] Parsing of scene files
 - [ ] Shadows with multiple lights
 - [ ] Fix Cache for BVH, maybe leaf cache
-- [ ] Parsing of scene files
 - [ ] restructure main.c into different parts and folders
+- [ ] change all make_shape functions to take pointers as argument
+- [ ] separate the header file to functions and structs
 
 # BVH
 - [x] Implement BVH

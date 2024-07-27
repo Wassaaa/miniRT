@@ -47,6 +47,7 @@ SRCS			=	main.c \
 					 \
 					aabb_intersect_line.c \
 					aabb_generate_rays.c \
+					cone.c
 
 ################################################################################
 # RULES

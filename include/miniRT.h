@@ -29,16 +29,17 @@
 # define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY, 1)
 # define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NEON_GREEN, 1)
-# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NEON_GREEN, 1)
+# define TEST_PLANED (t_vector){0, 0, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_ORANGE, 1)
 # define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)
-# define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
+# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY, 1)	
+# define TEST_CYLINDER (t_vector){0, 4, -5}, (t_vector){0, 1, 0}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
+# define TEST_CONE (t_vector){0, 4, -5}, (t_vector){0, 1, 0}, 4, 6, RGBA(COLOR_NEON_PINK, 1)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK, 1)
 # define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK, 1)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED, 1)
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0, -14}
+# define TEST_CAM_POS (t_vector){0, 1, -14}
 # define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
@@ -52,7 +53,7 @@
 # define TEST_LIGHT_BRIGHTNESS 0.7
 # define TEST_LIGHT_POS (t_vector){0, 13, 0}
 
-# define TEST_AMBIENT 0.1
+# define TEST_AMBIENT 0.3
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -76,6 +77,7 @@ typedef enum e_shape_type
 	PLANE,
 	SPHERE,
 	CYLINDER,
+	CONE,
 	LINE,
 	WIREFRAME
 }	t_shape_type;
@@ -242,6 +244,9 @@ int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 
 bool			check_unbound(t_ray *ray, t_intersection *t);
 
+//shapes
+t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_rgba color);
+int				intersect_cone(t_ray ray, t_shape *cone, double *t);
 
 //testing
 bool			intersect_aabb_line(t_ray ray, t_shape *line, double *t);
