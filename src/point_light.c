@@ -1,25 +1,15 @@
 #include <miniRT.h>
 
-t_light	create_point_light(t_vector pos, double bright)
-{
-	t_light	light;
-
-	light.pos = pos;
-	light.bright = bright;
-
-	return (light);
-}
-
 bool	check_shadow(t_hit *hit, t_light *light)
 {
-	t_ray			shadow_ray;
+	t_ray	shadow_ray;
 	t_hit	temp;
-	double			light_distance;
+	double	light_distance;
 	
 	shadow_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, 0.001));
 	shadow_ray.direction = vector_subtract(
-			light->pos,
-			shadow_ray.origin);
+		light->pos,
+		shadow_ray.origin);
 	light_distance = vector_length(shadow_ray.direction);
 	shadow_ray.direction = vector_scale(shadow_ray.direction, 1.0 / light_distance);
 	shadow_ray.inv_dir = (t_vector){

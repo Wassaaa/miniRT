@@ -24,12 +24,12 @@
 # define TEST_BG 0x000000FF
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
-# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_NAVY)
-# define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_NAVY)
-# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_NAVY)
-# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_NAVY)
-# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_NAVY)
-# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_NAVY)
+# define TEST_PLANEF (t_vector){0, 0, 15}, (t_vector){0, 0, -1}, RGBA(COLOR_PASTEL_PINK)
+# define TEST_PLANEB (t_vector){0, 0, -45}, (t_vector){0, 0, 1}, RGBA(COLOR_PASTEL_PINK)
+# define TEST_PLANEU (t_vector){0, 15, 0}, (t_vector){0, -1, 0}, RGBA(COLOR_PASTEL_PINK)
+# define TEST_PLANED (t_vector){0, -15, 0}, (t_vector){0, 1, 0}, RGBA(COLOR_PASTEL_PINK)
+# define TEST_PLANER (t_vector){15, 0, 0}, (t_vector){-1, 0, 0}, RGBA(COLOR_PASTEL_PINK)
+# define TEST_PLANEL (t_vector){-15, 0, 0}, (t_vector){1, 0, 0}, RGBA(COLOR_PASTEL_PINK)
 # define TEST_CYLINDER (t_vector){0, 0, 5}, (t_vector){0, 0, 1}, 4, 6, RGBA(COLOR_NEON_PINK)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
 # define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
@@ -47,10 +47,9 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT_BRIGHTNESS 0.7
-# define TEST_LIGHT_POS (t_vector){0, 10, 0}
-
-# define TEST_LIGHT (t_vector){0, 10, 0}, RGBA(COLOR_WHITE), 1.0
+# define TEST_LIGHT (t_vector){0, 10, 0}, RGBA(COLOR_CYAN), 1.0
+# define TEST_LIGHT2 (t_vector){0, 10, 0}, RGBA(COLOR_RED), 1.0
+# define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
 # define TEST_AMBIENT_COL RGBA(COLOR_WHITE)
 # define TEST_AMBIENT_INT 0.1
@@ -225,7 +224,6 @@ bool			intersect(t_shape *shape, t_ray ray, double *t);
 
 t_ray			generate_ray(int x, int y);
 
-t_light			create_point_light(t_vector pos, double bright);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 

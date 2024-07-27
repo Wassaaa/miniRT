@@ -17,6 +17,7 @@
         "math.h": "c",
         "limits.h": "c",
         "math-vector.h": "c",
-        "libm-simd-decl-stubs.h": "c"
+        "libm-simd-decl-stubs.h": "c",
+        "minirt.h": "c"
     }
 }
