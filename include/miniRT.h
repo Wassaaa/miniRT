@@ -241,6 +241,7 @@ bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);
 t_aabb			box_sphere(t_shape sphere);
 t_aabb			box_cylinder(t_shape cylinder);
 t_aabb			box_line(t_shape line);
+t_aabb			box_cone(t_shape *cone);
 
 
 

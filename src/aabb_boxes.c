@@ -50,3 +50,18 @@ t_aabb	box_line(t_shape line)
 	line_box.max = vector_add(vector_max(start, end), radius_vec);
 	return (line_box);
 }
+
+t_aabb	box_cone(t_shape *cone)
+{
+	t_vector	radius_vec;
+	t_vector	start;
+	t_vector	end;
+	t_aabb		cone_box;
+
+	start = cone->pos;
+	end = vector_add(cone->pos, vector_scale(cone->dir, cone->height));
+	radius_vec = (t_vector){cone->radius, cone->radius, cone->radius};
+	cone_box.min = vector_subtract(vector_min(start, end), radius_vec);
+	cone_box.max = vector_add(vector_max(start, end), radius_vec);
+	return (cone_box);
+}
