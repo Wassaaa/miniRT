@@ -12,6 +12,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->radius = diameter * 0.5;
 	cone->height = height;
 	cone->color = color_from_int(color.r, color.g, color.b);
+	cone->box = box_cone(cone);
 	return (cone);
 }
 

@@ -8,7 +8,9 @@ int	get_pixel_color(t_ray *ray, t_hit *hit)
 		ray->origin,
 		vector_scale(ray->direction, hit->distance));
 	fix_hit_normal(hit);
-	if (hit->shape->type == WIREFRAME)
+	if (hit->shape->type == WIREFRAME
+		|| hit->shape->type == LINE
+		)
 		final_color = hit->shape->color;
 	else
 		final_color = get_diffuse(hit);
