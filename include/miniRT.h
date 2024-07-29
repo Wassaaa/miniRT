@@ -122,8 +122,8 @@
 # define MIN_FOV 10.0
 # define MAX_FOV 170.0
 
-# define PAN_AMOUNT M_PI / 14
-# define MOVE_SPEED 3.0
+# define PAN_AMOUNT M_PI / 48
+# define MOVE_SPEED 2.0
 
 //test light
 # define TEST_LIGHT (t_vector){-1, -6, -8}, RGBA(LIGHT_COLOR), 0.5

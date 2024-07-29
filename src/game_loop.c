@@ -90,25 +90,25 @@ void	adjust_fov(int direction)
 
 void	camera_adjustment(mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(UP);
-	if (keydata.key == MLX_KEY_C && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_C && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(DOWN);
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(FORWARD);
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(LEFT);
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(BACK);
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		move_camera(RIGHT);
-	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_UP && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		pan_camera(0, PAN_AMOUNT);
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		pan_camera(PAN_AMOUNT, 0);
-	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_DOWN && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		pan_camera(0, -PAN_AMOUNT);
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		pan_camera(-PAN_AMOUNT, 0);
 	if (keydata.key == MLX_KEY_PAGE_UP && keydata.action == MLX_RELEASE)
 		adjust_fov(-1);
@@ -116,11 +116,8 @@ void	camera_adjustment(mlx_key_data_t keydata)
 		adjust_fov(1);
 	if (keydata.key == MLX_KEY_B && keydata.action == MLX_RELEASE)
 		rtx()->wireframe = !rtx()->wireframe;
-	if (keydata.action == MLX_RELEASE)
-	{
-		render();
-		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
-	}
+	render();
+	printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
 
 }
 
@@ -128,4 +125,6 @@ void	key_hook(mlx_key_data_t keydata, void* param)
 {
 	(void)param;
 	camera_adjustment(keydata);
+	if (keydata.action == MLX_PRESS)
+		keydata.action = MLX_REPEAT;
 }
