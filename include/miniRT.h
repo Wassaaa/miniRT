@@ -114,13 +114,13 @@
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_CYLINDER (t_vector){0, 0, 0}, (t_vector){0.1, 0, 0}, 4, 6, RGBA(COLOR_WHITE)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(TEXT_COLOR)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE (t_vector){0, 0, 0}, 12, RGBA(COLOR_METALLIC_GOLD)
 # define TEST_CONE (t_vector){0, 0, 0}, (t_vector){1, 1, 0.000000}, 6, 7, RGBA(COLOR_MAGENTA)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 //test cam
-# define TEST_CAM_POS (t_vector){-5, 7, -4}
-# define TEST_CAM_DIR (t_vector){0, 0.2, 1}
+# define TEST_CAM_POS (t_vector){-7, 6, -14}
+# define TEST_CAM_DIR (t_vector){0.25, -0.26, 0.93}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -130,7 +130,7 @@
 # define MOVE_SPEED 2.0
 
 //test light
-# define TEST_LIGHT (t_vector){-1, -6, -8}, RGBA(LIGHT_COLOR), 1.0
+# define TEST_LIGHT (t_vector){-1, -1, -20}, RGBA(LIGHT_COLOR), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
