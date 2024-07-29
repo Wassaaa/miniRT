@@ -53,6 +53,7 @@ SRCS			=	main.c \
 					color_utils.c \
 					color_utils2.c \
 					clamp.c \
+					threads.c \
 
 ################################################################################
 # RULES

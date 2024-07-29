@@ -1,6 +1,6 @@
 #include <miniRT.h>
 
-int	get_pixel_color(t_ray *ray, t_hit *hit)
+t_color	get_pixel_color(t_ray *ray, t_hit *hit)
 {
 	t_color	final_color;
 	
@@ -14,5 +14,5 @@ int	get_pixel_color(t_ray *ray, t_hit *hit)
 		final_color = hit->shape->color;
 	else
 		final_color = get_diffuse(hit);
-	return (color_to_int(final_color));
+	return (final_color);
 }

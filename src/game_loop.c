@@ -38,6 +38,7 @@ void	pan_camera(double horizontal_angle, double vertical_angle)
 	camera->dir = vector_rotate(camera->dir, WORLD_UP, horizontal_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -vertical_angle);
 	camera->dir = vector_normalize(camera->dir);
+	fix_camera();
 }
 
 void	move_camera(t_direction dir)
@@ -116,7 +117,10 @@ void	camera_adjustment(mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_B && keydata.action == MLX_RELEASE)
 		rtx()->wireframe = !rtx()->wireframe;
 	if (keydata.action == MLX_RELEASE)
+	{
+		render();
 		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
+	}
 
 }
 
@@ -124,5 +128,4 @@ void	key_hook(mlx_key_data_t keydata, void* param)
 {
 	(void)param;
 	camera_adjustment(keydata);
-	render_scene();
 }

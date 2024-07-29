@@ -283,7 +283,7 @@ t_color			get_diffuse(t_hit *hit);
 
 void			fix_hit_normal(t_hit *hit);
 //colors
-int				get_pixel_color(t_ray *ray, t_hit *hit);
+t_color			get_pixel_color(t_ray *ray, t_hit *hit);
 int				color_to_int(t_color c);
 t_color			color_from_int(int r, int g, int b);
 t_color			color_from_hex(unsigned int hex);
@@ -294,12 +294,18 @@ t_color			color_subtract(t_color c1, t_color c2);
 t_color			color_add(t_color c1, t_color c2);
 t_color			color_create(double r, double g, double b);
 
+//init
+void			fix_camera(void);
+void			render(void);
+
 //rtx
+void			render_multi_threaded(void);
+void			render_scene(void);
 t_rtx			*rtx(void);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
-void			render_scene(void);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
+t_color				trace_ray (t_ray *ray);
 
 t_ray			generate_ray(int x, int y);
 

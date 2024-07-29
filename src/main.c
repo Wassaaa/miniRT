@@ -59,27 +59,20 @@ void	fix_hit_normal(t_hit *hit)
 		hit->normal = vector_normalize(vector_subtract(hit->hit_point, hit->shape->pos));
 }
 
-/*
-calculate right and up vectors based on current camera dir and WORLD_UP
-WORLD_UP x CAMERA_FORWARD = CAM_RIGHT
-CAMERA_FORWARD x CAM_RIGHT = CAM_UP
-*/
-t_vector	add_panning(t_vector vector)
+t_vector	add_panning(t_vector *vector)
 {
 	t_vector	direction;
 	t_vector	right;
 	t_vector	up;
 
-	right = vector_cross(WORLD_UP, rtx()->scene->camera.dir);
-	up = vector_cross(rtx()->scene->camera.dir, right);
+	right = rtx()->scene->camera.right;
+	up = rtx()->scene->camera.up;
 	direction = vector_add(
-		vector_scale(right, vector.x),
-		vector_scale(up, vector.y));
+		vector_scale(right, vector->x),
+		vector_scale(up, vector->y));
 	direction = vector_add(
 		direction,
-		vector_scale(rtx()->scene->camera.dir, vector.z));
-	rtx()->scene->camera.right = right;
-	rtx()->scene->camera.up = up;
+		vector_scale(rtx()->scene->camera.dir, vector->z));
 	return (direction);
 }
 
@@ -96,7 +89,7 @@ t_ray	generate_ray(int x, int y)
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
 	vector.z = 1;
-	ray.direction = add_panning(vector);
+	ray.direction = add_panning(&vector);
 	ray.direction = vector_normalize(ray.direction);
 	ray.inv_dir = (t_vector){
 		1.0 / ray.direction.x,
@@ -176,7 +169,7 @@ t_hit	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
-int trace_ray (t_ray *ray)
+t_color trace_ray (t_ray *ray)
 {
 	t_hit	hit;
 
@@ -187,14 +180,14 @@ int trace_ray (t_ray *ray)
 		hit.hit |= intersect_bvh(rtx()->bvh, *ray, &hit);
 	hit.hit |= check_unbound(ray, &hit);
 	if (!hit.hit)
-		return (TEST_BG);
+		return (color_from_hex(TEST_BG));
 	return (get_pixel_color(ray, &hit));
 }
 
 void	render_scene(void)
 {
 	t_ray	ray;
-	int		color;
+	t_color	color;
 	int		x;
 	int		y;
 
@@ -206,7 +199,7 @@ void	render_scene(void)
 		{
 			ray = generate_ray(x, y);
 			color = trace_ray(&ray);
-			mlx_put_pixel(rtx()->img, x, y, color);
+			mlx_put_pixel(rtx()->img, x, y, color_to_int(color));
 			x++;
 		}
 		y++;
@@ -333,17 +326,28 @@ void	start_mlx(void)
 	rtx()->height = HEIGHT;
 	mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0);
 }
+/*
+calculate right and up vectors based on current camera dir and WORLD_UP
+WORLD_UP x CAMERA_FORWARD = CAM_RIGHT
+CAMERA_FORWARD x CAM_RIGHT = CAM_UP
+*/
+void	init_camera(void)
+{
+	t_scene		*scene;
+
+	scene = rtx()->scene;
+	scene->camera.pos = TEST_CAM_POS;
+	scene->camera.dir = vector_normalize(TEST_CAM_DIR);
+	scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
+	fix_camera();
+}
 
 void	setup_scene(void)
 {
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
 	rtx()->scene->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
 	rtx()->scene->ambient = color_scale(rtx()->scene->ambient, TEST_AMBIENT_INT);
-	rtx()->scene->camera.pos = TEST_CAM_POS;
-	rtx()->scene->camera.dir = vector_normalize(TEST_CAM_DIR);
-	rtx()->scene->camera.right = TEST_CAM_DIR;
-	rtx()->scene->camera.up = TEST_CAM_DIR;
-	rtx()->scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
+	init_camera();
 	get_shapes();
 	get_lights();
 }
@@ -372,11 +376,27 @@ void	loop_hook(void *data)
 	printf("\e[7;1HCache Hits [%d]\e[K\n", rtx()->cache_hits);
 }
 
+void	fix_camera(void)
+{
+	t_scene	*scene;
+
+	scene = rtx()->scene;
+	scene->camera.right = vector_cross(WORLD_UP, scene->camera.dir);
+	scene->camera.right = vector_normalize(scene->camera.right);
+	scene->camera.up = vector_cross(scene->camera.dir, scene->camera.right);
+	scene->camera.up = vector_normalize(scene->camera.up);
+}
+void	render(void)
+{
+	render_multi_threaded();
+	// render_scene();	
+}
+
 int	main(void)
 {
 	start_mlx();
 	setup_scene();
-	render_scene();
+	render();
 	mlx_key_hook(rtx()->mlx, key_hook, NULL);
 	mlx_loop_hook(rtx()->mlx, loop_hook, NULL);
 	mlx_loop(rtx()->mlx);
