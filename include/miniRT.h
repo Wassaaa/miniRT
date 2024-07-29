@@ -112,7 +112,7 @@
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANER (t_vector){30, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
-# define TEST_CYLINDER (t_vector){0, 0, 0}, (t_vector){0.707107, 0.707107, 0.000000}, 4, 6, RGBA(COLOR_WHITE)
+# define TEST_CYLINDER (t_vector){0, 0, 0}, (t_vector){0.1, 0, 0}, 4, 6, RGBA(COLOR_WHITE)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(TEXT_COLOR)
 # define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_CONE (t_vector){0, 0, 0}, (t_vector){1, 1, 0.000000}, 6, 7, RGBA(COLOR_MAGENTA)

@@ -57,12 +57,12 @@ t_color	get_diffuse(t_hit *hit)
 		{
 			intensity = diffuse_one(current_light, hit);
 			light_contribution = color_scale(current_light->color, intensity);
-			light_contribution = color_multiply(light_contribution, hit->shape->color);
+			// light_contribution = color_multiply(light_contribution, hit->shape->color); //change color to texture color
 			total_light = color_add(total_light, light_contribution);
 		}
 		lights = lights->next;
 	}
-	light_contribution = color_multiply(rtx()->scene->ambient, hit->shape->color);
+	// light_contribution = color_multiply(rtx()->scene->ambient, hit->shape->color);
 	total_light = color_add(total_light, light_contribution);
 	return (color_clamp(total_light));
 }

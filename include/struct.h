@@ -94,6 +94,7 @@ typedef struct s_shape
 	t_aabb			box;
 	double			height;
 	double			half_height;
+	mlx_texture_t	*texture;
 }	t_shape;
 
 typedef struct s_hit
