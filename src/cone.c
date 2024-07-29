@@ -7,7 +7,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone = ft_calloc(1, sizeof(t_shape));
 	cone->type = CONE;
 	cone->pos = pos;
-	cone->dir = vector_scale(dir, -1); 
+	cone->dir = check_dir(vector_scale(dir, -1)); 
 	cone->diameter = diameter;
 	cone->radius = diameter * 0.5;
 	cone->height = height;

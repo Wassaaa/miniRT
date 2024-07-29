@@ -1,5 +1,18 @@
 #include <miniRT.h>
 
+t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
+{
+	t_shape	*plane;
+
+	plane = ft_calloc(1, sizeof(t_shape));
+	plane->type = PLANE;
+	plane->pos = pos;
+	plane->dir = check_dir(dir);
+	plane->color = color_from_int(color.r, color.g, color.b);
+
+	return (plane);
+}
+
 int	intersect_plane(t_ray ray, t_shape plane, double *t)
 {
 	double denominator;

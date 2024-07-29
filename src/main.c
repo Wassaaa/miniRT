@@ -22,35 +22,6 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	return (sphere);
 }
 
-t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
-{
-	t_shape	*plane;
-
-	plane = ft_calloc(1, sizeof(t_shape));
-	plane->type = PLANE;
-	plane->pos = pos;
-	plane->dir = dir;
-	plane->color = color_from_int(color.r, color.g, color.b);
-
-	return (plane);
-}
-
-t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color)
-{
-	t_shape	*cylinder;
-
-	cylinder = ft_calloc(1, sizeof(t_shape));
-	cylinder->type = CYLINDER;
-	cylinder->pos = pos;
-	cylinder->dir = dir;
-	cylinder->diameter = diameter;
-	cylinder->radius = diameter * 0.5;
-	cylinder->height = height;
-	cylinder->color = color_from_int(color.r, color.g, color.b);
-	cylinder->box = box_cylinder(*cylinder);
-	return (cylinder);
-}
-
 void	fix_hit_normal(t_hit *hit)
 {
 	if (hit->shape->type == PLANE)
@@ -225,72 +196,71 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANED)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
-	// HAPPY
-	make_aabb_line(&rtx()->shapes, LH1, LINE);
-	make_aabb_line(&rtx()->shapes, LH2, LINE);
-	make_aabb_line(&rtx()->shapes, LH3, LINE);
+	// // HAPPY
+	// make_aabb_line(&rtx()->shapes, LH1, LINE);
+	// make_aabb_line(&rtx()->shapes, LH2, LINE);
+	// make_aabb_line(&rtx()->shapes, LH3, LINE);
 
-	make_aabb_line(&rtx()->shapes, LA1, LINE);
-	make_aabb_line(&rtx()->shapes, LA2, LINE);
-	make_aabb_line(&rtx()->shapes, LA3, LINE);
+	// make_aabb_line(&rtx()->shapes, LA1, LINE);
+	// make_aabb_line(&rtx()->shapes, LA2, LINE);
+	// make_aabb_line(&rtx()->shapes, LA3, LINE);
 
-	make_aabb_line(&rtx()->shapes, LP1, LINE);
-	make_aabb_line(&rtx()->shapes, LP2, LINE);
-	make_aabb_line(&rtx()->shapes, LP3, LINE);
-	make_aabb_line(&rtx()->shapes, LP4, LINE);
+	// make_aabb_line(&rtx()->shapes, LP1, LINE);
+	// make_aabb_line(&rtx()->shapes, LP2, LINE);
+	// make_aabb_line(&rtx()->shapes, LP3, LINE);
+	// make_aabb_line(&rtx()->shapes, LP4, LINE);
 
-	make_aabb_line(&rtx()->shapes, LP5, LINE);
-	make_aabb_line(&rtx()->shapes, LP6, LINE);
-	make_aabb_line(&rtx()->shapes, LP7, LINE);
-	make_aabb_line(&rtx()->shapes, LP8, LINE);
+	// make_aabb_line(&rtx()->shapes, LP5, LINE);
+	// make_aabb_line(&rtx()->shapes, LP6, LINE);
+	// make_aabb_line(&rtx()->shapes, LP7, LINE);
+	// make_aabb_line(&rtx()->shapes, LP8, LINE);
 
-	make_aabb_line(&rtx()->shapes, LY1, LINE);
-	make_aabb_line(&rtx()->shapes, LY2, LINE);
-	make_aabb_line(&rtx()->shapes, LY3, LINE);
+	// make_aabb_line(&rtx()->shapes, LY1, LINE);
+	// make_aabb_line(&rtx()->shapes, LY2, LINE);
+	// make_aabb_line(&rtx()->shapes, LY3, LINE);
 
-	// BIRTHDAY
-	make_aabb_line(&rtx()->shapes, LB1, LINE);
-	make_aabb_line(&rtx()->shapes, LB2, LINE);
-	make_aabb_line(&rtx()->shapes, LB3, LINE);
-	make_aabb_line(&rtx()->shapes, LB4, LINE);
-	make_aabb_line(&rtx()->shapes, LB5, LINE);
-	make_aabb_line(&rtx()->shapes, LB6, LINE);
-	make_aabb_line(&rtx()->shapes, LB7, LINE);
+	// // BIRTHDAY
+	// make_aabb_line(&rtx()->shapes, LB1, LINE);
+	// make_aabb_line(&rtx()->shapes, LB2, LINE);
+	// make_aabb_line(&rtx()->shapes, LB3, LINE);
+	// make_aabb_line(&rtx()->shapes, LB4, LINE);
+	// make_aabb_line(&rtx()->shapes, LB5, LINE);
+	// make_aabb_line(&rtx()->shapes, LB6, LINE);
+	// make_aabb_line(&rtx()->shapes, LB7, LINE);
 
-	make_aabb_line(&rtx()->shapes, LI1, LINE);
+	// make_aabb_line(&rtx()->shapes, LI1, LINE);
 
-	make_aabb_line(&rtx()->shapes, LR1, LINE);
-	make_aabb_line(&rtx()->shapes, LR2, LINE);
-	make_aabb_line(&rtx()->shapes, LR3, LINE);
-	make_aabb_line(&rtx()->shapes, LR4, LINE);
-	make_aabb_line(&rtx()->shapes, LR5, LINE);
+	// make_aabb_line(&rtx()->shapes, LR1, LINE);
+	// make_aabb_line(&rtx()->shapes, LR2, LINE);
+	// make_aabb_line(&rtx()->shapes, LR3, LINE);
+	// make_aabb_line(&rtx()->shapes, LR4, LINE);
+	// make_aabb_line(&rtx()->shapes, LR5, LINE);
 
-	make_aabb_line(&rtx()->shapes, LT1, LINE);
-	make_aabb_line(&rtx()->shapes, LT2, LINE);
+	// make_aabb_line(&rtx()->shapes, LT1, LINE);
+	// make_aabb_line(&rtx()->shapes, LT2, LINE);
 
-	make_aabb_line(&rtx()->shapes, LH4, LINE);
-	make_aabb_line(&rtx()->shapes, LH5, LINE);
-	make_aabb_line(&rtx()->shapes, LH6, LINE);
+	// make_aabb_line(&rtx()->shapes, LH4, LINE);
+	// make_aabb_line(&rtx()->shapes, LH5, LINE);
+	// make_aabb_line(&rtx()->shapes, LH6, LINE);
 
-	make_aabb_line(&rtx()->shapes, LD1, LINE);
-	make_aabb_line(&rtx()->shapes, LD2, LINE);
-	make_aabb_line(&rtx()->shapes, LD3, LINE);
-	make_aabb_line(&rtx()->shapes, LD4, LINE);
+	// make_aabb_line(&rtx()->shapes, LD1, LINE);
+	// make_aabb_line(&rtx()->shapes, LD2, LINE);
+	// make_aabb_line(&rtx()->shapes, LD3, LINE);
+	// make_aabb_line(&rtx()->shapes, LD4, LINE);
 
-	make_aabb_line(&rtx()->shapes, LA5, LINE);
-	make_aabb_line(&rtx()->shapes, LA6, LINE);
-	make_aabb_line(&rtx()->shapes, LA7, LINE);
+	// make_aabb_line(&rtx()->shapes, LA5, LINE);
+	// make_aabb_line(&rtx()->shapes, LA6, LINE);
+	// make_aabb_line(&rtx()->shapes, LA7, LINE);
 
-	make_aabb_line(&rtx()->shapes, LY4, LINE);
-	make_aabb_line(&rtx()->shapes, LY5, LINE);
-	make_aabb_line(&rtx()->shapes, LY6, LINE);
+	// make_aabb_line(&rtx()->shapes, LY4, LINE);
+	// make_aabb_line(&rtx()->shapes, LY5, LINE);
+	// make_aabb_line(&rtx()->shapes, LY6, LINE);
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
-	//ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }

@@ -1,5 +1,34 @@
 #include <miniRT.h>
 
+t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color)
+{
+	t_shape	*cylinder;
+
+	cylinder = ft_calloc(1, sizeof(t_shape));
+	cylinder->type = CYLINDER;
+	cylinder->pos = pos;
+	cylinder->dir = check_dir(dir);
+	cylinder->diameter = diameter;
+	cylinder->radius = diameter * 0.5;
+	cylinder->height = height;
+	cylinder->color = color_from_int(color.r, color.g, color.b);
+	cylinder->box = box_cylinder(*cylinder);
+	return (cylinder);
+}
+
+t_vector	check_dir(t_vector dir)
+{
+	if (dir.x > 1 || dir.y > 1 || dir.z > 1 || dir.x < -1 || dir.y < -1 || dir.z < -1)
+		printf("Wrong direction input");
+	if (vector_length(dir) != 1)
+	{
+		printf("Dirction is not normalized");
+		return (vector_normalize(dir));
+	}
+	return (dir);
+}
+
+
 t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray ray, t_shape shape)
 {
 	t_quadratic_coeffs	coeffs;
