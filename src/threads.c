@@ -2,7 +2,7 @@
 #include <pthread.h>
 
 #define NUM_THREADS 12
-#define SSAA 4
+#define SSAA 1
 
 typedef struct s_thread_data
 {
@@ -12,23 +12,63 @@ typedef struct s_thread_data
 	int		end_y;
 }	t_thread_data;
 
+// t_color	super_sample(int x, int y)
+// {
+// 	int					i;
+// 	double				offset[2];
+// 	t_color				pixel_color;
+// 	t_ray				ray;
+// 	unsigned int		seed;
+
+// 	seed =  rtx()->seed ^ (unsigned int)pthread_self() ^
+// 		(unsigned int)(mlx_get_time() * 100000);
+// 	pixel_color = color_create(0, 0, 0);
+// 	i = 0;
+// 	while (i++ < SSAA)
+// 	{
+// 		offset[0] = (double)rand_r(&seed) / RAND_MAX;
+// 		offset[1] = (double)rand_r(&seed) / RAND_MAX;
+// 		ray = generate_ray(x + offset[0], y + offset[1]);
+// 		pixel_color = color_add(pixel_color, trace_ray(&ray));
+// 	}
+// 	return (pixel_color);
+// }
+
+static inline t_ray	sub_ray(int x, int y, int j, int i, int	grid_size)
+{
+	double				off_x;
+	double				off_y;
+	unsigned int		seed;
+	static unsigned int	hits = 0;
+
+	seed =  rtx()->seed ^ (unsigned int)pthread_self() ^
+		(unsigned int)(mlx_get_time() * 100000) ^ ++hits;
+	off_x = ((double)j + (double)rand_r(&seed) / RAND_MAX) / grid_size;
+	off_y = ((double)i + (double)rand_r(&seed) / RAND_MAX) / grid_size;
+	return (generate_ray(x + off_x, y + off_y));
+}
+
 t_color	super_sample(int x, int y)
 {
-	int				i;
-	double			offset[2];
-	t_color			pixel_color;
-	t_ray			ray;
-	unsigned int	seed;
+	int		i;
+	int		j;
+	t_color	pixel_color;
+	t_ray	ray;
+	int		grid_size;
 
-	seed = time(NULL) ^ (unsigned int)pthread_self();
+	grid_size = rtx()->grid_size;
 	pixel_color = color_create(0, 0, 0);
-	i = 0;
-	while (i++ < SSAA)
+	j = 0;
+	while (j < grid_size)
 	{
-		offset[0] = (double)rand_r(&seed) / RAND_MAX;
-		offset[1] = (double)rand_r(&seed) / RAND_MAX;
-		ray = generate_ray(x + offset[0], y + offset[1]);
-		pixel_color = color_add(pixel_color, trace_ray(&ray));
+		i = 0;
+		while (i < grid_size)
+		{
+			ray = sub_ray(x, y, j, i, grid_size);
+			pixel_color = color_add(pixel_color, trace_ray(&ray));
+			i++;
+		}
+		j++;
 	}
 	return (pixel_color);
 }
@@ -63,6 +103,8 @@ void	render_multi_threaded(void)
 	t_thread_data	data[NUM_THREADS];
 	int				i;
 
+	rtx()->grid_size = sqrt(SSAA);
+	rtx()->ssaa = SSAA;
 	i = 0;
 	while (i < NUM_THREADS)
 	{

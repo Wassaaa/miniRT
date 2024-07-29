@@ -344,6 +344,7 @@ void	init_camera(void)
 
 void	setup_scene(void)
 {
+	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
 	rtx()->scene->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
 	rtx()->scene->ambient = color_scale(rtx()->scene->ambient, TEST_AMBIENT_INT);
@@ -389,7 +390,7 @@ void	fix_camera(void)
 void	render(void)
 {
 	render_multi_threaded();
-	// render_scene();	
+	// render_scene();
 }
 
 int	main(void)

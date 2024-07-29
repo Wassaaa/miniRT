@@ -115,8 +115,8 @@
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 //test cam
-# define TEST_CAM_POS (t_vector){-13, 0, -22}
-# define TEST_CAM_DIR (t_vector){0.42, 0, 0.9}
+# define TEST_CAM_POS (t_vector){-5, 7, -4}
+# define TEST_CAM_DIR (t_vector){0, 0.2, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -248,18 +248,21 @@ typedef struct s_bvh
 
 typedef struct s_rtx
 {
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_list		*shapes;
-	t_list		*unbound;
-	t_scene		*scene;
-	t_bvh		*bvh;
-	t_bvh		*wireframe_bvh;
-	int			width;
-	int			height;
-	int			bvh_node_id;
-	int			cache_hits;
-	int			wireframe;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_list			*shapes;
+	t_list			*unbound;
+	t_scene			*scene;
+	t_bvh			*bvh;
+	t_bvh			*wireframe_bvh;
+	int				width;
+	int				height;
+	int				bvh_node_id;
+	int				cache_hits;
+	int				wireframe;
+	int				grid_size;
+	int				ssaa;
+	unsigned int	seed;
 }	t_rtx;
 
 //basic vector equation
