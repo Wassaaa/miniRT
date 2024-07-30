@@ -18,6 +18,8 @@
 # define HEIGHT 600
 # define M_PI 3.14159265358979323846
 
+# define EPSILON 1e-6
+
 # define WORLD_UP (t_vector){0, 1, 0}
 
 # define AXIS_X 1

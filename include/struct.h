@@ -93,6 +93,7 @@ typedef struct s_shape
 	t_color			color;
 	t_aabb			box;
 	double			height;
+	double			half_height;
 }	t_shape;
 
 typedef struct s_hit

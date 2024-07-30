@@ -11,6 +11,7 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->diameter = diameter;
 	cylinder->radius = diameter * 0.5;
 	cylinder->height = height;
+	cylinder->half_height = height / 2;
 	cylinder->color = color_from_int(color.r, color.g, color.b);
 	cylinder->box = box_cylinder(*cylinder);
 	return (cylinder);

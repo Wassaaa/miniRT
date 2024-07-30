@@ -5,7 +5,6 @@
 
 # define MAX_DEPTH 10
 # define AABB_LINE_THICKNESS 0.1
-# define EPSILON 1e-6
 
 
 static const t_color depth_colors[MAX_DEPTH] = {

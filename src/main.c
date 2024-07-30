@@ -22,10 +22,40 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	return (sphere);
 }
 
+t_vector	cylinder_normal(t_hit *hit)
+{
+	t_shape		*shape;
+	double		hit_height;
+	t_vector	axis_point;
+	t_vector	normal;
+
+	shape = hit->shape;
+	hit_height = vector_dot(
+		vector_subtract(hit->hit_point, shape->pos), shape->dir);
+	if (hit_height < (-shape->half_height - EPSILON) ||
+		hit_height > (shape->half_height - EPSILON))
+	{
+		if (hit_height < 0)
+			normal = vector_scale(shape->dir, -1);
+		else
+			normal = shape->dir;
+	}
+	else
+	{
+		axis_point = vector_add(shape->pos,
+			vector_scale(shape->dir, hit_height));
+		normal = vector_normalize(
+			vector_subtract(hit->hit_point, hit->normal));
+	}
+	return (normal);
+}
+
 void	fix_hit_normal(t_hit *hit)
 {
 	if (hit->shape->type == PLANE)
 		hit->normal = hit->shape->dir;
+	else if (hit->shape->type == CYLINDER)
+		hit->normal = cylinder_normal(hit);
 	else
 		hit->normal = vector_normalize(vector_subtract(hit->hit_point, hit->shape->pos));
 }
