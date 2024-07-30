@@ -40,6 +40,45 @@ double	diffuse_one(t_light *light, t_hit *hit)
 	return (intensity);
 }
 
+t_color	light_one(t_light *light, t_hit *hit)
+{
+	t_vector	light_dir;
+	double		intensity;
+	t_color		contribution;
+
+	light_dir = vector_normalize(
+		vector_subtract(light->pos, hit->hit_point));
+	intensity = vector_dot(hit->normal, light_dir);
+	intensity = fmax(intensity, 0.0);
+
+	contribution = color_scale(contribution, light->bright * intensity);
+	return (contribution);
+}
+
+t_lighting	calc_lighting(t_hit *hit, int depth)
+{
+	t_list		*lights;
+	t_light		*light;
+	t_lighting	lighting;
+	t_color		contribution;
+	t_color		total;
+
+	total = color_from_int(0, 0, 0);
+	lighting.ambient = rtx()->scene->ambient;
+	while (lights)
+	{
+		light = (t_light *)lights->content;
+		if (!check_shadow(hit, light))
+		{
+			contribution = light_one((light, hit);
+			total = color_add(total, contribution);
+		}
+		lights = lights->next;
+	}
+	lighting.direct = total;
+	lighting.indirect = bouce_it(hit, depth - 1);
+}
+
 t_color	get_diffuse(t_hit *hit)
 {
 	t_list	*lights;

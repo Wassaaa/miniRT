@@ -39,6 +39,13 @@ typedef struct s_color
 	double	b;
 }			t_color;
 
+typedef struct s_lighting
+{
+	t_color	direct;
+	t_color	indirect;
+	t_color	ambient;
+}			t_lighting;
+
 typedef struct s_ray
 {
 	t_vector	origin;
