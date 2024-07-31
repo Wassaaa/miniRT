@@ -69,6 +69,7 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit)
 	t_lighting	lighting;
 	t_color		material_color;
 	t_color		final_color;
+	t_color		diffuse_and_ambient;
 	
 	hit->hit_point = vector_add(
 		ray->origin,
@@ -82,11 +83,9 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit)
 	{
 		lighting = calc_lighting(hit);
 		material_color = add_material(hit);
-		lighting.direct = color_multiply(material_color, lighting.direct);
-		lighting.indirect = color_multiply(material_color, lighting.indirect);
-		lighting.ambient = color_multiply(material_color, lighting.ambient);
-		final_color = color_add(lighting.indirect, lighting.direct);
-		final_color = color_add(final_color, lighting.ambient);
+		diffuse_and_ambient = color_add(lighting.diffuse, lighting.ambient);
+		final_color = color_multiply(diffuse_and_ambient, material_color);
+		final_color = color_add(final_color, lighting.specular);
 	}
 	return (final_color);
 }

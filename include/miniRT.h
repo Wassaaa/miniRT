@@ -29,7 +29,7 @@
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_color){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
 
-# define WALL_COLOR COLOR_WHITE
+# define WALL_COLOR COLOR_NAVY
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 // # define WALL_COLOR COLOR_SKY_BLUE
@@ -114,10 +114,12 @@
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_CYLINDER (t_vector){0, 0, 0}, (t_vector){0.1, 0, 0}, 4, 6, RGBA(COLOR_WHITE)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(TEXT_COLOR)
-# define TEST_SPHERE (t_vector){28, 0, 11}, 12, RGBA(COLOR_RED)
+# define TEST_SPHERE (t_vector){28, 0, 11}, 12, RGBA(COLOR_BLACK)
 # define TEST_CONE (t_vector){0, 0, 0}, (t_vector){1, 1, 0.000000}, 6, 7, RGBA(COLOR_MAGENTA)
-# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_GREEN)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
+
+# define SHINE 1200
 //test cam
 # define TEST_CAM_POS (t_vector){15, 0, 0}
 # define TEST_CAM_DIR (t_vector){0.25, -0.26, 0.93}
@@ -130,7 +132,7 @@
 # define MOVE_SPEED 2.0
 
 //test light
-# define TEST_LIGHT (t_vector){-1, -1, -20}, RGBA(LIGHT_COLOR), 1.0
+# define TEST_LIGHT (t_vector){-1, -1, -20}, RGBA(COLOR_WHITE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
@@ -161,7 +163,6 @@ int				clampi(int value, int min, int max);
 double			clampd(double value, double min, double max);
 
 //lights
-t_color			get_diffuse(t_hit *hit);
 
 void			fix_hit_normal(t_hit *hit);
 //colors

@@ -26,20 +26,46 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	return (false);
 }
 
-t_color	light_one(t_light *light, t_hit *hit)
+double	get_specular(t_hit *hit, t_vector *light_dir)
+{
+	t_vector	reflection;
+	t_vector	hit_view;
+	double		reflection_angle;
+	double		specular;
+
+	hit_view = vector_normalize(vector_scale(hit->hit_point, -1));
+	reflection_angle = vector_dot(*light_dir, hit->normal) * 2.0;
+	reflection = vector_scale(hit->normal, reflection_angle);
+	reflection = vector_subtract(reflection, *light_dir);
+	specular = fmax(vector_dot(reflection, hit_view), 0.0);
+	specular = pow(specular, hit->shape->shine);
+	return (specular);
+}
+
+double	get_diffuse(t_hit *hit, t_vector *light_dir)
+{
+	double	diffuse;
+
+	diffuse = fmax(vector_dot(hit->normal, *light_dir), 0.0);
+	return (diffuse);
+}
+
+void	light_one(t_lighting *lighting, t_light *light, t_hit *hit)
 {
 	t_vector	light_dir;
-	double		intensity;
-	t_color		contribution;
+	double		diff_int;
+	double		spec_int;
+	t_color		diff_contrib;
+	t_color		spec_contrib;
 
-	contribution = light->color;
 	light_dir = vector_normalize(
 		vector_subtract(light->pos, hit->hit_point));
-	intensity = vector_dot(hit->normal, light_dir);
-	intensity = fmax(intensity, 0.0);
-
-	contribution = color_scale(contribution, light->bright * intensity);
-	return (contribution);
+	diff_int = get_diffuse(hit, &light_dir);
+	spec_int = get_specular(hit, &light_dir);
+	diff_contrib = color_scale(light->color, light->bright * diff_int);
+	spec_contrib = color_scale(light->color, light->bright * spec_int);
+	lighting->diffuse = color_add(lighting->diffuse, diff_contrib);
+	lighting->specular = color_add(lighting->specular, spec_contrib);
 }
 
 t_lighting	calc_lighting(t_hit *hit)
@@ -47,24 +73,16 @@ t_lighting	calc_lighting(t_hit *hit)
 	t_list		*lights;
 	t_light		*light;
 	t_lighting	lighting;
-	t_color		contribution;
-	t_color		total;
 
 	lights = rtx()->scene->lights;
 	lighting = (t_lighting){{0, 0, 0},{0, 0, 0},{0, 0, 0}};
-	contribution = color_create(0, 0, 0);
-	total = color_create(0, 0, 0);
 	lighting.ambient = rtx()->scene->ambient;
 	while (lights)
 	{
 		light = (t_light *)lights->content;
 		if (!check_shadow(hit, light))
-		{
-			contribution = light_one(light, hit);
-			total = color_add(total, contribution);
-		}
+			light_one(&lighting, light, hit);
 		lights = lights->next;
 	}
-	lighting.direct = total;
 	return (lighting);
 }

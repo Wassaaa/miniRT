@@ -41,8 +41,8 @@ typedef struct s_color
 
 typedef struct s_lighting
 {
-	t_color	direct;
-	t_color	indirect;
+	t_color	diffuse;
+	t_color	specular;
 	t_color	ambient;
 }			t_lighting;
 
@@ -102,6 +102,7 @@ typedef struct s_shape
 	double			height;
 	double			half_height;
 	double			reflectivity;
+	double			shine;
 	mlx_texture_t	*texture;
 }	t_shape;
 
