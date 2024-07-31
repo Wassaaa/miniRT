@@ -11,8 +11,8 @@
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0, -14}
-# define TEST_CAM_DIR (t_vector){0, 0, 1}
+# define TEST_CAM_POS (t_vector){0, 0.8, -22}
+# define TEST_CAM_DIR (t_vector){0, -0.2, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -21,8 +21,9 @@
 # define PAN_AMOUNT M_PI / 14
 # define MOVE_SPEED 3.0
 
-//test light
-# define TEST_LIGHT_BRIGHTNESS 0.7
-# define TEST_LIGHT_POS (t_vector){0, 13, 0}
+# define TEST_LIGHT (t_vector){0, 13, 0}, RGBA(COLOR_PASTEL_BLUE), 1.0
+# define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
+# define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
-# define TEST_AMBIENT 0.1
+# define TEST_AMBIENT_COL RGBA(COLOR_RED)
+# define TEST_AMBIENT_INT 0.2

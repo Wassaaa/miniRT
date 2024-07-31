@@ -28,7 +28,7 @@ t_vector	cylinder_normal(t_hit *hit)
 {
 	t_shape		*shape;
 	double		hit_height;
-	t_vector	axis_point;
+	// t_vector	axis_point;
 	t_vector	normal;
 
 	shape = hit->shape;
@@ -44,8 +44,8 @@ t_vector	cylinder_normal(t_hit *hit)
 	}
 	else
 	{
-		axis_point = vector_add(shape->pos,
-			vector_scale(shape->dir, hit_height));
+		// axis_point = vector_add(shape->pos,
+		// 	vector_scale(shape->dir, hit_height));
 		normal = vector_normalize(
 			vector_subtract(hit->hit_point, hit->normal));
 	}
@@ -311,7 +311,7 @@ t_light	*make_light(t_vector pos, t_color color, double birght)
 void	get_lights(void)
 {
 	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
-	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
+	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT3)));
 }
