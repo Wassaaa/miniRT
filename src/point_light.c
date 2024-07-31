@@ -26,26 +26,13 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	return (false);
 }
 
-
-double	diffuse_one(t_light *light, t_hit *hit)
-{
-	t_vector	light_dir;
-	double		intensity;
-
-	light_dir = vector_normalize(
-		vector_subtract(light->pos, hit->hit_point));
-	intensity = vector_dot(hit->normal, light_dir);
-	intensity = fmax(intensity, 0.0);
-	intensity *= light->bright;
-	return (intensity);
-}
-
 t_color	light_one(t_light *light, t_hit *hit)
 {
 	t_vector	light_dir;
 	double		intensity;
 	t_color		contribution;
 
+	contribution = light->color;
 	light_dir = vector_normalize(
 		vector_subtract(light->pos, hit->hit_point));
 	intensity = vector_dot(hit->normal, light_dir);
@@ -55,7 +42,7 @@ t_color	light_one(t_light *light, t_hit *hit)
 	return (contribution);
 }
 
-t_lighting	calc_lighting(t_hit *hit, int depth)
+t_lighting	calc_lighting(t_hit *hit)
 {
 	t_list		*lights;
 	t_light		*light;
@@ -63,42 +50,21 @@ t_lighting	calc_lighting(t_hit *hit, int depth)
 	t_color		contribution;
 	t_color		total;
 
-	total = color_from_int(0, 0, 0);
+	lights = rtx()->scene->lights;
+	lighting = (t_lighting){{0, 0, 0},{0, 0, 0},{0, 0, 0}};
+	contribution = color_create(0, 0, 0);
+	total = color_create(0, 0, 0);
 	lighting.ambient = rtx()->scene->ambient;
 	while (lights)
 	{
 		light = (t_light *)lights->content;
 		if (!check_shadow(hit, light))
 		{
-			contribution = light_one((light, hit);
+			contribution = light_one(light, hit);
 			total = color_add(total, contribution);
 		}
 		lights = lights->next;
 	}
 	lighting.direct = total;
-	lighting.indirect = bouce_it(hit, depth - 1);
-}
-
-t_color	get_diffuse(t_hit *hit)
-{
-	t_list	*lights;
-	t_light	*current_light;
-	t_color	total_light;
-	t_color	light_contribution;
-	double	intensity;
-
-	total_light = rtx()->scene->ambient;
-	lights = rtx()->scene->lights;
-	while (lights)
-	{
-		current_light = (t_light *)lights->content;
-		if (!check_shadow(hit, current_light))
-		{
-			intensity = diffuse_one(current_light, hit);
-			light_contribution = color_scale(current_light->color, intensity);
-			total_light = color_add(total_light, light_contribution);
-		}
-		lights = lights->next;
-	}
-	return (color_clamp(total_light));
+	return (lighting);
 }
