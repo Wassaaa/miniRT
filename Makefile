@@ -9,7 +9,7 @@ AGGR_OPTI		=	-mavx2 -mfma -fno-exceptions
 OPTIMIZATION	=	-Ofast -march=native -flto -fno-signed-zeros \
 					-fno-trapping-math -funroll-loops \
 					$(AGGR_OPTI)
-CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) $(OPTIMIZATION)
+CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) #$(OPTIMIZATION)
 
 ################################################################################
 # LIBFT
@@ -44,7 +44,6 @@ SRCS			=	main.c \
 					bvh.c \
 					intersect_bvh.c \
 					point_light.c \
-					 \
 					aabb_intersect_line.c \
 					aabb_generate_rays.c \
 					cone.c \
@@ -55,6 +54,7 @@ SRCS			=	main.c \
 					clamp.c \
 					threads.c \
 					normal.c \
+					uv.c \
 
 ################################################################################
 # RULES

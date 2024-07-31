@@ -11,6 +11,11 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	plane->color = color_from_int(color.r, color.g, color.b);
 	plane->shine = SHINE;
 	plane->reflectivity = 0.0;
+	// plane->texture = mlx_load_png("textures/moon.png");
+	// plane->image = mlx_texture_to_image(rtx()->mlx, plane->texture);
+	plane->texture = NULL;
+	plane->image = NULL;
+	plane->checkerboard = 1;
 
 	return (plane);
 }

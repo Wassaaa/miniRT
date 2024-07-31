@@ -19,6 +19,7 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
+# define SCALE 8.0
 
 # define WORLD_UP (t_vector){0, 1, 0}
 
@@ -153,24 +154,25 @@ typedef struct s_aabb t_aabb;
 t_vector	check_dir(t_vector dir);
 
 //basic vector equation
-t_vector		vector_add(t_vector a, t_vector b);
-t_vector		vector_subtract(t_vector a, t_vector b);
-t_vector		vector_scale(t_vector a, double scalar);
-double			vector_dot(t_vector a, t_vector b);
-t_vector		vector_cross(t_vector a, t_vector b);
-double			vector_length(t_vector a);
-t_vector		vector_normalize(t_vector a);
-double			vector_length_squared(t_vector a);
-t_vector		vector_min(t_vector a, t_vector b);
-t_vector		vector_max(t_vector a, t_vector b);
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_subtract(t_vector a, t_vector b);
+t_vector	vector_scale(t_vector a, double scalar);
+double		vector_dot(t_vector a, t_vector b);
+t_vector	vector_cross(t_vector a, t_vector b);
+double		vector_length(t_vector a);
+t_vector	vector_normalize(t_vector a);
+double		vector_length_squared(t_vector a);
+t_vector	vector_min(t_vector a, t_vector b);
+t_vector	vector_max(t_vector a, t_vector b);
 
 //clamp
-int				clampi(int value, int min, int max);
-double			clampd(double value, double min, double max);
+int			clampi(int value, int min, int max);
+double		clampd(double value, double min, double max);
 
 //lights
+t_color		get_diffuse(t_hit *hit);
 
-void			fix_hit_normal(t_hit *hit);
+void		fix_hit_normal(t_hit *hit);
 //colors
 t_color			get_pixel_color(t_ray *ray, t_hit *hit, int depth);
 int				color_to_int(t_color c);
@@ -185,8 +187,8 @@ t_color			color_create(double r, double g, double b);
 t_color			color_blend(t_color c1, t_color c2, double factor);
 
 //init
-void			fix_camera(void);
-void			render(void);
+void		fix_camera(void);
+void		render(void);
 
 //rtx
 void			render_multi_threaded(void);
@@ -206,35 +208,39 @@ void			fix_hit_normal(t_hit *hit);
 //lighting
 t_lighting		calc_lighting(t_hit *hit);
 
-t_ray			generate_ray(int x, int y);
+t_ray		generate_ray(int x, int y);
 
-int				intersect_plane(t_ray ray, t_shape plane, double *t);
-int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+int			intersect_plane(t_ray ray, t_shape plane, double *t);
+int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
 
 
 //bvh
-t_bvh			*bvh(t_list *shapes);
-bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
-bool			check_unbound(t_ray *ray, t_hit *hit);
+t_bvh		*bvh(t_list *shapes);
+bool		intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
+bool		check_unbound(t_ray *ray, t_hit *hit);
 
 //shapes
-t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
-int				intersect_cone(t_ray ray, t_shape *cone, double *t);
-t_shape			*make_plane(t_vector pos, t_vector dir, t_color color);
-t_shape			*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);
+t_shape		*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
+int			intersect_cone(t_ray ray, t_shape *cone, double *t);
+t_shape		*make_plane(t_vector pos, t_vector dir, t_color color);
+t_shape		*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);
 
 //axis-aligned bounding boxes
-bool			intersect_aabb(t_ray ray, t_aabb box, double max_t);
-t_aabb			box_sphere(t_shape sphere);
-t_aabb			box_cylinder(t_shape cylinder);
-t_aabb			box_line(t_shape line);
-t_aabb			box_cone(t_shape *cone);
+bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
+t_aabb		box_sphere(t_shape sphere);
+t_aabb		box_cylinder(t_shape cylinder);
+t_aabb		box_line(t_shape line);
+t_aabb		box_cone(t_shape *cone);
 
-
+//uv
+void		sphere_uv(t_vector point, double *u, double *v);
+void		plane_uv(t_vector normal, t_vector point, double *u, double *v);
+void		cylinder_uv(t_vector point, t_vector axis, double height, double *u, double *v);
+void		cone_uv(t_vector point, t_vector apex, t_vector axis, double height, double *u, double *v);
 
 //testing
-void			make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
-bool			intersect_aabb_line(t_ray ray, t_shape *line, double *t);
-void			generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
+void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
+bool		intersect_aabb_line(t_ray ray, t_shape *line, double *t);
+void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
 #endif

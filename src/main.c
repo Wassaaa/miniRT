@@ -9,7 +9,7 @@ t_rtx	*rtx(void)
 
 t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 {
-	t_shape	*sphere;
+	t_shape		*sphere;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
@@ -20,6 +20,12 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->box = box_sphere(*sphere);
 	// sphere->texture = mlx_load_png("moon.png");
 	sphere->shine = SHINE;
+	// sphere->texture = mlx_load_png("hive.png");
+	// sphere->texture = mlx_load_png("textures/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	sphere->texture = NULL;
+	sphere->image = NULL;
+	sphere->checkerboard = 0;
 
 	return (sphere);
 }

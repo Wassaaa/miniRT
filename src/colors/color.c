@@ -1,15 +1,5 @@
 #include <miniRT.h>
 
-
-void sphere_uv(t_vector point, double *u, double *v)
-{
-	double phi = atan2(point.z, point.x);
-	double theta = asin(point.y);
-	
-	*u = 1 - (phi + M_PI) / (2 * M_PI);
-	*v = (theta + M_PI / 2) / M_PI;
-}
-
 int32_t	get_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 	int32_t	color;
@@ -17,33 +7,51 @@ int32_t	get_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	color = r << 24 | g << 16 | b << 8 | a;
 	return (color);
 }
+
 /*
 returns a normalized t_color from memory location at x y of image img
 */
-static t_color	color_from_texture(mlx_texture_t *img, uint32_t x, uint32_t y)
+static t_color	color_from_image(mlx_image_t *img, uint32_t x, uint32_t y)
 {
 	uint8_t	*start;
 	t_color	color;
 
-	start = img->pixels + (y * img->width + x) * img->bytes_per_pixel;
+	start = img->pixels + (y * img->width + x) * 4;
 	color.r = (double)*(start) / 255.0;
 	color.g = (double)*(start + 1) / 255.0;
 	color.b = (double)*(start + 2) / 255.0;
 	return (color);
 }
 
-t_color	get_texture_uv(mlx_texture_t *texture, double *u, double *v)
+t_color	get_texture_uv(mlx_image_t *image, double *u, double *v)
 {
 	int		x;
 	int		y;
 	int		width;
 	int		height;
 
-	width = texture->width - 1;
-	height = texture->height - 1;
+	width = image->width - 1;
+	height = image->height - 1;
 	x = clampi(width * *u, 0, width);
 	y = clampi(height * *v, 0, height);
-	return (color_from_texture(texture, x, y));
+	return (color_from_image(image, x, y));
+}
+
+t_color	create_checkboard(double *u, double *v, double scale)
+{
+	double	u_scaled;
+	double	v_scaled;
+	int		u_check;
+	int		v_check;
+
+	v_scaled = *v * scale;
+	u_scaled = *u * scale;
+	u_check = (int)floor(u_scaled) % 2;
+	v_check = (int)floor(v_scaled) % 2;
+	if ((u_check + v_check) % 2 == 0)
+		return ((t_color){1.0, 1.0, 1.0});
+	else
+		return ((t_color){0.0, 0.0, 0.0});
 }
 
 t_color	add_material(t_hit *hit)
@@ -52,13 +60,20 @@ t_color	add_material(t_hit *hit)
 	double	v;
 	t_shape	*shape;
 	t_color	color;
-
+	
 	shape = hit->shape;
-	if (shape->texture)
-	{
+	if (shape->type == SPHERE)
 		sphere_uv(hit->normal, &u, &v);
-		color = get_texture_uv(shape->texture, &u, &v);
-	}
+	else if (shape->type == PLANE)
+		plane_uv(hit->normal, hit->hit_point, &u, &v);
+	// else if (shape->type == CYLINDER)
+	// 	cylinder_uv(hit->normal, &u, &v);
+	// else if (shape->type == CONE)
+	// 	cone_uv(hit->normal, &u, &v);
+	if (shape->image)
+		color = get_texture_uv(shape->image, &u, &v);
+	else if (shape->checkerboard)
+		color = create_checkboard(&u, &v, SCALE);
 	else
 		color = shape->color;
 	return (color);
