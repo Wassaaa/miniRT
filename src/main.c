@@ -134,7 +134,7 @@ t_hit	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
-t_color trace_ray (t_ray *ray)
+t_color trace_ray (t_ray *ray, int depth)
 {
 	t_hit	hit;
 
@@ -146,7 +146,7 @@ t_color trace_ray (t_ray *ray)
 	hit.hit |= check_unbound(ray, &hit);
 	if (!hit.hit)
 		return (color_from_hex(TEST_BG));
-	return (get_pixel_color(ray, &hit));
+	return (get_pixel_color(ray, &hit, depth));
 }
 
 void	render_scene(void)
@@ -163,7 +163,7 @@ void	render_scene(void)
 		while(x < WIDTH)
 		{
 			ray = generate_ray(x, y);
-			color = trace_ray(&ray);
+			color = trace_ray(&ray, REFLECT_DEPTH);
 			mlx_put_pixel(rtx()->img, x, y, color_to_int(color));
 			x++;
 		}

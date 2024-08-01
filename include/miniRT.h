@@ -14,6 +14,8 @@
 
 # define LINE_THICKNESS 0.45
 
+# define REFLECT_DEPTH 5
+
 # define WIDTH 800
 # define HEIGHT 600
 # define M_PI 3.14159265358979323846
@@ -166,7 +168,7 @@ double			clampd(double value, double min, double max);
 
 void			fix_hit_normal(t_hit *hit);
 //colors
-t_color			get_pixel_color(t_ray *ray, t_hit *hit);
+t_color			get_pixel_color(t_ray *ray, t_hit *hit, int depth);
 int				color_to_int(t_color c);
 t_color			color_from_int(int r, int g, int b);
 t_color			color_from_hex(unsigned int hex);
@@ -188,7 +190,7 @@ t_rtx			*rtx(void);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
-t_color			trace_ray (t_ray *ray);
+t_color			trace_ray (t_ray *ray, int depth);
 
 //normal
 void			fix_hit_normal(t_hit *hit);

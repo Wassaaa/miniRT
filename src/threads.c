@@ -65,7 +65,7 @@ t_color	super_sample(int x, int y)
 		while (i < grid_size)
 		{
 			ray = sub_ray(x, y, j, i, grid_size);
-			pixel_color = color_add(pixel_color, trace_ray(&ray));
+			pixel_color = color_add(pixel_color, trace_ray(&ray, REFLECT_DEPTH));
 			i++;
 		}
 		j++;
