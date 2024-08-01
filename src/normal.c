@@ -23,10 +23,9 @@ t_vector	cylinder_normal(t_hit *hit)
 	{
 		axis_point = vector_add(shape->pos,
 			vector_scale(shape->dir, hit_height));
-		normal = vector_normalize(
-			vector_subtract(hit->hit_point, axis_point));
+		normal = vector_subtract(hit->hit_point, axis_point);
 	}
-	return (normal);
+	return (vector_normalize(normal));
 }
 
 t_vector	cone_normal(t_hit *hit)
@@ -47,14 +46,14 @@ t_vector	cone_normal(t_hit *hit)
 		axis_point = vector_add(shape->pos,
 			vector_scale(shape->dir, hit_height));
 		to_surface = vector_subtract(hit->hit_point, axis_point);
-		normal = vector_normalize(vector_subtract(
+		normal = vector_subtract(
 			to_surface,
 			vector_scale(shape->dir, 
 				vector_dot(to_surface, shape->dir) * 
 				(1 + pow(shape->tan_half_angle, 2)))
-		));
+		);
 	}
-	return (normal);
+	return (vector_normalize(normal));
 }
 
 void	fix_hit_normal(t_hit *hit)

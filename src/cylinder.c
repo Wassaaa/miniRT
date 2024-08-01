@@ -14,6 +14,7 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->half_height = height / 2;
 	cylinder->color = color_from_int(color.r, color.g, color.b);
 	cylinder->box = box_cylinder(*cylinder);
+	cylinder->shine = SHINE;
 	return (cylinder);
 }
 
@@ -39,7 +40,7 @@ t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray ray, t_shape shape)
 	coeffs.a = vector_dot(ray.direction, ray.direction)
 		- pow(vector_dot(ray.direction, shape.dir), 2);
 	coeffs.b = 2 * (vector_dot(ray.direction, oc)
-			- vector_dot(ray.direction, shape.dir) * vector_dot(oc, shape.dir));
+		- vector_dot(ray.direction, shape.dir) * vector_dot(oc, shape.dir));
 	coeffs.c = vector_dot(oc, oc) - pow(vector_dot(oc, shape.dir), 2)
 		- shape.radius * shape.radius;
 	return (coeffs);

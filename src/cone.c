@@ -13,6 +13,9 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->height = height;
 	cone->color = color_from_int(color.r, color.g, color.b);
 	cone->box = box_cone(cone);
+	cone->half_angle = atan(cone->radius / cone->height);
+	cone->tan_half_angle = tan(cone->half_angle);
+	cone->shine = SHINE;
 	return (cone);
 }
 

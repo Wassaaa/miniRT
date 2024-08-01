@@ -6,7 +6,7 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	t_hit	temp;
 	double	light_distance;
 	
-	shadow_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, 0.001));
+	shadow_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, EPSILON));
 	shadow_ray.direction = vector_subtract(
 		light->pos,
 		shadow_ray.origin);
