@@ -112,16 +112,16 @@
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANER (t_vector){30, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
-# define TEST_CYLINDER (t_vector){0, 0, 10}, (t_vector){0, 0, 1}, 4, 22, RGBA(COLOR_WHITE)
+# define TEST_CYLINDER (t_vector){0, 0, 30}, (t_vector){0, 0, 1}, 60, 1, RGBA(COLOR_WHITE)
 # define TEST_CONE (t_vector){0, 0, 0}, (t_vector){1, -1, 0.000000}, 16, 25, RGBA(COLOR_MAGENTA)
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE (t_vector){4, 2, -15}, 15, RGBA(COLOR_PASTEL_GREEN)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 
 # define SHINE 1000
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0.8, -22}
+# define TEST_CAM_POS (t_vector){0, 0.8, -35}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
@@ -132,7 +132,7 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){0, 16, -5}, RGBA(COLOR_WHITE), 1.0
+# define TEST_LIGHT (t_vector){16, 16, -55}, RGBA(COLOR_WHITE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
