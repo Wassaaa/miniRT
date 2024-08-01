@@ -14,7 +14,7 @@
 
 # define LINE_THICKNESS 0.45
 
-# define REFLECT_DEPTH 5
+# define REFLECT_DEPTH 3
 
 # define WIDTH 800
 # define HEIGHT 600
@@ -109,15 +109,15 @@
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANEF (t_vector){0, 0, 30}, (t_vector){0, 0, -1}, RGBA(WALL_COLOR)
-# define TEST_PLANEB (t_vector){0, 0, -65}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
+# define TEST_PLANEB (t_vector){0, 0, -165}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
 # define TEST_PLANEU (t_vector){0, 30, 0}, (t_vector){0, -1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANER (t_vector){30, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_CYLINDER (t_vector){0, 0, 30}, (t_vector){0, 0, 1}, 60, 1, RGBA(COLOR_WHITE)
-# define TEST_CONE (t_vector){0, 0, 0}, (t_vector){1, -1, 0.000000}, 16, 25, RGBA(COLOR_MAGENTA)
-# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
+# define TEST_CONE (t_vector){4, 2, -15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
 # define TEST_SPHERE (t_vector){4, 2, -15}, 15, RGBA(COLOR_PASTEL_GREEN)
+# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 
@@ -192,6 +192,9 @@ bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 void			key_hook(mlx_key_data_t keydata, void* param);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
 t_color			trace_ray (t_ray *ray, int depth);
+
+//render
+t_ray			create_ray(t_vector origin, t_vector direction);
 
 //normal
 void			fix_hit_normal(t_hit *hit);

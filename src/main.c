@@ -41,6 +41,20 @@ t_vector	add_panning(t_vector *vector)
 	return (direction);
 }
 
+t_ray	create_ray(t_vector origin, t_vector direction)
+{
+	t_ray	ray;
+
+	ray.origin = origin;
+	ray.direction = vector_normalize(direction);
+	ray.inv_dir = (t_vector){
+		1.0 / ray.direction.x,
+		1.0 / ray.direction.y,
+		1.0 / ray.direction.z
+	};
+	return (ray);
+}
+
 t_ray	generate_ray(int x, int y)
 {
 	t_ray		ray;
@@ -54,13 +68,7 @@ t_ray	generate_ray(int x, int y)
 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
 	vector.z = 1;
-	ray.direction = add_panning(&vector);
-	ray.direction = vector_normalize(ray.direction);
-	ray.inv_dir = (t_vector){
-		1.0 / ray.direction.x,
-		1.0 / ray.direction.y,
-		1.0 / ray.direction.z
-	};
+	ray = create_ray(rtx()->scene->camera.pos, add_panning(&vector));
 	return (ray);
 }
 
@@ -249,11 +257,11 @@ void	get_shapes(void)
 	// make_aabb_line(&rtx()->shapes, LY4, LINE);
 	// make_aabb_line(&rtx()->shapes, LY5, LINE);
 	// make_aabb_line(&rtx()->shapes, LY6, LINE);
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);

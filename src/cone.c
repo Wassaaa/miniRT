@@ -16,6 +16,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->half_angle = atan(cone->radius / cone->height);
 	cone->tan_half_angle = tan(cone->half_angle);
 	cone->shine = SHINE;
+	cone->reflectivity = 0.0;
 	return (cone);
 }
 

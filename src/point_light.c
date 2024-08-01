@@ -2,21 +2,19 @@
 
 bool	check_shadow(t_hit *hit, t_light *light)
 {
-	t_ray	shadow_ray;
-	t_hit	temp;
-	double	light_distance;
+	t_ray		shadow_ray;
+	t_hit		temp;
+	double		light_distance;
+	t_vector	origin;
+	t_vector	direction;
 	
-	shadow_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, EPSILON));
-	shadow_ray.direction = vector_subtract(
+	origin = vector_add(hit->hit_point, vector_scale(hit->normal, EPSILON));
+	direction = vector_subtract(
 		light->pos,
-		shadow_ray.origin);
-	light_distance = vector_length(shadow_ray.direction);
-	shadow_ray.direction = vector_scale(shadow_ray.direction, 1.0 / light_distance);
-	shadow_ray.inv_dir = (t_vector){
-		1.0 / shadow_ray.direction.x,
-		1.0 / shadow_ray.direction.y,
-		1.0 / shadow_ray.direction.z
-	};
+		origin);
+	light_distance = vector_length(direction);
+	direction = vector_scale(direction, 1.0 / light_distance);
+	shadow_ray = create_ray(origin, direction);
 	temp.distance = light_distance;
 	if (rtx()->bvh && intersect_bvh(rtx()->bvh, shadow_ray, &temp) && temp.distance < light_distance)
 		return (true);

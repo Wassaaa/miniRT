@@ -10,6 +10,7 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	plane->dir = check_dir(dir);
 	plane->color = color_from_int(color.r, color.g, color.b);
 	plane->shine = SHINE;
+	plane->reflectivity = 0.0;
 
 	return (plane);
 }
