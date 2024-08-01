@@ -83,6 +83,15 @@ t_color	get_reflections(t_hit *hit, int depth)
 	return (reflection_color);
 }
 
+t_color debug_normal_color(t_vector normal)
+{
+	return (t_color){
+		(normal.x + 1) * 0.5,
+		(normal.y + 1) * 0.5,
+		(normal.z + 1) * 0.5
+	};
+}
+
 t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 {
 	t_lighting	lighting;
@@ -96,6 +105,8 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 		vector_scale(ray->direction, hit->distance));
 	hit->ray = ray;
 	fix_hit_normal(hit);
+	if (rtx()->debug_normals)
+		return (debug_normal_color(hit->normal));
 	if (hit->shape->type == WIREFRAME
 		|| hit->shape->type == LINE
 		)

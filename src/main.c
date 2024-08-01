@@ -289,7 +289,8 @@ void	start_mlx(void)
 	rtx()->width = WIDTH;
 	rtx()->height = HEIGHT;
 	mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0);
-}
+	rtx()->debug_normals = 0;
+	}
 /*
 calculate right and up vectors based on current camera dir and WORLD_UP
 WORLD_UP x CAMERA_FORWARD = CAM_RIGHT

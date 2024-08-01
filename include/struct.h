@@ -144,6 +144,7 @@ typedef struct s_rtx
 	int				grid_size;
 	int				ssaa;
 	unsigned int	seed;
+	int				debug_normals;
 }	t_rtx;
 
 #endif
