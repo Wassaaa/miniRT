@@ -43,3 +43,13 @@ int	color_to_int(t_color c)
 
 	return (r << 24 | g << 16 | b << 8 | a);
 }
+
+t_color	color_blend(t_color c1, t_color c2, double factor)
+{
+	t_color	scaled_c1;
+	t_color	scaled_c2;
+
+	scaled_c1 = color_scale(c1, 1.0 - factor);
+	scaled_c2 = color_scale(c2, factor);
+	return (color_add(scaled_c1, scaled_c2));
+}

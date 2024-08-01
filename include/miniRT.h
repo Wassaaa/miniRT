@@ -178,6 +178,7 @@ t_color			color_multiply(t_color c1, t_color c2);
 t_color			color_subtract(t_color c1, t_color c2);
 t_color			color_add(t_color c1, t_color c2);
 t_color			color_create(double r, double g, double b);
+t_color			color_blend(t_color c1, t_color c2, double factor);
 
 //init
 void			fix_camera(void);

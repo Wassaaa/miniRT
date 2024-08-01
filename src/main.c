@@ -116,7 +116,7 @@ t_hit	intersect_shape(t_ray ray, t_list *shapes)
 	t_shape			*shape;
 
 	t = INFINITY;
-	result = (t_hit){INFINITY, NULL, false, VV, VV};
+	result = (t_hit){INFINITY, NULL, false, VV, VV, NULL};
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
@@ -138,7 +138,7 @@ t_color trace_ray (t_ray *ray, int depth)
 {
 	t_hit	hit;
 
-	hit = (t_hit){INFINITY, NULL, false, VV, VV};
+	hit = (t_hit){INFINITY, NULL, false, VV, VV, NULL};
 	if (rtx()->wireframe_bvh && rtx()->wireframe)
 		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, *ray, &hit);
 	if (rtx()->bvh)

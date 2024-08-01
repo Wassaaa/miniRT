@@ -115,6 +115,7 @@ typedef struct s_hit
 	bool		hit;
 	t_vector	normal;
 	t_vector	hit_point;
+	t_ray		*ray;
 }	t_hit;
 
 typedef struct s_bvh

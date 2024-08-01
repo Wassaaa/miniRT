@@ -64,29 +64,23 @@ t_color	add_material(t_hit *hit)
 	return (color);
 }
 
-void	get_reflections(t_lighting *lighting, t_hit *hit, int depth)
+t_color	get_reflections(t_hit *hit, int depth)
 {
 	t_ray		reflection_ray;
 	double		reflect_angle;
 	t_vector	reflect;
-	t_hit		reflection_hit;
+	t_color		reflection_color;
 
-	reflect_angle = vector_add(hit->hit_point, vector_scale(hit->normal, EPSILON));
-	{
-	
-
-		reflection_ray.origin = vector_add(hit->hit_point, vector_scale(hit->normal, EPSILON));
-		reflection_ray.direction = vector_reflect(ray->direction, hit->normal);
-		
-		// Cast the reflection ray
-		if (cast_ray(&reflection_ray, &reflection_hit))
-		{
-			reflection_color = get_pixel_color(&reflection_ray, &reflection_hit, depth + 1);
-		}
-
-		// Blend reflection color with the current color
-		final_color = color_blend(final_color, reflection_color, hit->shape->reflectivity);
-	}
+	reflect_angle = vector_dot(hit->ray->direction, hit->normal) * 2;
+	reflect = vector_scale(hit->normal, reflect_angle);
+	reflection_ray.origin = vector_add(
+		hit->hit_point,
+		vector_scale(hit->normal, EPSILON));
+	reflection_ray.direction = vector_normalize(vector_subtract(
+		hit->ray->direction,
+		reflect));
+	reflection_color = trace_ray(&reflection_ray, depth);
+	return (reflection_color);
 }
 
 t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
@@ -95,10 +89,12 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 	t_color		material_color;
 	t_color		final_color;
 	t_color		diffuse_and_ambient;
+	t_color		reflection;
 	
 	hit->hit_point = vector_add(
 		ray->origin,
 		vector_scale(ray->direction, hit->distance));
+	hit->ray = ray;
 	fix_hit_normal(hit);
 	if (hit->shape->type == WIREFRAME
 		|| hit->shape->type == LINE
@@ -111,8 +107,11 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 		diffuse_and_ambient = color_add(lighting.diffuse, lighting.ambient);
 		final_color = color_multiply(diffuse_and_ambient, material_color);
 		final_color = color_add(final_color, lighting.specular);
-		if (hit->shape->reflectivity > 1.0 && depth > 0)
-			get_reflections(&lighting, &hit, depth - 1);
+		if (hit->shape->reflectivity > 0.0 && depth > 0)
+		{
+			reflection = get_reflections(hit, depth - 1);
+			final_color = color_blend(final_color, reflection, hit->shape->reflectivity);
+		}
 	}
 	return (final_color);
 }
