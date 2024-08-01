@@ -190,6 +190,9 @@ void			key_hook(mlx_key_data_t keydata, void* param);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
 t_color			trace_ray (t_ray *ray);
 
+//normal
+void			fix_hit_normal(t_hit *hit);
+
 //lighting
 t_lighting		calc_lighting(t_hit *hit);
 
