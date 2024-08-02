@@ -10,7 +10,7 @@ t_rtx	*rtx(void)
 t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 {
 	t_shape			*sphere;
-	mlx_texture_t	*texture;
+	// mlx_texture_t	*texture;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
@@ -20,13 +20,12 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->color = color_from_int(color.r, color.g, color.b);
 	sphere->box = box_sphere(*sphere);
 	sphere->shine = SHINE;
-	// texture = mlx_load_png("textures/hive.png");
-	texture = mlx_load_png("textures/moon.png");
-	// sphere->image = mlx_texture_to_image(rtx()->mlx, texture);
-	sphere->image = rtx()->checkerboard;
-	sphere->checkerboard = 0;
-	if (texture)
-		mlx_delete_texture(texture);
+	// sphere->texture = mlx_load_png("hive.png");
+	// sphere->texture = mlx_load_png("textures/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	// sphere->image = rtx()->checkerboard;
+	// if (texture)
+	// 	mlx_delete_texture(texture);
 
 	return (sphere);
 }
@@ -206,7 +205,7 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
 
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
@@ -231,7 +230,7 @@ t_light	*make_light(t_vector pos, t_color color, double birght)
 void	get_lights(void)
 {
 	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
-	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
+	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT3)));
 }
