@@ -76,6 +76,8 @@ t_color	add_material(t_hit *hit)
 	t_shape	*shape;
 	t_color	color;
 	
+	u = 0.0;
+	v = 0.0;
 	shape = hit->shape;
 	if (shape->type == SPHERE)
 		sphere_uv(hit->normal, &u, &v);

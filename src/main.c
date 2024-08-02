@@ -21,8 +21,8 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	// sphere->texture = mlx_load_png("moon.png");
 	sphere->shine = SHINE;
 	// sphere->texture = mlx_load_png("hive.png");
-	sphere->texture = mlx_load_png("textures/moon.png");
-	sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	// sphere->texture = mlx_load_png("textures/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
 	// sphere->texture = NULL;
 	// sphere->image = NULL;
 	sphere->checkerboard = 0;
@@ -204,70 +204,12 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANED)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
-	// // HAPPY
-	// make_aabb_line(&rtx()->shapes, LH1, LINE);
-	// make_aabb_line(&rtx()->shapes, LH2, LINE);
-	// make_aabb_line(&rtx()->shapes, LH3, LINE);
 
-	// make_aabb_line(&rtx()->shapes, LA1, LINE);
-	// make_aabb_line(&rtx()->shapes, LA2, LINE);
-	// make_aabb_line(&rtx()->shapes, LA3, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LP1, LINE);
-	// make_aabb_line(&rtx()->shapes, LP2, LINE);
-	// make_aabb_line(&rtx()->shapes, LP3, LINE);
-	// make_aabb_line(&rtx()->shapes, LP4, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LP5, LINE);
-	// make_aabb_line(&rtx()->shapes, LP6, LINE);
-	// make_aabb_line(&rtx()->shapes, LP7, LINE);
-	// make_aabb_line(&rtx()->shapes, LP8, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LY1, LINE);
-	// make_aabb_line(&rtx()->shapes, LY2, LINE);
-	// make_aabb_line(&rtx()->shapes, LY3, LINE);
-
-	// // BIRTHDAY
-	// make_aabb_line(&rtx()->shapes, LB1, LINE);
-	// make_aabb_line(&rtx()->shapes, LB2, LINE);
-	// make_aabb_line(&rtx()->shapes, LB3, LINE);
-	// make_aabb_line(&rtx()->shapes, LB4, LINE);
-	// make_aabb_line(&rtx()->shapes, LB5, LINE);
-	// make_aabb_line(&rtx()->shapes, LB6, LINE);
-	// make_aabb_line(&rtx()->shapes, LB7, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LI1, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LR1, LINE);
-	// make_aabb_line(&rtx()->shapes, LR2, LINE);
-	// make_aabb_line(&rtx()->shapes, LR3, LINE);
-	// make_aabb_line(&rtx()->shapes, LR4, LINE);
-	// make_aabb_line(&rtx()->shapes, LR5, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LT1, LINE);
-	// make_aabb_line(&rtx()->shapes, LT2, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LH4, LINE);
-	// make_aabb_line(&rtx()->shapes, LH5, LINE);
-	// make_aabb_line(&rtx()->shapes, LH6, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LD1, LINE);
-	// make_aabb_line(&rtx()->shapes, LD2, LINE);
-	// make_aabb_line(&rtx()->shapes, LD3, LINE);
-	// make_aabb_line(&rtx()->shapes, LD4, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LA5, LINE);
-	// make_aabb_line(&rtx()->shapes, LA6, LINE);
-	// make_aabb_line(&rtx()->shapes, LA7, LINE);
-
-	// make_aabb_line(&rtx()->shapes, LY4, LINE);
-	// make_aabb_line(&rtx()->shapes, LY5, LINE);
-	// make_aabb_line(&rtx()->shapes, LY6, LINE);
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER1)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
 	rtx()->bvh = bvh(rtx()->shapes);
@@ -288,7 +230,7 @@ t_light	*make_light(t_vector pos, t_color color, double birght)
 void	get_lights(void)
 {
 	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
-	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
+	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT3)));
 }

@@ -15,7 +15,7 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	// plane->image = mlx_texture_to_image(rtx()->mlx, plane->texture);
 	plane->texture = NULL;
 	plane->image = NULL;
-	plane->checkerboard = 1;
+	plane->checkerboard = 0;
 
 	return (plane);
 }
