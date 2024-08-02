@@ -170,7 +170,7 @@ int			clampi(int value, int min, int max);
 double		clampd(double value, double min, double max);
 
 //lights
-t_color		get_diffuse(t_hit *hit);
+double	get_diffuse(t_hit *hit, t_vector *light_dir);
 
 void		fix_hit_normal(t_hit *hit);
 //colors

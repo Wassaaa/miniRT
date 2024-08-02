@@ -106,6 +106,9 @@ typedef struct s_shape
 	mlx_texture_t	*texture;
 	mlx_image_t		*image;
 	int				checkerboard;
+	double			half_angle;
+	double			tan_half_angle;
+
 }	t_shape;
 
 typedef struct s_hit
