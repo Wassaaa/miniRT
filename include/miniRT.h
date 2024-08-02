@@ -19,7 +19,7 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
-# define SCALE 8.0
+# define SCALE 100
 
 # define WORLD_UP (t_vector){0, 1, 0}
 

@@ -16,6 +16,7 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->box = box_cylinder(*cylinder);
 	cylinder->shine = SHINE;
 	cylinder->reflectivity = 1.0;
+	cylinder->checkerboard = 0;
 	return (cylinder);
 }
 

@@ -37,18 +37,33 @@ t_color	get_texture_uv(mlx_image_t *image, double *u, double *v)
 	return (color_from_image(image, x, y));
 }
 
-t_color	create_checkboard(double *u, double *v, double scale)
+t_color	create_checkboard(double *u, double *v)
 {
 	double	u_scaled;
 	double	v_scaled;
 	int		u_check;
 	int		v_check;
 
-	v_scaled = *v * scale;
-	u_scaled = *u * scale;
+	v_scaled = *v * SCALE;
+	u_scaled = *u * SCALE;
 	u_check = (int)floor(u_scaled) % 2;
 	v_check = (int)floor(v_scaled) % 2;
 	if ((u_check + v_check) % 2 == 0)
+		return ((t_color){1.0, 1.0, 1.0});
+	else
+		return ((t_color){0.0, 0.0, 0.0});
+}
+
+t_color	create_checkboard_plane(t_vector hit)
+{
+	int	x;
+	int	y;
+	int	z;
+
+	x = (int)floor(0.5 * hit.x);
+	y = (int)floor(0.5 * hit.y);
+	z = (int)floor(0.5 * hit.z);
+	if ((x + y + z) % 2)
 		return ((t_color){1.0, 1.0, 1.0});
 	else
 		return ((t_color){0.0, 0.0, 0.0});
@@ -73,7 +88,14 @@ t_color	add_material(t_hit *hit)
 	if (shape->image)
 		color = get_texture_uv(shape->image, &u, &v);
 	else if (shape->checkerboard)
-		color = create_checkboard(&u, &v, SCALE);
+	{
+		if (shape->type == SPHERE)
+			color = create_checkboard(&u, &v);
+		else if (shape->type == PLANE)
+			color = create_checkboard_plane(hit->hit_point);
+		else
+			color = (t_color){0.0, 0.0, 0.0}; //need to fix
+	}
 	else
 		color = shape->color;
 	return (color);

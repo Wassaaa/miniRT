@@ -2,31 +2,33 @@
 
 void	sphere_uv(t_vector normal, double *u, double *v)
 {
-	double phi = atan2(normal.z, normal.x);
-	double theta = asin(normal.y);
+	double	phi;
+	double	theta;
 	
+	phi = atan2(normal.z, normal.x);
+	theta = asin(normal.y);
 	*u = (phi + M_PI) / (2 * M_PI);
 	*v = 1 - (theta + M_PI / 2) / M_PI;
 }
 
 void	plane_uv(t_vector normal, t_vector point, double *u, double *v)
 {
-   t_vector u_axis, v_axis;
+	t_vector	u_axis;
+	t_vector	v_axis;
 
+	u_axis = vector_normalize(vector_cross(normal, (t_vector){1, 0, 0}));
 	// Create a coordinate system on the plane
-	if (fabs(normal.x) > fabs(normal.y))
+	if (!u_axis.x && !u_axis.y && !u_axis.z)
 		u_axis = vector_normalize(vector_cross(normal, (t_vector){0, 1, 0}));
-	else
-		u_axis = vector_normalize(vector_cross(normal, (t_vector){1, 0, 0}));
-	v_axis = vector_cross(normal, u_axis);
+	v_axis = vector_normalize(vector_cross(normal, u_axis));
 
 	// Calculate UV coordinates
-	*u = vector_dot(u_axis, point);
-	*v = vector_dot(v_axis, point);
+	// *u = vector_dot(u_axis, point);
+	// *v = vector_dot(v_axis, point);
 
 	// Ensure UV values are in [0, 1] range
-	*u = *u - floor(*u);
-	*v = *v - floor(*v);
+	*u = vector_dot(u_axis, point) - floor(vector_dot(u_axis, point));
+	*v = vector_dot(v_axis, point) - floor(vector_dot(v_axis, point));
 }
 
 void	cylinder_uv(t_vector point, t_vector axis, double height, double *u, double *v)

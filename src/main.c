@@ -21,10 +21,10 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	// sphere->texture = mlx_load_png("moon.png");
 	sphere->shine = SHINE;
 	// sphere->texture = mlx_load_png("hive.png");
-	// sphere->texture = mlx_load_png("textures/moon.png");
-	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
-	sphere->texture = NULL;
-	sphere->image = NULL;
+	sphere->texture = mlx_load_png("textures/moon.png");
+	sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	// sphere->texture = NULL;
+	// sphere->image = NULL;
 	sphere->checkerboard = 0;
 
 	return (sphere);
