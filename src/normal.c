@@ -47,11 +47,9 @@ t_vector	cone_normal(t_hit *hit)
 			vector_scale(shape->dir, hit_height));
 		to_surface = vector_subtract(hit->hit_point, axis_point);
 		normal = vector_subtract(
-			to_surface,
-			vector_scale(shape->dir, 
-				vector_dot(to_surface, shape->dir) * 
-				(1 + pow(shape->tan_half_angle, 2)))
-		);
+			vector_scale(to_surface, shape->cos_theta),
+			vector_scale(shape->dir,
+				shape->sin_theta * vector_length(to_surface)));
 	}
 	return (vector_normalize(normal));
 }

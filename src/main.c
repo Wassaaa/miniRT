@@ -198,12 +198,12 @@ t_bvh	*make_wireframe(t_bvh *shapes_bvh)
 //SPHERE, CYLINDER to shapes
 void	get_shapes(void)
 {
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEF)));
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEB)));
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEU)));
+	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEF)));
+	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEB)));
+	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEU)));
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANED)));
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
-	ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
+	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
+	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
 
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));

@@ -54,7 +54,7 @@
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
-# define SHINE 1000
+# define SHINE 500
 
 # define REFLECT_DEPTH 1
 //test cam
