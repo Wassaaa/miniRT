@@ -14,8 +14,6 @@
 
 # define LINE_THICKNESS 0.45
 
-# define REFLECT_DEPTH 3
-
 # define WIDTH 800
 # define HEIGHT 600
 # define M_PI 3.14159265358979323846
@@ -30,10 +28,6 @@
 
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_color){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
-
-# define WALL_COLOR COLOR_NAVY
-# define TEXT_COLOR COLOR_METALLIC_GOLD
-# define LIGHT_COLOR COLOR_WARM_WHITE
 // # define WALL_COLOR COLOR_SKY_BLUE
 // # define TEXT_COLOR COLOR_CORAL_PINK
 // # define LIGHT_COLOR COLOR_SOFT_LAVENDER
@@ -114,14 +108,24 @@
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANER (t_vector){30, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
-# define TEST_CYLINDER (t_vector){0, 0, 30}, (t_vector){0, 0, 1}, 60, 1, RGBA(COLOR_WHITE)
+
+# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
+# define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
+
 # define TEST_CONE (t_vector){4, 2, -15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
-# define TEST_SPHERE (t_vector){4, 2, -15}, 15, RGBA(COLOR_PASTEL_GREEN)
+
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
+# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 
+# define WALL_COLOR COLOR_MAROON
+# define TEXT_COLOR COLOR_METALLIC_GOLD
+# define LIGHT_COLOR COLOR_WARM_WHITE
+
 # define SHINE 1000
+
+# define REFLECT_DEPTH 100
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0.8, -35}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
@@ -134,11 +138,11 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){16, 16, -55}, RGBA(COLOR_WHITE), 1.0
+# define TEST_LIGHT (t_vector){0, 13, 0}, RGBA(COLOR_PASTEL_BLUE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
-# define TEST_AMBIENT_COL RGBA(COLOR_WHITE)
+# define TEST_AMBIENT_COL RGBA(COLOR_WARM_WHITE)
 # define TEST_AMBIENT_INT 0.15
 
 typedef struct s_scene t_scene;
