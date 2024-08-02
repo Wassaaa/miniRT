@@ -108,6 +108,8 @@ typedef struct s_shape
 	int				checkerboard;
 	double			half_angle;
 	double			tan_half_angle;
+	double			cos_theta;
+	double			sin_theta;
 
 }	t_shape;
 

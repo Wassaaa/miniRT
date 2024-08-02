@@ -51,9 +51,9 @@
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
-# define SHINE 1000
+# define SHINE 500
 
-# define REFLECT_DEPTH 100
+# define REFLECT_DEPTH 10
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0.8, -35}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
