@@ -22,6 +22,7 @@
 # define SCALE 100
 
 # define WORLD_UP (t_vector){0, 1, 0}
+# define WORLD_RIGHT (t_vector){1, 0, 0}
 
 # define AXIS_X 1
 # define AXIS_Y 2
@@ -115,18 +116,18 @@
 
 # define TEST_CONE (t_vector){4, 2, -15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
 
-# define TEST_SPHERE2 (t_vector){0, 0, 15}, 21, RGBA(COLOR_PINK)
+# define TEST_SPHERE2 (t_vector){0, 0, 15}, 81, RGBA(COLOR_PINK)
 # define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 
-# define WALL_COLOR COLOR_MAROON
+# define WALL_COLOR COLOR_WARM_WHITE
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
 # define SHINE 1000
 
-# define REFLECT_DEPTH 100
+# define REFLECT_DEPTH 3
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0.8, -35}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
@@ -139,7 +140,7 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){0, 13, 0}, RGBA(COLOR_PASTEL_BLUE), 1.0
+# define TEST_LIGHT (t_vector){0, 13, -60}, RGBA(COLOR_PASTEL_BLUE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
@@ -233,7 +234,7 @@ t_aabb		box_line(t_shape line);
 t_aabb		box_cone(t_shape *cone);
 
 //uv
-void		sphere_uv(t_vector point, double *u, double *v);
+void		sphere_uv(t_vector point, double *u, double *v, int repeat);
 void		plane_uv(t_vector normal, t_vector point, double *u, double *v);
 void		cylinder_uv(t_vector point, t_vector axis, double height, double *u, double *v);
 void		cone_uv(t_vector point, t_vector apex, t_vector axis, double height, double *u, double *v);

@@ -21,10 +21,11 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	// sphere->texture = mlx_load_png("moon.png");
 	sphere->shine = SHINE;
 	// sphere->texture = mlx_load_png("hive.png");
-	sphere->texture = mlx_load_png("textures/moon.png");
-	sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	// sphere->texture = mlx_load_png("2/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
 	// sphere->texture = NULL;
 	// sphere->image = NULL;
+	sphere->image = rtx()->checkerboard;
 	sphere->checkerboard = 0;
 
 	return (sphere);
@@ -264,12 +265,12 @@ void	get_shapes(void)
 	// make_aabb_line(&rtx()->shapes, LY5, LINE);
 	// make_aabb_line(&rtx()->shapes, LY6, LINE);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER1)));
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER1)));
+	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }
@@ -322,8 +323,26 @@ void	init_camera(void)
 	fix_camera();
 }
 
+
+void	init_checkerboard()
+{
+	mlx_image_t	*checkerboard;
+	t_color		black;
+	t_color		white;
+
+	black = color_create(0, 0, 0);
+	white = color_create(1, 1, 1);
+	checkerboard = mlx_new_image(rtx()->mlx, 2, 2);
+	mlx_put_pixel(checkerboard, 0, 0, color_to_int(black));
+	mlx_put_pixel(checkerboard, 1, 0, color_to_int(white));
+	mlx_put_pixel(checkerboard, 0, 1, color_to_int(white));
+	mlx_put_pixel(checkerboard, 1, 1, color_to_int(black));
+	rtx()->checkerboard = checkerboard;
+}
+
 void	setup_scene(void)
 {
+	init_checkerboard();
 	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
 	rtx()->scene = ft_calloc(1, sizeof(t_scene));
 	rtx()->scene->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);

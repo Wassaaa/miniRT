@@ -148,6 +148,7 @@ typedef struct s_rtx
 	int				ssaa;
 	unsigned int	seed;
 	int				debug_normals;
+	mlx_image_t		*checkerboard;
 }	t_rtx;
 
 #endif

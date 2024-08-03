@@ -1,6 +1,6 @@
 #include <miniRT.h>
 
-void	sphere_uv(t_vector normal, double *u, double *v)
+void	sphere_uv(t_vector normal, double *u, double *v, int repeat)
 {
 	double	phi;
 	double	theta;
@@ -9,26 +9,37 @@ void	sphere_uv(t_vector normal, double *u, double *v)
 	theta = asin(normal.y);
 	*u = (phi + M_PI) / (2 * M_PI);
 	*v = 1 - (theta + M_PI / 2) / M_PI;
+	*u *= repeat;
+	*v *= repeat;
+	*u = fmod(*u, 1.0);
+	*v = fmod(*v, 1.0);
+	if (*u < 0)
+		*u += 1.0;
+	if (*v < 0)
+		*v += 1.0;
 }
-
-void	plane_uv(t_vector normal, t_vector point, double *u, double *v)
+void plane_uv(t_vector normal, t_vector point, double *u, double *v, int repeat_u, int repeat_v)
 {
 	t_vector	u_axis;
 	t_vector	v_axis;
 
-	u_axis = vector_normalize(vector_cross(normal, (t_vector){1, 0, 0}));
 	// Create a coordinate system on the plane
+	u_axis = vector_normalize(vector_cross(normal, WORLD_RIGHT));
 	if (!u_axis.x && !u_axis.y && !u_axis.z)
-		u_axis = vector_normalize(vector_cross(normal, (t_vector){0, 1, 0}));
+		u_axis = vector_normalize(vector_cross(normal, WORLD_UP));
 	v_axis = vector_normalize(vector_cross(normal, u_axis));
 
 	// Calculate UV coordinates
-	// *u = vector_dot(u_axis, point);
-	// *v = vector_dot(v_axis, point);
+	*u = vector_dot(u_axis, point);
+	*v = vector_dot(v_axis, point);
 
-	// Ensure UV values are in [0, 1] range
-	*u = vector_dot(u_axis, point) - floor(vector_dot(u_axis, point));
-	*v = vector_dot(v_axis, point) - floor(vector_dot(v_axis, point));
+	// Scale UV coordinates by the repetition factors
+	*u *= repeat_u;
+	*v *= repeat_v;
+
+	// Ensure UV values are wrapped within [0, 1]
+	*u = *u - floor(*u);
+	*v = *v - floor(*v);
 }
 
 void	cylinder_uv(t_vector point, t_vector axis, double height, double *u, double *v)
