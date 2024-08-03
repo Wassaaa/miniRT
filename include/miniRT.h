@@ -52,6 +52,7 @@
 
 # define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){0, 1, 0}, 4, 8, RGBA(COLOR_BROWN)
 # define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
+# define TEST_CYLINDER3 (t_vector){0, 0, -5}, (t_vector){0, 1, 0}, 5, 15, RGBA(WALL_COLOR)
 
 # define TEST_CONE (t_vector){0, 0, 15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
 
