@@ -82,7 +82,10 @@ bool	keys(mlx_key_data_t keydata)
 	else if (keydata.key == MLX_KEY_PAGE_DOWN && keydata.action == MLX_RELEASE)
 		adjust_fov(1);
 	else if (keydata.key == MLX_KEY_B && keydata.action == MLX_RELEASE)
+	{
 		rtx()->wireframe = !rtx()->wireframe;
+		rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
+	}
 	else if (keydata.key == MLX_KEY_G && keydata.action == MLX_RELEASE)
 		rtx()->debug_normals = !rtx()->debug_normals;
 	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
@@ -91,7 +94,6 @@ bool	keys(mlx_key_data_t keydata)
 		return (true);
 	else
 		return (false);
-	printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
 	return (true);
 
 }
@@ -100,5 +102,8 @@ void	key_hook(mlx_key_data_t keydata, void* param)
 {
 	(void)param;
 	if (keys(keydata))
+	{
+		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
 		render();
+	}
 }

@@ -186,15 +186,6 @@ void	render_scene(void)
 	}
 }
 
-t_bvh	*make_wireframe(t_bvh *shapes_bvh)
-{
-	t_list	*wireframe;
-
-	wireframe = NULL;
-	generate_aabb_lines(shapes_bvh, 0, &wireframe);
-	return (bvh(wireframe));
-
-}
 //PLANES to unbound
 //SPHERE, CYLINDER to shapes
 void	get_shapes(void)
@@ -214,7 +205,6 @@ void	get_shapes(void)
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER1)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
 	rtx()->bvh = bvh(rtx()->shapes);
-	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }
 
 t_light	*make_light(t_vector pos, t_color color, double birght)

@@ -179,6 +179,7 @@ void		plane_uv(t_hit *hit, double *u, double *v, int repeat);
 void		cylindrical_uv(t_hit *hit, double *u, double *v, int repeat);
 void		cone_uv(t_hit *hit, double *u, double *v, int repeat);
 //testing
+t_bvh		*make_wireframe(t_bvh *shapes_bvh);
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
 bool		intersect_aabb_line(t_ray ray, t_shape *line, double *t);
 void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
