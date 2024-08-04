@@ -38,8 +38,8 @@ t_color	get_texture_uv(mlx_image_t *image, double u, double v)
 	int		width;
 	int		height;
 
-	width = image->width;
-	height = image->height;
+	width = image->width - 1;
+	height = image->height - 1;
 	x = (int)(width * u);
 	y = (int)(height * v);
 	x = wrap_coordinate(x, width);
@@ -54,9 +54,11 @@ t_color	add_material(t_hit *hit)
 	t_shape	*shape;
 	t_color	color;
 
+	u = 0.0;
+	v = 0.0;
 	shape = hit->shape;
 	if (shape->type == SPHERE)
-		sphere_uv(hit->normal, &u, &v, 5);
+		sphere_uv(hit->normal, &u, &v, 3);
 	else if (shape->type == PLANE)
 		plane_uv(hit->normal, hit->hit_point, &u, &v);
 	// else if (shape->type == CYLINDER)

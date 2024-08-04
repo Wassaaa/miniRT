@@ -9,7 +9,8 @@ t_rtx	*rtx(void)
 
 t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 {
-	t_shape		*sphere;
+	t_shape			*sphere;
+	mlx_texture_t	*texture;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
@@ -18,15 +19,14 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->radius = sphere->diameter / 2;
 	sphere->color = color_from_int(color.r, color.g, color.b);
 	sphere->box = box_sphere(*sphere);
-	// sphere->texture = mlx_load_png("moon.png");
 	sphere->shine = SHINE;
-	// sphere->texture = mlx_load_png("hive.png");
-	// sphere->texture = mlx_load_png("2/moon.png");
-	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
-	// sphere->texture = NULL;
-	// sphere->image = NULL;
+	// texture = mlx_load_png("textures/hive.png");
+	texture = mlx_load_png("textures/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, texture);
 	sphere->image = rtx()->checkerboard;
 	sphere->checkerboard = 0;
+	if (texture)
+		mlx_delete_texture(texture);
 
 	return (sphere);
 }
@@ -149,7 +149,7 @@ t_hit	intersect_shape(t_ray ray, t_list *shapes)
 	return (result);
 }
 
-t_color trace_ray (t_ray *ray, int depth)
+t_color trace_ray(t_ray *ray, int depth)
 {
 	t_hit	hit;
 
@@ -337,6 +337,7 @@ void	init_checkerboard()
 	mlx_put_pixel(checkerboard, 1, 0, color_to_int(white));
 	mlx_put_pixel(checkerboard, 0, 1, color_to_int(white));
 	mlx_put_pixel(checkerboard, 1, 1, color_to_int(black));
+	mlx_resize_image(checkerboard, 16, 16);
 	rtx()->checkerboard = checkerboard;
 }
 

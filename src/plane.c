@@ -2,7 +2,8 @@
 
 t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 {
-	t_shape	*plane;
+	t_shape			*plane;
+	mlx_texture_t	*texture;
 
 	plane = ft_calloc(1, sizeof(t_shape));
 	plane->type = PLANE;
@@ -10,11 +11,13 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	plane->dir = check_dir(dir);
 	plane->color = color_from_int(color.r, color.g, color.b);
 	plane->shine = SHINE;
-	plane->reflectivity = 0.0;
+	plane->reflectivity = 0.1;
 	// plane->texture = mlx_load_png("textures/moon.png");
-	// plane->image = mlx_texture_to_image(rtx()->mlx, plane->texture);
+	texture = mlx_load_png("textures/hive.png");
+	plane->image = mlx_texture_to_image(rtx()->mlx, texture);
 	plane->image = rtx()->checkerboard;
 	plane->checkerboard = 0;
+	mlx_delete_texture(texture);
 
 	return (plane);
 }

@@ -18,7 +18,7 @@ void	sphere_uv(t_vector normal, double *u, double *v, int repeat)
 	if (*v < 0)
 		*v += 1.0;
 }
-void plane_uv(t_vector normal, t_vector point, double *u, double *v, int repeat_u, int repeat_v)
+void plane_uv(t_vector normal, t_vector point, double *u, double *v)
 {
 	t_vector	u_axis;
 	t_vector	v_axis;
@@ -29,13 +29,11 @@ void plane_uv(t_vector normal, t_vector point, double *u, double *v, int repeat_
 		u_axis = vector_normalize(vector_cross(normal, WORLD_UP));
 	v_axis = vector_normalize(vector_cross(normal, u_axis));
 
+	u_axis = vector_scale(u_axis, SCALE_PLANE);
+	v_axis = vector_scale(v_axis, SCALE_PLANE);
 	// Calculate UV coordinates
 	*u = vector_dot(u_axis, point);
 	*v = vector_dot(v_axis, point);
-
-	// Scale UV coordinates by the repetition factors
-	*u *= repeat_u;
-	*v *= repeat_v;
 
 	// Ensure UV values are wrapped within [0, 1]
 	*u = *u - floor(*u);

@@ -19,7 +19,7 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
-# define SCALE 100
+# define SCALE_PLANE 0.1
 
 # define WORLD_UP (t_vector){0, 1, 0}
 # define WORLD_RIGHT (t_vector){1, 0, 0}
@@ -108,8 +108,8 @@
 # define TEST_PLANEB (t_vector){0, 0, -165}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
 # define TEST_PLANEU (t_vector){0, 30, 0}, (t_vector){0, -1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANER (t_vector){30, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANEL (t_vector){-30, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
+# define TEST_PLANER (t_vector){35, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
+# define TEST_PLANEL (t_vector){-35, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
 
 # define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
 # define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
