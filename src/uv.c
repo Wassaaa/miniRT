@@ -69,25 +69,57 @@ double	calculate_theta(t_vector proj_point, t_vector axis)
 	return (theta);
 }
 
-/*
-1. Convert hit point to local coordinates
-2. Calculate height along the axis
-3. Project the point onto the plane perpendicular to the axis
-4. Calculate angle in the projected plane (theta)
-5. Calculate UV coordinates
-*/
-void cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
+void	create_local_system(t_shape *shape, t_vector *u_axis, t_vector *v_axis)
+{
+	*u_axis = vector_cross(shape->dir, WORLD_UP);
+	if (vector_length(*u_axis) < EPSILON)
+		*u_axis = vector_cross(shape->dir, WORLD_RIGHT);
+	*u_axis = vector_normalize(*u_axis);
+	*v_axis = vector_normalize(vector_cross(shape->dir, *u_axis));
+}
+
+void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	local_point;
-	t_vector	proj_point;
-	double		theta;
+	t_vector	u_axis;
+	t_vector	v_axis;
 	double		height;
+	double		theta;
 
+	create_local_system(hit->shape, &u_axis, &v_axis);
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
 	height = vector_dot(local_point, hit->shape->dir);
-	proj_point = vector_subtract(local_point, vector_scale(hit->shape->dir, height));
-	theta = calculate_theta(proj_point, hit->shape->dir);
+	theta = atan2(vector_dot(local_point, v_axis),
+			vector_dot(local_point, u_axis));
 	*u = (theta + M_PI) / (2 * M_PI);
 	*v = height / hit->shape->height;
 	uv_repeat_wrap(u, v, repeat);
 }
+
+void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
+{
+	t_vector	local_point;
+	t_vector	u_axis;
+	t_vector	v_axis;
+	double		height;
+	double		theta;
+
+	create_local_system(hit->shape, &u_axis, &v_axis);
+	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
+	height = vector_dot(local_point, hit->shape->dir);
+	if (fabs(vector_dot(hit->normal, hit->shape->dir)) > 1 - EPSILON)
+	{
+		*u = (vector_dot(local_point, u_axis) / hit->shape->radius + 1) / 2;
+		*v = (vector_dot(local_point, v_axis) / hit->shape->radius + 1) / 2;
+	}
+	else
+	{
+		theta = atan2(vector_dot(local_point, v_axis),
+				vector_dot(local_point, u_axis));
+		*u = (theta + M_PI) / (2 * M_PI);
+		*v = height / hit->shape->height;
+	}
+	uv_repeat_wrap(u, v, repeat);
+}
+
+

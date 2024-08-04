@@ -23,7 +23,7 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
-# define SCALE_PLANE 0.1
+# define SCALE_PLANE 0.01
 
 # define WORLD_UP (t_vector){0, 1, 0}
 # define WORLD_RIGHT (t_vector){1, 0, 0}
@@ -177,7 +177,7 @@ t_aabb		box_cone(t_shape *cone);
 void		sphere_uv(t_vector point, double *u, double *v, int repeat);
 void		plane_uv(t_hit *hit, double *u, double *v, int repeat);
 void		cylindrical_uv(t_hit *hit, double *u, double *v, int repeat);
-
+void		cone_uv(t_hit *hit, double *u, double *v, int repeat);
 //testing
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
 bool		intersect_aabb_line(t_ray ray, t_shape *line, double *t);

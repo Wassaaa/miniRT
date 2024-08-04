@@ -8,7 +8,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone = ft_calloc(1, sizeof(t_shape));
 	cone->type = CONE;
 	cone->pos = pos;
-	cone->dir = check_dir(vector_scale(dir, -1)); 
+	cone->dir = check_dir(vector_scale(dir, -1));
 	cone->diameter = diameter;
 	cone->radius = diameter * 0.5;
 	cone->height = height;
@@ -22,7 +22,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->shine = SHINE;
 	cone->reflectivity = 0.0;
 	cone->image = rtx()->checkerboard;
-	// texture = mlx_load_png("textures/hive.png");
+	// texture = mlx_load_png("textures/smile2.png");
 	// cone->image = mlx_texture_to_image(rtx()->mlx, texture);
 	// mlx_delete_texture(texture);
 	return (cone);
