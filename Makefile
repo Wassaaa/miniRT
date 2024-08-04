@@ -9,7 +9,7 @@ AGGR_OPTI		=	-mavx2 -mfma -fno-exceptions
 OPTIMIZATION	=	-Ofast -march=native -flto -fno-signed-zeros \
 					-fno-trapping-math -funroll-loops \
 					$(AGGR_OPTI)
-CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) $(OPTIMIZATION)
+CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) #$(OPTIMIZATION)
 
 ################################################################################
 # LIBFT
@@ -55,6 +55,7 @@ SRCS			=	main.c \
 					threads.c \
 					normal.c \
 					uv.c \
+					rotate.c \
 
 ################################################################################
 # RULES

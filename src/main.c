@@ -212,7 +212,7 @@ void	get_shapes(void)
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cone(TEST_CONE)));
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER1)));
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_cylinder(TEST_CYLINDER2)));
 	rtx()->bvh = bvh(rtx()->shapes);
 	rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 }
@@ -332,7 +332,6 @@ void	loop_hook(void *data)
 	printf("\e[4;1HFOV [%.2f]\e[K\n", camera.fov);
 	printf("\e[5;1HCamera position [{%.2f, %.2f, %.2f}]\e[K\n", camera.pos.x, camera.pos.y, camera.pos.z);
 	printf("\e[6;1HCamera direction [{%.2f, %.2f, %.2f}]\e[K\n", camera.dir.x, camera.dir.y, camera.dir.z);
-	printf("\e[7;1HCache Hits [%d]\e[K\n", rtx()->cache_hits);
 }
 
 void	fix_camera(void)

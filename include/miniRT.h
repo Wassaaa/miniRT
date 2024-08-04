@@ -14,10 +14,12 @@
 
 # define LINE_THICKNESS 0.45
 
-# define WIDTH 2560
-# define HEIGHT 1440
-// # define WIDTH 800
-// # define HEIGHT 600
+#define NUM_THREADS 1
+
+// # define WIDTH 2560
+// # define HEIGHT 1440
+# define WIDTH 800
+# define HEIGHT 600
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
@@ -25,6 +27,10 @@
 
 # define WORLD_UP (t_vector){0, 1, 0}
 # define WORLD_RIGHT (t_vector){1, 0, 0}
+# define WORLD_X (t_vector){1, 0, 0}
+# define WORLD_Y (t_vector){0, 1, 0}
+# define WORLD_Z (t_vector){0, 0, 1}
+
 
 # define AXIS_X 1
 # define AXIS_Y 2
@@ -131,6 +137,7 @@ t_color			trace_ray (t_ray *ray, int depth);
 
 //render
 t_ray			create_ray(t_vector origin, t_vector direction);
+t_ray			generate_ray(int x, int y);
 
 //normal
 void			fix_hit_normal(t_hit *hit);
@@ -138,7 +145,10 @@ void			fix_hit_normal(t_hit *hit);
 //lighting
 t_lighting		calc_lighting(t_hit *hit);
 
-t_ray		generate_ray(int x, int y);
+//rotate
+t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
+void			random_rotate(void);
+
 
 int			intersect_plane(t_ray ray, t_shape plane, double *t);
 int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
@@ -157,9 +167,9 @@ t_shape		*make_cylinder(t_vector pos, t_vector dir, double diameter, double heig
 
 //axis-aligned bounding boxes
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
-t_aabb		box_sphere(t_shape sphere);
-t_aabb		box_cylinder(t_shape cylinder);
-t_aabb		box_line(t_shape line);
+t_aabb		box_sphere(t_shape *sphere);
+t_aabb		box_cylinder(t_shape *cylinder);
+t_aabb		box_line(t_shape *line);
 t_aabb		box_cone(t_shape *cone);
 
 //uv

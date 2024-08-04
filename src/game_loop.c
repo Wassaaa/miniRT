@@ -1,35 +1,5 @@
 #include <miniRT.h>
 
-/*
-Rodrigues' rotation formula
-v_rotated = v * cos(θ) + (k × v) * sin(θ) + k * (k · v) * (1 - cos(θ))
-*/
-t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
-{
-	t_vector	result;
-	double c;
-	double s;
-	double t;
-
-	c = cos(angle);
-	s = sin(angle);
-	t = 1.0f - c;
-	
-	result.x =
-			v.x * (t * axis.x * axis.x + c) +
-			v.y * (t * axis.x * axis.y - s * axis.z) +
-			v.z * (t * axis.x * axis.z + s * axis.y);
-	result.y =
-			v.x * (t * axis.x * axis.y + s * axis.z) +
-			v.y * (t * axis.y * axis.y + c) +
-			v.z * (t * axis.y * axis.z - s * axis.x);
-	result.z =
-			v.x * (t * axis.x * axis.z - s * axis.y) +
-			v.y * (t * axis.y * axis.z + s * axis.x) +
-			v.z * (t * axis.z * axis.z + c);
-	return (result);
-}
-
 void	pan_camera(double horizontal_angle, double vertical_angle)
 {
 	t_camera	*camera;
@@ -118,6 +88,8 @@ bool	camera_adjustment(mlx_key_data_t keydata)
 		rtx()->wireframe = !rtx()->wireframe;
 	else if (keydata.key == MLX_KEY_G && keydata.action == MLX_RELEASE)
 		rtx()->debug_normals = !rtx()->debug_normals;
+	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
+		random_rotate();
 	else
 		return (false);
 	printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
