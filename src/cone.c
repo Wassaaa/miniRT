@@ -2,7 +2,8 @@
 
 t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color)
 {
-	t_shape	*cone;
+	t_shape			*cone;
+	// mlx_texture_t	*texture;
 
 	cone = ft_calloc(1, sizeof(t_shape));
 	cone->type = CONE;
@@ -17,6 +18,10 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->tan_half_angle = tan(cone->half_angle);
 	cone->shine = SHINE;
 	cone->reflectivity = 0.0;
+	cone->image = rtx()->checkerboard;
+	// texture = mlx_load_png("textures/hive.png");
+	// cone->image = mlx_texture_to_image(rtx()->mlx, texture);
+	// mlx_delete_texture(texture);
 	return (cone);
 }
 

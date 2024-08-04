@@ -14,8 +14,10 @@
 
 # define LINE_THICKNESS 0.45
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 2560
+# define HEIGHT 1440
+// # define WIDTH 800
+// # define HEIGHT 600
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
@@ -28,93 +30,21 @@
 # define AXIS_Y 2
 # define AXIS_Z 3
 
-// # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_color){0, 255, 0, 255}
 # define TEST_BG 0x000000FF
-// # define WALL_COLOR COLOR_SKY_BLUE
-// # define TEXT_COLOR COLOR_CORAL_PINK
-// # define LIGHT_COLOR COLOR_SOFT_LAVENDER
-// # define WALL_COLOR COLOR_PURE_WHITE
-// # define TEXT_COLOR COLOR_MATTE_BLACK
-// # define LIGHT_COLOR COLOR_SOFT_GRAY
-// # define WALL_COLOR COLOR_ROYAL_PURPLE
-// # define TEXT_COLOR COLOR_NEON_YELLOW
-// # define LIGHT_COLOR COLOR_ELECTRIC_BLUE
-// # define WALL_COLOR COLOR_CHARCOAL_GRAY
-// # define TEXT_COLOR COLOR_BRIGHT_WHITE
-// # define LIGHT_COLOR COLOR_SOFT_TEAL
 
-// HAPPY (centered around x = 0)
-# define LH1 (t_vector){-12, 3, 0}, (t_vector){-12, 10, 0}, RGBA(TEXT_COLOR)
-# define LH2 (t_vector){-12, 7, 0}, (t_vector){-9, 7, 0}, RGBA(TEXT_COLOR)
-# define LH3 (t_vector){-9, 3, 0}, (t_vector){-9, 10, 0}, RGBA(TEXT_COLOR)
-
-# define LA1 (t_vector){-7, 3, 0}, (t_vector){-5.5, 10, 0}, RGBA(TEXT_COLOR)
-# define LA2 (t_vector){-5.5, 10, 0}, (t_vector){-4, 3, 0}, RGBA(TEXT_COLOR)
-# define LA3 (t_vector){-6.25, 6.5, 0}, (t_vector){-4.75, 6.5, 0}, RGBA(TEXT_COLOR)
-
-# define LP1 (t_vector){-2, 3, 0}, (t_vector){-2, 10, 0}, RGBA(TEXT_COLOR)
-# define LP2 (t_vector){-2, 10, 0}, (t_vector){0, 10, 0}, RGBA(TEXT_COLOR)
-# define LP3 (t_vector){0, 10, 0}, (t_vector){0, 6.5, 0}, RGBA(TEXT_COLOR)
-# define LP4 (t_vector){0, 6.5, 0}, (t_vector){-2, 6.5, 0}, RGBA(TEXT_COLOR)
-
-# define LP5 (t_vector){2, 3, 0}, (t_vector){2, 10, 0}, RGBA(TEXT_COLOR)
-# define LP6 (t_vector){2, 10, 0}, (t_vector){4, 10, 0}, RGBA(TEXT_COLOR)
-# define LP7 (t_vector){4, 10, 0}, (t_vector){4, 6.5, 0}, RGBA(TEXT_COLOR)
-# define LP8 (t_vector){4, 6.5, 0}, (t_vector){2, 6.5, 0}, RGBA(TEXT_COLOR)
-
-# define LY1 (t_vector){6, 10, 0}, (t_vector){8, 6.5, 0}, RGBA(TEXT_COLOR)
-# define LY2 (t_vector){8, 6.5, 0}, (t_vector){8, 3, 0}, RGBA(TEXT_COLOR)
-# define LY3 (t_vector){10, 10, 0}, (t_vector){8, 6.5, 0}, RGBA(TEXT_COLOR)
-
-// BIRTHDAY (centered around x = 0, moved down)
-# define LB1 (t_vector){-17, -3, 0}, (t_vector){-17, -10, 0}, RGBA(TEXT_COLOR)
-# define LB2 (t_vector){-17, -3, 0}, (t_vector){-15, -3, 0}, RGBA(TEXT_COLOR)
-# define LB3 (t_vector){-15, -3, 0}, (t_vector){-15, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LB4 (t_vector){-15, -6.5, 0}, (t_vector){-17, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LB5 (t_vector){-17, -6.5, 0}, (t_vector){-15, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LB6 (t_vector){-15, -6.5, 0}, (t_vector){-15, -10, 0}, RGBA(TEXT_COLOR)
-# define LB7 (t_vector){-15, -10, 0}, (t_vector){-17, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LI1 (t_vector){-13, -3, 0}, (t_vector){-13, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LR1 (t_vector){-11, -3, 0}, (t_vector){-11, -10, 0}, RGBA(TEXT_COLOR)
-# define LR2 (t_vector){-11, -3, 0}, (t_vector){-9, -3, 0}, RGBA(TEXT_COLOR)
-# define LR3 (t_vector){-9, -3, 0}, (t_vector){-9, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LR4 (t_vector){-9, -6.5, 0}, (t_vector){-11, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LR5 (t_vector){-11, -6.5, 0}, (t_vector){-9, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LT1 (t_vector){-7, -3, 0}, (t_vector){-5, -3, 0}, RGBA(TEXT_COLOR)
-# define LT2 (t_vector){-6, -3, 0}, (t_vector){-6, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LH4 (t_vector){-3, -3, 0}, (t_vector){-3, -10, 0}, RGBA(TEXT_COLOR)
-# define LH5 (t_vector){-3, -6.5, 0}, (t_vector){-1, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LH6 (t_vector){-1, -3, 0}, (t_vector){-1, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LD1 (t_vector){1, -3, 0}, (t_vector){1, -10, 0}, RGBA(TEXT_COLOR)
-# define LD2 (t_vector){1, -3, 0}, (t_vector){3, -3, 0}, RGBA(TEXT_COLOR)
-# define LD3 (t_vector){3, -3, 0}, (t_vector){3, -10, 0}, RGBA(TEXT_COLOR)
-# define LD4 (t_vector){1, -10, 0}, (t_vector){3, -10, 0}, RGBA(TEXT_COLOR)
-
-# define LA5 (t_vector){5, -10, 0}, (t_vector){6.5, -3, 0}, RGBA(TEXT_COLOR)
-# define LA6 (t_vector){6.5, -3, 0}, (t_vector){8, -10, 0}, RGBA(TEXT_COLOR)
-# define LA7 (t_vector){5.75, -6.5, 0}, (t_vector){7.25, -6.5, 0}, RGBA(TEXT_COLOR)
-
-# define LY4 (t_vector){10, -3, 0}, (t_vector){12, -6.5, 0}, RGBA(TEXT_COLOR)
-# define LY5 (t_vector){12, -6.5, 0}, (t_vector){12, -10, 0}, RGBA(TEXT_COLOR)
-# define LY6 (t_vector){14, -3, 0}, (t_vector){12, -6.5, 0}, RGBA(TEXT_COLOR)
 // test shapes
 // # define TEST_PLANE (t_vector){4, 4, 4}, (t_vector){0, 0, 1}, (t_rgba){0, 255, 0, 255}
 # define TEST_PLANEF (t_vector){0, 0, 30}, (t_vector){0, 0, -1}, RGBA(WALL_COLOR)
 # define TEST_PLANEB (t_vector){0, 0, -165}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
 # define TEST_PLANEU (t_vector){0, 30, 0}, (t_vector){0, -1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANER (t_vector){35, 0, 0}, (t_vector){-1, 0, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANEL (t_vector){-35, 0, 0}, (t_vector){1, 0, 0}, RGBA(WALL_COLOR)
+# define TEST_PLANER (t_vector){35, 0, 0}, (t_vector){-1, -1, 0}, RGBA(WALL_COLOR)
+# define TEST_PLANEL (t_vector){-35, 0, 0}, (t_vector){1, 1, 0}, RGBA(WALL_COLOR)
 
-# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
+# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){0, 1, 0}, 4, 8, RGBA(WALL_COLOR)
 # define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
 
-# define TEST_CONE (t_vector){4, 2, -15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
+# define TEST_CONE (t_vector){4, 2, -15}, (t_vector){1, 0, 0}, 12, 15, RGBA(COLOR_MAGENTA)
 
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 81, RGBA(COLOR_PINK)
 # define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
@@ -127,7 +57,7 @@
 
 # define SHINE 1000
 
-# define REFLECT_DEPTH 3
+# define REFLECT_DEPTH 1
 //test cam
 # define TEST_CAM_POS (t_vector){0, 0.8, -35}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
@@ -235,9 +165,8 @@ t_aabb		box_cone(t_shape *cone);
 
 //uv
 void		sphere_uv(t_vector point, double *u, double *v, int repeat);
-void		plane_uv(t_vector normal, t_vector point, double *u, double *v);
-void		cylinder_uv(t_vector point, t_vector axis, double height, double *u, double *v);
-void		cone_uv(t_vector point, t_vector apex, t_vector axis, double height, double *u, double *v);
+void		plane_uv(t_hit *hit, double *u, double *v, int repeat);
+void		cylindrical_uv(t_hit *hit, double *u, double *v, int repeat);
 
 //testing
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);

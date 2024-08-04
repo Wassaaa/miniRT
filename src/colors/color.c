@@ -58,13 +58,11 @@ t_color	add_material(t_hit *hit)
 	v = 0.0;
 	shape = hit->shape;
 	if (shape->type == SPHERE)
-		sphere_uv(hit->normal, &u, &v, 3);
+		sphere_uv(hit->normal, &u, &v, 1);
 	else if (shape->type == PLANE)
-		plane_uv(hit->normal, hit->hit_point, &u, &v);
-	// else if (shape->type == CYLINDER)
-	// 	cylinder_uv(hit->normal, &u, &v);
-	// else if (shape->type == CONE)
-	// 	cone_uv(hit->normal, &u, &v);
+		plane_uv(hit, &u, &v, 1);
+	else if (shape->type == CYLINDER || shape->type == CONE)
+		cylindrical_uv(hit, &u, &v, 1);
 	if (shape->image)
 		color = get_texture_uv(shape->image, u, v);
 	else
