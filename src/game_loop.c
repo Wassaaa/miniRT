@@ -11,37 +11,6 @@ void	pan_camera(double horizontal_angle, double vertical_angle)
 	fix_camera();
 }
 
-void	move_camera(t_direction dir)
-{
-	t_camera	*camera;
-
-	camera = &(rtx()->scene->camera);
-	if (dir == UP)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->up, MOVE_SPEED));
-	if (dir == RIGHT)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->right, MOVE_SPEED));
-	if (dir == DOWN)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->up, -MOVE_SPEED));
-	if (dir == LEFT)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->right, -MOVE_SPEED));
-	if (dir == FORWARD)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->dir, MOVE_SPEED));
-	if (dir == BACK)
-		camera->pos = vector_add(
-			camera->pos,
-			vector_scale(camera->dir, -MOVE_SPEED));
-}
-
 void	adjust_fov(int direction)
 {
 	double current_fov;
@@ -58,28 +27,56 @@ void	adjust_fov(int direction)
 	rtx()->scene->camera.fov = tan((current_fov / 2) * (M_PI / 180.0));
 }
 
-bool	camera_adjustment(mlx_key_data_t keydata)
+bool	move_camera(mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(UP);
-	else if (keydata.key == MLX_KEY_C && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(DOWN);
-	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(FORWARD);
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(LEFT);
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(BACK);
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-		move_camera(RIGHT);
-	else if (keydata.key == MLX_KEY_UP && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, UP);
+	else if (keydata.key == MLX_KEY_C && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, DOWN);
+	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, FORWARD);
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, LEFT);
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, BACK);
+	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
+		translate_vector(&rtx()->scene->camera.pos, RIGHT);
+	else if (keydata.key == MLX_KEY_UP && (keydata.action == MLX_PRESS))
 		pan_camera(0, PAN_AMOUNT);
-	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS))
 		pan_camera(PAN_AMOUNT, 0);
-	else if (keydata.key == MLX_KEY_DOWN && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (keydata.key == MLX_KEY_DOWN && (keydata.action == MLX_PRESS))
 		pan_camera(0, -PAN_AMOUNT);
-	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS))
 		pan_camera(-PAN_AMOUNT, 0);
+	else
+		return (false);
+	return (true);
+}
+
+bool	move_all(mlx_key_data_t keydata)
+{
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_RELEASE)
+		move_shapes(UP);
+	else if (keydata.key == MLX_KEY_L && keydata.action == MLX_RELEASE)
+		move_shapes(DOWN);
+	else if (keydata.key == MLX_KEY_U && keydata.action == MLX_RELEASE)
+		move_shapes(FORWARD);
+	else if (keydata.key == MLX_KEY_J && keydata.action == MLX_RELEASE)
+		move_shapes(BACK);
+	else if (keydata.key == MLX_KEY_H && keydata.action == MLX_RELEASE)
+		move_shapes(LEFT);
+	else if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
+		move_shapes(RIGHT);
+	else
+		return (false);
+	return (true);
+}
+
+bool	keys(mlx_key_data_t keydata)
+{
+	if (move_camera(keydata))
+		return (true);
 	else if (keydata.key == MLX_KEY_PAGE_UP && keydata.action == MLX_RELEASE)
 		adjust_fov(-1);
 	else if (keydata.key == MLX_KEY_PAGE_DOWN && keydata.action == MLX_RELEASE)
@@ -90,6 +87,8 @@ bool	camera_adjustment(mlx_key_data_t keydata)
 		rtx()->debug_normals = !rtx()->debug_normals;
 	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
 		random_rotate();
+	else if (move_all(keydata))
+		return (true);
 	else
 		return (false);
 	printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
@@ -100,6 +99,6 @@ bool	camera_adjustment(mlx_key_data_t keydata)
 void	key_hook(mlx_key_data_t keydata, void* param)
 {
 	(void)param;
-	if (camera_adjustment(keydata))
+	if (keys(keydata))
 		render();
 }

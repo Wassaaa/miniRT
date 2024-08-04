@@ -14,7 +14,7 @@
 
 # define LINE_THICKNESS 0.45
 
-#define NUM_THREADS 1
+#define NUM_THREADS 24
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -145,10 +145,11 @@ void			fix_hit_normal(t_hit *hit);
 //lighting
 t_lighting		calc_lighting(t_hit *hit);
 
-//rotate
+//rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
 void			random_rotate(void);
-
+void			translate_vector(t_vector *object, t_direction dir);
+void			move_shapes(t_direction dir);
 
 int			intersect_plane(t_ray ray, t_shape plane, double *t);
 int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
