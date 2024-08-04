@@ -29,7 +29,8 @@ void	make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color,
 	else
 		line->radius = LINE_THICKNESS;
 	line->diameter = line->radius * 2;
-	line->box = box_line(*line);
+	line->boxfunc = box_line;
+	line->box = line->boxfunc(line);
 	ft_lstadd_back(lines, ft_lstnew(line));
 }
 

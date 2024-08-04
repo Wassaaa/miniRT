@@ -18,7 +18,8 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->diameter = diameter;
 	sphere->radius = sphere->diameter / 2;
 	sphere->color = color_from_int(color.r, color.g, color.b);
-	sphere->box = box_sphere(*sphere);
+	sphere->boxfunc = box_sphere;
+	sphere->box = sphere->boxfunc(sphere);
 	sphere->shine = SHINE;
 	// sphere->texture = mlx_load_png("hive.png");
 	// sphere->texture = mlx_load_png("textures/moon.png");

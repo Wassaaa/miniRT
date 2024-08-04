@@ -18,6 +18,7 @@
         "limits.h": "c",
         "math-vector.h": "c",
         "libm-simd-decl-stubs.h": "c",
-        "minirt.h": "c"
+        "minirt.h": "c",
+        "random": "c"
     }
 }
