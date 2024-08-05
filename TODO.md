@@ -15,6 +15,7 @@
 - [ ] fix drawing of object when camera is inside the object
 - [ ] fix all memory things, free when creating new lists, bvhs, destroy images/textures, destroy MLX
 - [ ] maybe change cone pos to the center of the cone axis, same as cylinder for consistency
+- [ ] check all artifacts between shape intersections
 
 # LIGHT
 - [ ] fix hard-coded SHINE values

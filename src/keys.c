@@ -1,6 +1,6 @@
 #include <miniRT.h>
 
-void	pan_camera(double horizontal_angle, double vertical_angle)
+static void	pan_camera(double horizontal_angle, double vertical_angle)
 {
 	t_camera	*camera;
 
@@ -11,7 +11,7 @@ void	pan_camera(double horizontal_angle, double vertical_angle)
 	fix_camera();
 }
 
-void	adjust_fov(int direction)
+static void	adjust_fov(int direction)
 {
 	double current_fov;
 
@@ -27,7 +27,7 @@ void	adjust_fov(int direction)
 	rtx()->scene->camera.fov = tan((current_fov / 2) * (M_PI / 180.0));
 }
 
-bool	move_camera(mlx_key_data_t keydata)
+static bool	move_camera(mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS))
 		translate_vector(&rtx()->scene->camera.pos, UP);
@@ -54,7 +54,7 @@ bool	move_camera(mlx_key_data_t keydata)
 	return (true);
 }
 
-bool	move_all(mlx_key_data_t keydata)
+static bool	move_all(mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_O && keydata.action == MLX_RELEASE)
 		move_shapes(UP);
@@ -85,9 +85,9 @@ bool	keys(mlx_key_data_t keydata)
 	{
 		rtx()->wireframe = !rtx()->wireframe;
 		rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
+		if (!rtx()->wireframe_bvh)
+			error();
 	}
-	else if (keydata.key == MLX_KEY_G && keydata.action == MLX_RELEASE)
-		rtx()->debug_normals = !rtx()->debug_normals;
 	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
 		random_rotate();
 	else if (move_all(keydata))
@@ -98,12 +98,4 @@ bool	keys(mlx_key_data_t keydata)
 
 }
 
-void	key_hook(mlx_key_data_t keydata, void* param)
-{
-	(void)param;
-	if (keys(keydata))
-	{
-		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
-		render();
-	}
-}
+

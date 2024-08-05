@@ -13,7 +13,8 @@ static void	set_corners(t_aabb box, t_vector *corners)
 	corners[7] = (t_vector){box.max.x, box.max.y, box.max.z};
 }
 
-void	make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type)
+void	make_aabb_line(t_list **lines, t_vector start,
+						t_vector end, t_color color, t_shape_type type)
 {
 	t_shape	*line;
 

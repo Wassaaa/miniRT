@@ -41,5 +41,9 @@ void	move_shapes(t_direction dir)
 		shape->box = shape->boxfunc(shape);
 		shapes = shapes->next;
 	}
+	if (rtx()->bvh)
+		free_bvh(rtx()->bvh);
 	rtx()->bvh = bvh(rtx()->shapes);
+	if (!rtx()->bvh)
+		error();
 }

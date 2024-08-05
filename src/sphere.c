@@ -1,5 +1,29 @@
 #include <miniRT.h>
 
+t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
+{
+	t_shape			*sphere;
+	// mlx_texture_t	*texture;
+
+	sphere = ft_calloc(1, sizeof(t_shape));
+	sphere->type = SPHERE;
+	sphere->pos = pos;
+	sphere->diameter = diameter;
+	sphere->radius = sphere->diameter / 2;
+	sphere->color = color_from_int(color.r, color.g, color.b);
+	sphere->boxfunc = box_sphere;
+	sphere->box = sphere->boxfunc(sphere);
+	sphere->shine = SHINE;
+	// sphere->texture = mlx_load_png("hive.png");
+	// sphere->texture = mlx_load_png("textures/moon.png");
+	// sphere->image = mlx_texture_to_image(rtx()->mlx, sphere->texture);
+	// sphere->image = rtx()->checkerboard;
+	// if (texture)
+	// 	mlx_delete_texture(texture);
+
+	return (sphere);
+}
+
 /*
 Sphere equation: (P - C) · (P - C) = r^2
 	P is any point on the sphere's surface
@@ -27,7 +51,7 @@ x = (-b ± √(b² - 4ac)) / (2a)
 (D · D)t² + 2((O - C) · D)t + ((O - C) · (O - C) - r²) = 0
 |  a  |     |     b      |    |          c           |
 */
-t_quadratic_coeffs calculate_quadratic_coeffs(t_ray ray, t_shape *shape)
+t_quadratic_coeffs quadratic_coeffs_sphere(t_ray ray, t_shape *shape)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
@@ -48,7 +72,7 @@ bool intersect_sphere(t_ray ray, t_shape *sphere, double* t)
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
 
-	coeffs = calculate_quadratic_coeffs(ray, sphere);
+	coeffs = quadratic_coeffs_sphere(ray, sphere);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (false);

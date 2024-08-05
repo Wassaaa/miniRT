@@ -35,29 +35,37 @@ OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
 SRCS			=	main.c \
-					basic_equation.c \
-					quadratic_formula.c \
-					game_loop.c \
+					init.c \
+					bvh.c \
+					bvh_utils.c \
+					init_utils.c \
+					init_lights.c \
+					sphere.c \
 					plane.c \
 					cylinder.c \
-					aabb_intersect.c \
-					bvh.c \
-					intersect_bvh.c \
-					point_light.c \
-					aabb_intersect_line.c \
-					aabb_generate_rays.c \
 					cone.c \
 					aabb_boxes.c \
+					threads.c \
+					render.c \
+					intersect_bvh.c \
+					aabb_intersect.c \
+					intersect.c \
+					normal.c \
+					point_light.c \
 					color.c \
 					color_utils.c \
 					color_utils2.c \
+					basic_equation.c \
+					hooks.c \
+					keys.c \
 					clamp.c \
-					threads.c \
-					normal.c \
 					uv.c \
-					rotate.c \
 					translate.c \
+					rotate.c \
+					aabb_generate_rays.c \
+					aabb_intersect_line.c \
 					wireframe.c \
+
 
 ################################################################################
 # RULES

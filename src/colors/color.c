@@ -116,8 +116,6 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 		vector_scale(ray->direction, hit->distance));
 	hit->ray = ray;
 	fix_hit_normal(hit);
-	if (rtx()->debug_normals)
-		return (debug_normal_color(hit->normal));
 	if (hit->shape->type == WIREFRAME
 		|| hit->shape->type == LINE
 		)

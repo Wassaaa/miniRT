@@ -38,6 +38,8 @@
 
 # define TEST_BG 0x000000FF
 
+# define CHECKERB_COLOR COLOR_BLUE
+
 // test shapes
 # define TEST_PLANEF (t_vector){0, 0, 30}, (t_vector){0, 0, -1}, RGBA(WALL_COLOR)
 # define TEST_PLANEB (t_vector){0, 0, -165}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
@@ -90,25 +92,53 @@ typedef struct s_aabb t_aabb;
 t_vector	check_dir(t_vector dir);
 
 //basic vector equation
-t_vector	vector_add(t_vector a, t_vector b);
-t_vector	vector_subtract(t_vector a, t_vector b);
-t_vector	vector_scale(t_vector a, double scalar);
-double		vector_dot(t_vector a, t_vector b);
-t_vector	vector_cross(t_vector a, t_vector b);
-double		vector_length(t_vector a);
-t_vector	vector_normalize(t_vector a);
-double		vector_length_squared(t_vector a);
-t_vector	vector_min(t_vector a, t_vector b);
-t_vector	vector_max(t_vector a, t_vector b);
+t_vector		vector_add(t_vector a, t_vector b);
+t_vector		vector_subtract(t_vector a, t_vector b);
+t_vector		vector_scale(t_vector a, double scalar);
+double			vector_dot(t_vector a, t_vector b);
+t_vector		vector_cross(t_vector a, t_vector b);
+double			vector_length(t_vector a);
+t_vector		vector_normalize(t_vector a);
+double			vector_length_squared(t_vector a);
+t_vector		vector_min(t_vector a, t_vector b);
+t_vector		vector_max(t_vector a, t_vector b);
 
 //clamp
-int			clampi(int value, int min, int max);
-double		clampd(double value, double min, double max);
+int				clampi(int value, int min, int max);
+double			clampd(double value, double min, double max);
 
+//init
+t_rtx			*rtx(void);
+void			init_rtx(void);
+void			fix_camera(void);
+void			get_lights(void);
+void			get_shapes(void);
+t_bvh			*bvh(t_list *shapes);
+//bvh
+t_aabb			compute_box(t_shape **shapes, int num_shapes);
+int				partition_shapes(t_shape **shapes, int num_shapes, int axis);
+t_shape			**shapes_to_arr(t_list *shapes, int num_shapes);
+void			free_bvh(t_bvh *bvh);
+
+//render
+void			render(void);
+void			render_scene(void);
+void			render_multi_threaded(void);
+t_ray			create_ray(t_vector origin, t_vector direction);
+t_ray			generate_ray(int x, int y);
+t_color			trace_ray (t_ray *ray, int depth);
+//intersect
+bool			check_unbound(t_ray *ray, t_hit *hit);
+bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
+bool			intersect(t_shape *shape, t_ray ray, double *t);
+bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
+int				intersect_plane(t_ray ray, t_shape plane, double *t);
+int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+int				intersect_cone(t_ray ray, t_shape *cone, double *t);
+void			fix_hit_normal(t_hit *hit);
 //lights
-double	get_diffuse(t_hit *hit, t_vector *light_dir);
-
-void		fix_hit_normal(t_hit *hit);
+double			get_diffuse(t_hit *hit, t_vector *light_dir);
+t_lighting		calc_lighting(t_hit *hit);
 //colors
 t_color			get_pixel_color(t_ray *ray, t_hit *hit, int depth);
 int				color_to_int(t_color c);
@@ -122,28 +152,10 @@ t_color			color_add(t_color c1, t_color c2);
 t_color			color_create(double r, double g, double b);
 t_color			color_blend(t_color c1, t_color c2, double factor);
 
-//init
-void		fix_camera(void);
-void		render(void);
-
-//rtx
-void			render_multi_threaded(void);
-void			render_scene(void);
-t_rtx			*rtx(void);
-bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
+//MLX
+void			loop_hook(void *data);
 void			key_hook(mlx_key_data_t keydata, void* param);
-bool			intersect(t_shape *shape, t_ray ray, double *t);
-t_color			trace_ray (t_ray *ray, int depth);
-
-//render
-t_ray			create_ray(t_vector origin, t_vector direction);
-t_ray			generate_ray(int x, int y);
-
-//normal
-void			fix_hit_normal(t_hit *hit);
-
-//lighting
-t_lighting		calc_lighting(t_hit *hit);
+bool			keys(mlx_key_data_t keydata);
 
 //rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
@@ -151,20 +163,10 @@ void			random_rotate(void);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
 
-int			intersect_plane(t_ray ray, t_shape plane, double *t);
-int			intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
-
-
-//bvh
-t_bvh		*bvh(t_list *shapes);
-bool		intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
-bool		check_unbound(t_ray *ray, t_hit *hit);
-
 //shapes
-t_shape		*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
-int			intersect_cone(t_ray ray, t_shape *cone, double *t);
-t_shape		*make_plane(t_vector pos, t_vector dir, t_color color);
-t_shape		*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);
+t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
+t_shape			*make_plane(t_vector pos, t_vector dir, t_color color);
+t_shape			*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);
 
 //axis-aligned bounding boxes
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);
@@ -178,10 +180,12 @@ void		sphere_uv(t_vector point, double *u, double *v, int repeat);
 void		plane_uv(t_hit *hit, double *u, double *v, int repeat);
 void		cylindrical_uv(t_hit *hit, double *u, double *v, int repeat);
 void		cone_uv(t_hit *hit, double *u, double *v, int repeat);
-//testing
+
+//wireframe
 t_bvh		*make_wireframe(t_bvh *shapes_bvh);
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
 bool		intersect_aabb_line(t_ray ray, t_shape *line, double *t);
 void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
+void		error(void);
 #endif

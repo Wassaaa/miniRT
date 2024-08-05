@@ -148,7 +148,6 @@ typedef struct s_rtx
 	int				grid_size;
 	int				ssaa;
 	unsigned int	seed;
-	int				debug_normals;
 	mlx_image_t		*checkerboard;
 }	t_rtx;
 

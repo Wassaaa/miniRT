@@ -65,6 +65,9 @@ void	random_rotate(void)
 	printf("\e[7;1HRotated all shapes %.2f degrees around axis {%.2f, %.2f, %.2f}\e[K\n",
 		rotation_angle * (180.0 / M_PI),
 		rotation_axis.x, rotation_axis.y, rotation_axis.z);
-	//free bvh thign
+	if (rtx()->bvh)
+		free_bvh(rtx()->bvh);
 	rtx()->bvh = bvh(rtx()->shapes);
+	if (!rtx()->bvh)
+		error();
 }
