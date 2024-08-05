@@ -11,8 +11,6 @@ static void	start_mlx(void)
 		error();
 	rtx()->width = WIDTH;
 	rtx()->height = HEIGHT;
-	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)
-		error();
 }
 
 static void	init_camera(void)
@@ -75,7 +73,9 @@ static void	setup_scene(void)
 void	init_rtx(void)
 {
 	ft_bzero(rtx(), sizeof(t_rtx));
+	start_mlx();
 	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
 	setup_scene();
-	start_mlx();
+	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)
+		error();
 }
