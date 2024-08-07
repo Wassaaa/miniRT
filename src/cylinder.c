@@ -90,7 +90,7 @@ int	intersect_cylinder(t_ray ray, t_shape cylinder, double *t)
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (0);
-	t_body = (-coeffs.b - sqrt(discriminant)) / (2.0 * coeffs.a);
+	t_body = get_valid_t(&coeffs, &discriminant);
 	if (t_body > 0)
 	{
 		intersection = vector_add(ray.origin,

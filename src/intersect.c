@@ -27,6 +27,29 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 	return (hit->hit);
 }
 
+static void	ft_swap(double *a, double *b)
+{
+	double temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+double	get_valid_t(t_quadratic_coeffs *coeffs, double *discriminant)
+{
+	double	t1;
+	double	t2;
+
+	t1 = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
+	t2 = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
+	if (t1 > t2)
+		ft_swap(&t1, &t2);
+	if (t1 > 0)
+		return (t1);
+	return (t2);
+}
+
 bool	intersect(t_shape *shape, t_ray ray, double *t)
 {
 	bool	hit;

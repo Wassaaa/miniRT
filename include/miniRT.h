@@ -54,7 +54,7 @@
 # define TEST_CONE (t_vector){0, 0, 15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
 
 # define TEST_SPHERE2 (t_vector){0, 0, 15}, 81, RGBA(COLOR_PINK)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_BLACK)
+# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_RED)
 # define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
 # define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
 
@@ -66,7 +66,7 @@
 
 # define REFLECT_DEPTH 1
 //test cam
-# define TEST_CAM_POS (t_vector){0, 0.8, -35}
+# define TEST_CAM_POS (t_vector){4, 2, 5}
 # define TEST_CAM_DIR (t_vector){0, -0.2, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
@@ -77,7 +77,7 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){0, 15, -15}, RGBA(COLOR_PASTEL_BLUE), 1.0
+# define TEST_LIGHT (t_vector){4, 2, 5}, RGBA(COLOR_PASTEL_BLUE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
@@ -131,6 +131,7 @@ t_color			trace_ray (t_ray *ray, int depth);
 bool			check_unbound(t_ray *ray, t_hit *hit);
 bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
+double			get_valid_t(t_quadratic_coeffs *coeffs, double *discriminant);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);

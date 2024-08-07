@@ -76,6 +76,6 @@ bool intersect_sphere(t_ray ray, t_shape *sphere, double* t)
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (false);
-	*t = (-coeffs.b - sqrt(discriminant)) / (2.0 * coeffs.a);
+	*t = get_valid_t(&coeffs, &discriminant);
 	return (*t > 0);
 }
