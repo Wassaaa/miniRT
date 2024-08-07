@@ -68,4 +68,6 @@ void	fix_hit_normal(t_hit *hit)
 			if (vector_dot(hit->ray->direction, hit->normal) > 0)
 		hit->normal = vector_scale(hit->normal, -1);
 	}
+	if (vector_dot(hit->ray->direction, hit->normal) > 0)
+		hit->normal = vector_scale(hit->normal, -1);
 }
