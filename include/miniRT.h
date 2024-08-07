@@ -164,6 +164,7 @@ void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
 
 //shapes
+t_shape			*make_sphere(t_vector pos, double diameter, t_color color);
 t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
 t_shape			*make_plane(t_vector pos, t_vector dir, t_color color);
 t_shape			*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);

@@ -2,8 +2,8 @@
 
 void	error(void)
 {
-	printf("ERROR\n");
-	printf("%s\n", mlx_strerror(mlx_errno));
+	perror("ERROR\n");
+	perror(mlx_strerror(mlx_errno));
 	exit(1);
 }
 
@@ -18,7 +18,7 @@ void	get_shapes(void)
 	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANER)));
 	// ft_lstadd_back(&rtx()->unbound, ft_lstnew(make_plane(TEST_PLANEL)));
 
-	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE2)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE3)));
 	// ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE4)));
