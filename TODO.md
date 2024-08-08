@@ -10,11 +10,10 @@
 - [x] random movement/translation of all objects with maybe UHJK OL keys or something
 - [x] display last command in terminal that shows ie: "all objects moved to right" "all objects rotated 30 degrees on x axis"
 - [x] fix drawing of object when camera is inside the object
-- [ ] restructure main.c into different parts and folders
-- [ ] change all make_shape functions to take pointers as argument
+- [x] restructure main.c into different parts and folders
+- [x] change all make_shape functions to take pointers as argument
 - [ ] Parsing of scene files
 - [ ] fix all memory things, free when creating new lists, bvhs, destroy images/textures, destroy MLX
-- [ ] maybe change cone pos to the center of the cone axis, same as cylinder for consistency
 - [ ] check all artifacts between shape intersections
 
 # LIGHT

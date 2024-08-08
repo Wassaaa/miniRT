@@ -5,7 +5,7 @@ static inline bool	update_hit(t_bvh *node, t_hit *t, t_ray *ray)
 {
 	double	current_t;
 
-	if (intersect(node->shape, *ray, &current_t))
+	if (intersect(node->shape, ray, &current_t))
 	{
 		if (current_t < t->distance)
 		{

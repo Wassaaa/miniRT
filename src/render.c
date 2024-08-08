@@ -1,4 +1,5 @@
 #include <miniRT.h>
+
 t_color trace_ray(t_ray *ray, int depth)
 {
 	t_hit	hit;

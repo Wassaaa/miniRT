@@ -34,22 +34,22 @@ t_vector	check_dir(t_vector dir)
 }
 
 
-t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray ray, t_shape shape)
+t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
 
-	oc = vector_subtract(ray.origin, shape.pos);
-	coeffs.a = vector_dot(ray.direction, ray.direction)
-		- pow(vector_dot(ray.direction, shape.dir), 2);
-	coeffs.b = 2 * (vector_dot(ray.direction, oc)
-		- vector_dot(ray.direction, shape.dir) * vector_dot(oc, shape.dir));
-	coeffs.c = vector_dot(oc, oc) - pow(vector_dot(oc, shape.dir), 2)
-		- shape.radius * shape.radius;
+	oc = vector_subtract(ray->origin, shape->pos);
+	coeffs.a = vector_dot(ray->direction, ray->direction)
+		- pow(vector_dot(ray->direction, shape->dir), 2);
+	coeffs.b = 2 * (vector_dot(ray->direction, oc)
+		- vector_dot(ray->direction, shape->dir) * vector_dot(oc, shape->dir));
+	coeffs.c = vector_dot(oc, oc) - pow(vector_dot(oc, shape->dir), 2)
+		- shape->radius * shape->radius;
 	return (coeffs);
 }
 
-double	intersect_cylinder_caps(t_ray ray, t_shape cylinder)
+double	intersect_cylinder_caps(t_ray *ray, t_shape *cylinder)
 {
 	t_vector	v_caps[2];
 	double		t_caps[2];
@@ -60,16 +60,16 @@ double	intersect_cylinder_caps(t_ray ray, t_shape cylinder)
 	i = -1;
 	while (++i < 2)
 	{
-		v_caps[i] = vector_add(cylinder.pos, vector_scale(cylinder.dir,
-					(i * 2 - 1) * 0.5 * cylinder.height));
-		t_caps[i] = vector_dot(vector_subtract(v_caps[i], ray.origin),
-				cylinder.dir) / vector_dot(ray.direction, cylinder.dir);
+		v_caps[i] = vector_add(cylinder->pos, vector_scale(cylinder->dir,
+					(i * 2 - 1) * 0.5 * cylinder->height));
+		t_caps[i] = vector_dot(vector_subtract(v_caps[i], ray->origin),
+				cylinder->dir) / vector_dot(ray->direction, cylinder->dir);
 		if (t_caps[i] > 0)
 		{
-			v = vector_subtract(vector_add(ray.origin,
-						vector_scale(ray.direction, t_caps[i])), v_caps[i]);
-			r_squared = vector_dot(v, v) - pow(vector_dot(v, cylinder.dir), 2);
-			if (r_squared > cylinder.radius * cylinder.radius)
+			v = vector_subtract(vector_add(ray->origin,
+						vector_scale(ray->direction, t_caps[i])), v_caps[i]);
+			r_squared = vector_dot(v, v) - pow(vector_dot(v, cylinder->dir), 2);
+			if (r_squared > cylinder->radius * cylinder->radius)
 				t_caps[i] = INFINITY;
 		}
 		else
@@ -78,7 +78,7 @@ double	intersect_cylinder_caps(t_ray ray, t_shape cylinder)
 	return (fmin(t_caps[0], t_caps[1]));
 }
 
-int	intersect_cylinder(t_ray ray, t_shape cylinder, double *t)
+int	intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
@@ -93,11 +93,11 @@ int	intersect_cylinder(t_ray ray, t_shape cylinder, double *t)
 	get_valid_t(t_body, &coeffs, &discriminant);
 	if (t_body[0] > 0)
 	{
-		intersection = vector_add(ray.origin,
-				vector_scale(ray.direction, t_body[0]));
-		y = vector_dot(vector_subtract(intersection, cylinder.pos),
-				cylinder.dir);
-		if (fabs(y) > cylinder.height / 2)
+		intersection = vector_add(ray->origin,
+				vector_scale(ray->direction, t_body[0]));
+		y = vector_dot(vector_subtract(intersection, cylinder->pos),
+				cylinder->dir);
+		if (fabs(y) > cylinder->height / 2)
 			t_body[0] = INFINITY;
 	}
 	else

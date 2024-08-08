@@ -1,17 +1,17 @@
 #include <miniRT.h>
 #include <wireframe.h>
 
-static inline t_coeff	calc_coefficients(t_ray ray, t_shape *line)
+static inline t_coeff	calc_coefficients(t_ray *ray, t_shape *line)
 {
 	t_coeff		coeff;
 	t_vector	ray_to_line;
 
-	ray_to_line = vector_subtract(line->pos, ray.origin);
+	ray_to_line = vector_subtract(line->pos, ray->origin);
 	coeff.a = vector_dot(line->dir, line->dir);
-	coeff.b = vector_dot(line->dir, ray.direction);
-	coeff.c = vector_dot(ray.direction, ray.direction);
+	coeff.b = vector_dot(line->dir, ray->direction);
+	coeff.c = vector_dot(ray->direction, ray->direction);
 	coeff.d = vector_dot(line->dir, ray_to_line);
-	coeff.e = vector_dot(ray.direction, ray_to_line);
+	coeff.e = vector_dot(ray->direction, ray_to_line);
 	return (coeff);
 }
 
@@ -25,18 +25,18 @@ static inline double	calc_denominator(t_coeff coeff)
 	return (1.0 / denom);
 }
 
-static inline t_vector calc_closest_points(t_ray ray, t_shape *line,
+static inline t_vector calc_closest_points(t_ray *ray, t_shape *line,
 										double line_t, double ray_t)
 {
 	t_vector	p_on_line;
 	t_vector	p_on_ray;
 
 	p_on_line = vector_add(line->pos, vector_scale(line->dir, line_t));
-	p_on_ray = vector_add(ray.origin, vector_scale(ray.direction, ray_t));
+	p_on_ray = vector_add(ray->origin, vector_scale(ray->direction, ray_t));
 	return (vector_subtract(p_on_line, p_on_ray));
 }
 
-static inline bool	check_intersection(double line_t, double ray_t, t_ray ray,
+static inline bool	check_intersection(double line_t, double ray_t, t_ray *ray,
 	t_shape *line, double *t)
 {
 	t_vector	closest_points;
@@ -80,7 +80,7 @@ static inline bool	check_intersection(double line_t, double ray_t, t_ray ray,
  * @param t Pointer to store the intersection distance along the ray
  * @return true if an intersection occurs, false otherwise
  */
-bool	intersect_aabb_line(t_ray ray, t_shape *line, double *t)
+bool	intersect_aabb_line(t_ray *ray, t_shape *line, double *t)
 {
 	t_coeff	coeff;
 	double	inv_denom;

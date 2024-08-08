@@ -132,11 +132,11 @@ t_color			trace_ray (t_ray *ray, int depth);
 //intersect
 bool			check_unbound(t_ray *ray, t_hit *hit);
 bool			intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
-bool			intersect(t_shape *shape, t_ray ray, double *t);
+bool			intersect(t_shape *shape, t_ray *ray, double *t);
 void			get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant);
-bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
-int				intersect_plane(t_ray ray, t_shape plane, double *t);
-int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
+bool			intersect_sphere(t_ray *ray, t_shape *sphere, double* t);
+int				intersect_plane(t_ray *ray, t_shape *plane, double *t);
+int				intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t);
 int				intersect_cone(t_ray *ray, t_shape *cone, double *t);
 void			fix_hit_normal(t_hit *hit);
 //lights
@@ -188,7 +188,7 @@ void		cone_uv(t_hit *hit, double *u, double *v, int repeat);
 //wireframe
 t_bvh		*make_wireframe(t_bvh *shapes_bvh);
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, t_color color, t_shape_type type);
-bool		intersect_aabb_line(t_ray ray, t_shape *line, double *t);
+bool		intersect_aabb_line(t_ray *ray, t_shape *line, double *t);
 void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
 void		error(void);

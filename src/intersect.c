@@ -12,7 +12,7 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 		shape = (t_shape *)unbound->content;
 		if (shape->type == PLANE)
 		{
-			if (intersect_plane(*ray, *shape, &distance) && distance < hit->distance)
+			if (intersect_plane(ray, shape, &distance) && distance < hit->distance)
 			{
 				if (distance > 0.001 && distance < hit->distance)
 				{
@@ -48,7 +48,7 @@ void get_valid_t(double t_body[2], t_quadratic_coeffs *coeffs, double *discrimin
 		ft_swap(&t_body[0], &t_body[1]);
 }
 
-bool	intersect(t_shape *shape, t_ray ray, double *t)
+bool	intersect(t_shape *shape, t_ray *ray, double *t)
 {
 	bool	hit;
 
@@ -56,9 +56,9 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 	if (shape->type == SPHERE)
 		hit = intersect_sphere(ray, shape, t);
 	else if (shape->type == CYLINDER)
-		hit = intersect_cylinder(ray, *shape, t);
+		hit = intersect_cylinder(ray, shape, t);
 	else if (shape->type == CONE)
-		hit = intersect_cone(&ray, shape, t);
+		hit = intersect_cone(ray, shape, t);
 	else if (shape->type == LINE || shape->type == WIREFRAME)
 		hit = intersect_aabb_line(ray, shape, t);
 	if (*t < 0)
