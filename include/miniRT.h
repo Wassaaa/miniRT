@@ -14,7 +14,7 @@
 
 # define LINE_THICKNESS 0.45
 
-#define NUM_THREADS 1
+#define NUM_THREADS 24
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -66,8 +66,8 @@
 
 # define REFLECT_DEPTH 1
 //test cam
-# define TEST_CAM_POS (t_vector){-8, 78, -14}
-# define TEST_CAM_DIR (t_vector){0, -0.98, 0.2}
+# define TEST_CAM_POS (t_vector){-19, 21, -19}
+# define TEST_CAM_DIR (t_vector){0.1, -0.66, 0.75}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -77,7 +77,7 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){4, 2, 5}, RGBA(COLOR_PASTEL_BLUE), 1.0
+# define TEST_LIGHT (t_vector){4, 2, -5}, RGBA(COLOR_PASTEL_BLUE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
@@ -131,7 +131,7 @@ t_ray			generate_ray(int x, int y);
 t_color			trace_ray (t_ray *ray, int depth);
 //intersect
 bool			check_unbound(t_ray *ray, t_hit *hit);
-bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
+bool			intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
 void			get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);

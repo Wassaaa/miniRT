@@ -16,7 +16,7 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	direction = vector_scale(direction, 1.0 / light_distance);
 	shadow_ray = create_ray(origin, direction);
 	temp.distance = light_distance;
-	if (rtx()->bvh && intersect_bvh(rtx()->bvh, shadow_ray, &temp) && temp.distance < light_distance)
+	if (rtx()->bvh && intersect_bvh(rtx()->bvh, &shadow_ray, &temp) && temp.distance < light_distance)
 		return (true);
 	temp.distance = light_distance;
 	if (check_unbound(&shadow_ray, &temp) && temp.distance < light_distance)

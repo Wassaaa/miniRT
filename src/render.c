@@ -5,9 +5,9 @@ t_color trace_ray(t_ray *ray, int depth)
 
 	hit = (t_hit){INFINITY, NULL, false, VV, VV, NULL};
 	if (rtx()->wireframe_bvh && rtx()->wireframe)
-		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, *ray, &hit);
+		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &hit);
 	if (rtx()->bvh)
-		hit.hit |= intersect_bvh(rtx()->bvh, *ray, &hit);
+		hit.hit |= intersect_bvh(rtx()->bvh, ray, &hit);
 	hit.hit |= check_unbound(ray, &hit);
 	if (!hit.hit)
 		return (color_from_hex(TEST_BG));
