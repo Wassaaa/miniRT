@@ -28,35 +28,35 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	return (cone);
 }
 
-t_quadratic_coeffs	quadratic_coeffs_cone(t_ray ray, t_shape *cone)
+t_quadratic_coeffs	quadratic_coeffs_cone(t_ray *ray, t_shape *cone)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
 	double				k;
 
-	oc = vector_subtract(ray.origin, cone->pos);
+	oc = vector_subtract(ray->origin, cone->pos);
 	k = pow(cone->radius / cone->height, 2);
-	coeffs.a = vector_dot(ray.direction, ray.direction) -
-		(1 + k) * pow(vector_dot(ray.direction, cone->dir), 2);
-	coeffs.b = 2 * (vector_dot(ray.direction, oc) -
-		(1 + k) * vector_dot(ray.direction, cone->dir) * vector_dot(oc, cone->dir));
+	coeffs.a = vector_dot(ray->direction, ray->direction) -
+		(1 + k) * pow(vector_dot(ray->direction, cone->dir), 2);
+	coeffs.b = 2 * (vector_dot(ray->direction, oc) -
+		(1 + k) * vector_dot(ray->direction, cone->dir) * vector_dot(oc, cone->dir));
 	coeffs.c = vector_dot(oc, oc) -
 		(1 + k) * pow(vector_dot(oc, cone->dir), 2);
 	return (coeffs);
 }
 
-double	intersect_cone_base(t_ray ray, t_shape *cone)
+double	intersect_cone_base(t_ray *ray, t_shape *cone)
 {
 	t_vector	base_center;
 	double		t;
 	t_vector	p;
 
 	base_center = vector_subtract(cone->pos, vector_scale(cone->dir, -cone->height));
-	t = vector_dot(vector_subtract(base_center, ray.origin), cone->dir) / 
-		vector_dot(ray.direction, cone->dir);
+	t = vector_dot(vector_subtract(base_center, ray->origin), cone->dir) / 
+		vector_dot(ray->direction, cone->dir);
 	if (t > 0)
 	{
-		p = vector_subtract(vector_add(ray.origin, vector_scale(ray.direction, t)), 
+		p = vector_subtract(vector_add(ray->origin, vector_scale(ray->direction, t)), 
 			base_center);
 		if (vector_dot(p, p) <= cone->radius * cone->radius)
 			return (t);
@@ -64,28 +64,37 @@ double	intersect_cone_base(t_ray ray, t_shape *cone)
 	return (INFINITY);
 }
 
-int	intersect_cone(t_ray ray, t_shape *cone, double *t)
+void	check_height(double t_body[2], t_ray *ray, t_shape *cone)
+{
+	t_vector	intersection;
+	int			i;
+	double		y;
+
+	i = 0;
+	while (i < 2)
+	{
+		intersection = vector_add(ray->origin, vector_scale(ray->direction, t_body[i]));
+		y = vector_dot(vector_subtract(intersection, cone->pos), cone->dir);
+		if (y < 0 || y > cone->height)
+			t_body[i] = INFINITY;
+		i++;
+	}
+	if (t_body[0] > t_body[1])
+		ft_swap(&t_body[0], &t_body[1]);
+}
+
+int	intersect_cone(t_ray *ray, t_shape *cone, double *t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
-	t_vector			intersection;
-	double				t_body;
-	double				y;
+	double				t_body[2];
 
 	coeffs = quadratic_coeffs_cone(ray, cone);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (0);
-	t_body = get_valid_t(&coeffs, &discriminant);
-	if (t_body > 0)
-	{
-		intersection = vector_add(ray.origin, vector_scale(ray.direction, t_body));
-		y = vector_dot(vector_subtract(intersection, cone->pos), cone->dir);
-		if (y < 0 || y > cone->height)
-			t_body = INFINITY;
-	}
-	else
-		t_body = INFINITY;
-	*t = fmin(t_body, intersect_cone_base(ray, cone));
+	get_valid_t(t_body, &coeffs, &discriminant);
+	check_height(t_body, ray, cone);
+	*t = fmin(t_body[0], intersect_cone_base(ray, cone));
 	return (*t != INFINITY);
 }

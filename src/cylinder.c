@@ -83,25 +83,25 @@ int	intersect_cylinder(t_ray ray, t_shape cylinder, double *t)
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
 	t_vector			intersection;
-	double				t_body;
+	double				t_body[2];
 	double				y;
 
 	coeffs = quadratic_coeffs_cylinder(ray, cylinder);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (0);
-	t_body = get_valid_t(&coeffs, &discriminant);
-	if (t_body > 0)
+	get_valid_t(t_body, &coeffs, &discriminant);
+	if (t_body[0] > 0)
 	{
 		intersection = vector_add(ray.origin,
-				vector_scale(ray.direction, t_body));
+				vector_scale(ray.direction, t_body[0]));
 		y = vector_dot(vector_subtract(intersection, cylinder.pos),
 				cylinder.dir);
 		if (fabs(y) > cylinder.height / 2)
-			t_body = INFINITY;
+			t_body[0] = INFINITY;
 	}
 	else
-		t_body = INFINITY;
-	*t = fmin(t_body, intersect_cylinder_caps(ray, cylinder));
+		t_body[0] = INFINITY;
+	*t = fmin(t_body[0], intersect_cylinder_caps(ray, cylinder));
 	return (*t != INFINITY);
 }

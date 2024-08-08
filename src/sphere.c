@@ -71,11 +71,13 @@ bool intersect_sphere(t_ray ray, t_shape *sphere, double* t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;
+	double				t_body[2];
 
 	coeffs = quadratic_coeffs_sphere(ray, sphere);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);
 	if (discriminant < 0)
 		return (false);
-	*t = get_valid_t(&coeffs, &discriminant);
+	get_valid_t(t_body, &coeffs, &discriminant);
+	*t = t_body[0];
 	return (*t > 0);
 }

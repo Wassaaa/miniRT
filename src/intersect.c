@@ -27,7 +27,7 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 	return (hit->hit);
 }
 
-static void	ft_swap(double *a, double *b)
+void	ft_swap(double *a, double *b)
 {
 	double temp;
 
@@ -36,18 +36,12 @@ static void	ft_swap(double *a, double *b)
 	*b = temp;
 }
 
-double	get_valid_t(t_quadratic_coeffs *coeffs, double *discriminant)
+void get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant)
 {
-	double	t1;
-	double	t2;
-
-	t1 = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
-	t2 = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
-	if (t1 > t2)
-		ft_swap(&t1, &t2);
-	if (t1 > 0)
-		return (t1);
-	return (t2);
+	t[0] = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
+	t[1] = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
+	if (t[1] < t[0] && t[1] > 0)
+		ft_swap(&t[0], &t[1]);
 }
 
 bool	intersect(t_shape *shape, t_ray ray, double *t)
@@ -60,7 +54,7 @@ bool	intersect(t_shape *shape, t_ray ray, double *t)
 	else if (shape->type == CYLINDER)
 		hit = intersect_cylinder(ray, *shape, t);
 	else if (shape->type == CONE)
-		hit = intersect_cone(ray, shape, t);
+		hit = intersect_cone(&ray, shape, t);
 	else if (shape->type == LINE || shape->type == WIREFRAME)
 		hit = intersect_aabb_line(ray, shape, t);
 	if (*t < 0)

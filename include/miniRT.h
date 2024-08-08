@@ -14,7 +14,7 @@
 
 # define LINE_THICKNESS 0.45
 
-#define NUM_THREADS 24
+#define NUM_THREADS 1
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -66,8 +66,8 @@
 
 # define REFLECT_DEPTH 1
 //test cam
-# define TEST_CAM_POS (t_vector){4, 2, 5}
-# define TEST_CAM_DIR (t_vector){0, -0.2, 1}
+# define TEST_CAM_POS (t_vector){-8, 78, -14}
+# define TEST_CAM_DIR (t_vector){0, -0.98, 0.2}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -106,6 +106,8 @@ t_vector		vector_max(t_vector a, t_vector b);
 //clamp
 int				clampi(int value, int min, int max);
 double			clampd(double value, double min, double max);
+//util
+void			ft_swap(double *a, double *b);
 
 //init
 t_rtx			*rtx(void);
@@ -131,11 +133,11 @@ t_color			trace_ray (t_ray *ray, int depth);
 bool			check_unbound(t_ray *ray, t_hit *hit);
 bool			intersect_bvh(t_bvh *node, t_ray ray, t_hit *hit);
 bool			intersect(t_shape *shape, t_ray ray, double *t);
-double			get_valid_t(t_quadratic_coeffs *coeffs, double *discriminant);
+void			get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant);
 bool			intersect_sphere(t_ray ray, t_shape *sphere, double* t);
 int				intersect_plane(t_ray ray, t_shape plane, double *t);
 int				intersect_cylinder(t_ray ray, t_shape cylinder, double *t);
-int				intersect_cone(t_ray ray, t_shape *cone, double *t);
+int				intersect_cone(t_ray *ray, t_shape *cone, double *t);
 void			fix_hit_normal(t_hit *hit);
 //lights
 double			get_diffuse(t_hit *hit, t_vector *light_dir);
