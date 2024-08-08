@@ -36,12 +36,16 @@ void	ft_swap(double *a, double *b)
 	*b = temp;
 }
 
-void get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant)
+void get_valid_t(double t_body[2], t_quadratic_coeffs *coeffs, double *discriminant)
 {
-	t[0] = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
-	t[1] = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
-	if (t[1] < t[0] && t[1] > 0)
-		ft_swap(&t[0], &t[1]);
+	t_body[0] = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
+	t_body[1] = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
+	if (t_body[0] < 0)
+		t_body[0] = INFINITY;
+	if (t_body[1] < 0)
+		t_body[1] = INFINITY;
+	if (t_body[1] < t_body[0])
+		ft_swap(&t_body[0], &t_body[1]);
 }
 
 bool	intersect(t_shape *shape, t_ray ray, double *t)

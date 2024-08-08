@@ -70,6 +70,8 @@ void	check_height(double t_body[2], t_ray *ray, t_shape *cone)
 	int			i;
 	double		y;
 
+	if (t_body[0] == INFINITY)
+		return ;
 	i = 0;
 	while (i < 2)
 	{
