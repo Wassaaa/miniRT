@@ -10,6 +10,8 @@ typedef enum e_shape_type
 	SPHERE,
 	CYLINDER,
 	CONE,
+	LIGHT,
+	SHAPE_NUM,
 	LINE,
 	WIREFRAME
 }	t_shape_type;
@@ -67,7 +69,6 @@ typedef struct s_light
 	t_vector	pos;
 	t_color		color;
 	double		bright;
-	double		intensity;
 }	t_light;
 
 typedef struct s_quadratic_coeffs
@@ -147,6 +148,7 @@ typedef struct s_rtx
 	int				wireframe;
 	int				grid_size;
 	int				ssaa;
+	t_shape_type	target;
 	unsigned int	seed;
 	mlx_image_t		*checkerboard;
 }	t_rtx;

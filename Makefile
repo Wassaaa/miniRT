@@ -62,6 +62,7 @@ SRCS			=	main.c \
 					uv.c \
 					translate.c \
 					rotate.c \
+					scale.c \
 					aabb_generate_rays.c \
 					aabb_intersect_line.c \
 					wireframe.c \

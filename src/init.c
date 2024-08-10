@@ -68,6 +68,7 @@ static void	setup_scene(void)
 	if (!rtx()->bvh)
 		error();
 	get_lights(); //fix allocs
+	change_target();
 }
 
 void	init_rtx(void)

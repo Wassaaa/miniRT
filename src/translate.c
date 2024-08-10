@@ -37,8 +37,11 @@ void	move_shapes(t_direction dir)
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
-		translate_vector(&shape->pos, dir);
-		shape->box = shape->boxfunc(shape);
+		if (shape->type == rtx()->target)
+		{
+			translate_vector(&shape->pos, dir);
+			shape->box = shape->boxfunc(shape);
+		}
 		shapes = shapes->next;
 	}
 	if (rtx()->bvh)
@@ -46,4 +49,43 @@ void	move_shapes(t_direction dir)
 	rtx()->bvh = bvh(rtx()->shapes);
 	if (!rtx()->bvh)
 		error();
+}
+
+static void	move_list(t_list *objects, t_direction dir)
+{
+	t_shape	*object;
+
+	while (objects)
+	{
+		object = (t_shape *)objects->content;
+		translate_vector(&object->pos, dir);
+		objects = objects->next;
+	}
+}
+
+static void	move_lights(t_direction dir)
+{
+	t_list	*lights;
+	t_light	*light;
+
+	lights = rtx()->scene->lights;
+	while(lights)
+	{
+		light = (t_light *)lights->content;
+		translate_vector(&light->pos, dir);
+		lights = lights->next;
+	}
+}
+
+void	move_objects(t_direction dir)
+{
+	t_shape_type	target;
+
+	target = rtx()->target;
+	if (target == PLANE)
+		move_list(rtx()->unbound, dir);
+	else if (target == LIGHT)
+		move_lights(dir);
+	else
+		move_shapes(dir);
 }

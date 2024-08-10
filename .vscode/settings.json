@@ -19,6 +19,8 @@
         "math-vector.h": "c",
         "libm-simd-decl-stubs.h": "c",
         "minirt.h": "c",
-        "random": "c"
+        "random": "c",
+        "libft.h": "c",
+        "struct.h": "c"
     }
 }

@@ -24,6 +24,7 @@
 
 # define EPSILON 1e-6
 # define SCALE_PLANE 0.01
+# define SCALE_STEP 0.1
 
 # define WORLD_UP (t_vector){0, 1, 0}
 # define WORLD_RIGHT (t_vector){1, 0, 0}
@@ -159,12 +160,15 @@ t_color			color_blend(t_color c1, t_color c2, double factor);
 void			loop_hook(void *data);
 void			key_hook(mlx_key_data_t keydata, void* param);
 bool			keys(mlx_key_data_t keydata);
+bool			change_target(void);
+void			move_objects(t_direction dir);
 
 //rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
 void			random_rotate(void);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
+void			scale(t_direction dir);
 
 //shapes
 t_shape			*make_sphere(t_vector pos, double diameter, t_color color);

@@ -9,7 +9,7 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->type = SPHERE;
 	sphere->pos = pos;
 	sphere->diameter = diameter;
-	sphere->radius = sphere->diameter / 2;
+	sphere->radius = sphere->diameter * 0.5;
 	sphere->color = color_from_int(color.r, color.g, color.b);
 	sphere->boxfunc = box_sphere;
 	sphere->box = sphere->boxfunc(sphere);

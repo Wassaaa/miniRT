@@ -54,29 +54,52 @@ static bool	move_camera(mlx_key_data_t keydata)
 	return (true);
 }
 
-static bool	move_all(mlx_key_data_t keydata)
+static bool	adjust_shapes(mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_O && keydata.action == MLX_RELEASE)
-		move_shapes(UP);
+		move_objects(UP);
 	else if (keydata.key == MLX_KEY_L && keydata.action == MLX_RELEASE)
-		move_shapes(DOWN);
+		move_objects(DOWN);
 	else if (keydata.key == MLX_KEY_U && keydata.action == MLX_RELEASE)
-		move_shapes(FORWARD);
+		move_objects(FORWARD);
 	else if (keydata.key == MLX_KEY_J && keydata.action == MLX_RELEASE)
-		move_shapes(BACK);
+		move_objects(BACK);
 	else if (keydata.key == MLX_KEY_H && keydata.action == MLX_RELEASE)
-		move_shapes(LEFT);
+		move_objects(LEFT);
 	else if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
-		move_shapes(RIGHT);
+		move_objects(RIGHT);
+	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
+		random_rotate();
+	else if (keydata.key == MLX_KEY_PERIOD && keydata.action == MLX_RELEASE)
+		scale(UP);
+	else if (keydata.key == MLX_KEY_COMMA && keydata.action == MLX_RELEASE)
+		scale(DOWN);
 	else
 		return (false);
 	return (true);
+}
+
+bool	change_target(void)
+{
+	static const char *tar_type_strings[] = {
+	[PLANE] = "PLANE",
+	[SPHERE] = "SPHERE",
+	[CYLINDER] = "CYLINDER",
+	[CONE] = "CONE",
+	[LIGHT] = "LIGHT"
+	};
+
+	rtx()->target = (rtx()->target + 1) % SHAPE_NUM;
+	printf("\e[8;1HTARGET: [%s]\e[K\n", tar_type_strings[rtx()->target]);
+	return (false);
 }
 
 bool	keys(mlx_key_data_t keydata)
 {
 	if (move_camera(keydata))
 		return (true);
+	if (keydata.key == MLX_KEY_TAB && keydata.action == MLX_RELEASE)
+		return (change_target());
 	else if (keydata.key == MLX_KEY_PAGE_UP && keydata.action == MLX_RELEASE)
 		adjust_fov(-1);
 	else if (keydata.key == MLX_KEY_PAGE_DOWN && keydata.action == MLX_RELEASE)
@@ -88,9 +111,7 @@ bool	keys(mlx_key_data_t keydata)
 		if (!rtx()->wireframe_bvh)
 			error();
 	}
-	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
-		random_rotate();
-	else if (move_all(keydata))
+	else if (adjust_shapes(keydata))
 		return (true);
 	else
 		return (false);
