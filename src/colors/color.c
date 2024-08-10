@@ -116,9 +116,7 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 		vector_scale(ray->direction, hit->distance));
 	hit->ray = ray;
 	fix_hit_normal(hit);
-	if (hit->shape->type == WIREFRAME
-		|| hit->shape->type == LINE
-		)
+	if (hit->shape->type == WIREFRAME)
 		final_color = hit->shape->color;
 	else
 	{

@@ -44,7 +44,7 @@ static inline bool	check_intersection(double line_t, double ray_t, t_ray *ray,
 
 	closest_points = calc_closest_points(ray, line, line_t, ray_t);
 	distance_sq = vector_length_squared(closest_points);
-	if (distance_sq <= line->radius * line->radius)
+	if (distance_sq <= line->radius * line->radius + EPSILON)
 	{
 		*t = ray_t;
 		return (true);

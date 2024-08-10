@@ -14,21 +14,20 @@ static void	set_corners(t_aabb box, t_vector *corners)
 }
 
 void	make_aabb_line(t_list **lines, t_vector start,
-						t_vector end, t_color color, t_shape_type type)
+						t_vector end, int depth)
 {
 	t_shape	*line;
+	t_color		color;
 
+	color = depth_colors[depth % MAX_DEPTH];
 	line = ft_calloc(1, sizeof(t_shape));
 	if (!line)
 		return ;
-	line->type = type;
+	line->type = WIREFRAME;
 	line->pos = start;
 	line->color = color_from_int(color.r, color.g, color.b);
 	line->dir = vector_subtract(end, start);
-	if (type == WIREFRAME)
-		line->radius = AABB_LINE_THICKNESS;
-	else
-		line->radius = LINE_THICKNESS;
+	line->radius = AABB_LINE_THICKNESS * pow(0.8, depth);
 	line->diameter = line->radius * 2;
 	line->boxfunc = box_line;
 	line->box = line->boxfunc(line);
@@ -40,28 +39,28 @@ Front Face = first 4
 Back Face = middle 4
 connecting edges = last 4
 */
-static void	add_lines(t_list **lines, t_vector *corners, t_color color)
+static void	add_lines(t_list **lines, t_vector *corners, int depth)
 {
-	make_aabb_line(lines, corners[0], corners[1], color, WIREFRAME);
-	make_aabb_line(lines, corners[1], corners[3], color, WIREFRAME);
-	make_aabb_line(lines, corners[3], corners[2], color, WIREFRAME);
-	make_aabb_line(lines, corners[2], corners[0], color, WIREFRAME);
-	make_aabb_line(lines, corners[4], corners[5], color, WIREFRAME);
-	make_aabb_line(lines, corners[5], corners[7], color, WIREFRAME);
-	make_aabb_line(lines, corners[7], corners[6], color, WIREFRAME);
-	make_aabb_line(lines, corners[6], corners[4], color, WIREFRAME);
-	make_aabb_line(lines, corners[0], corners[4], color, WIREFRAME);
-	make_aabb_line(lines, corners[1], corners[5], color, WIREFRAME);
-	make_aabb_line(lines, corners[2], corners[6], color, WIREFRAME);
-	make_aabb_line(lines, corners[3], corners[7], color, WIREFRAME);
+	make_aabb_line(lines, corners[0], corners[1], depth);
+	make_aabb_line(lines, corners[1], corners[3], depth);
+	make_aabb_line(lines, corners[3], corners[2], depth);
+	make_aabb_line(lines, corners[2], corners[0], depth);
+	make_aabb_line(lines, corners[4], corners[5], depth);
+	make_aabb_line(lines, corners[5], corners[7], depth);
+	make_aabb_line(lines, corners[7], corners[6], depth);
+	make_aabb_line(lines, corners[6], corners[4], depth);
+	make_aabb_line(lines, corners[0], corners[4], depth);
+	make_aabb_line(lines, corners[1], corners[5], depth);
+	make_aabb_line(lines, corners[2], corners[6], depth);
+	make_aabb_line(lines, corners[3], corners[7], depth);
 }
 static void	add_connecting_edges(t_list **lines, t_vector *corners,
-				t_color color)
+				int depth)
 {
-	make_aabb_line(lines, corners[0], corners[4], color, WIREFRAME);
-	make_aabb_line(lines, corners[1], corners[5], color, WIREFRAME);
-	make_aabb_line(lines, corners[2], corners[6], color, WIREFRAME);
-	make_aabb_line(lines, corners[3], corners[7], color, WIREFRAME);
+	make_aabb_line(lines, corners[0], corners[4], depth);
+	make_aabb_line(lines, corners[1], corners[5], depth);
+	make_aabb_line(lines, corners[2], corners[6], depth);
+	make_aabb_line(lines, corners[3], corners[7], depth);
 }
 
 /**
@@ -76,15 +75,13 @@ static void	add_connecting_edges(t_list **lines, t_vector *corners,
  */
 void	generate_aabb_lines(t_bvh *node, int depth, t_list **lines)
 {
-	t_color		color;
 	t_vector	corners[8];
 
 	if (!node)
 		return ;
-	color = depth_colors[depth % MAX_DEPTH];
 	set_corners(node->box, corners);
-	add_lines(lines, corners, color);
-	add_connecting_edges(lines, corners, color);
+	add_lines(lines, corners, depth);
+	add_connecting_edges(lines, corners, depth);
 	generate_aabb_lines(node->left, depth + 1, lines);
 	generate_aabb_lines(node->right, depth + 1, lines);
 }

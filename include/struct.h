@@ -12,7 +12,6 @@ typedef enum e_shape_type
 	CONE,
 	LIGHT,
 	SHAPE_NUM,
-	LINE,
 	WIREFRAME
 }	t_shape_type;
 

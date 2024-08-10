@@ -59,7 +59,7 @@ bool	intersect(t_shape *shape, t_ray *ray, double *t)
 		hit = intersect_cylinder(ray, shape, t);
 	else if (shape->type == CONE)
 		hit = intersect_cone(ray, shape, t);
-	else if (shape->type == LINE || shape->type == WIREFRAME)
+	else if (shape->type == WIREFRAME)
 		hit = intersect_aabb_line(ray, shape, t);
 	if (*t < 0)
 		return (false);
