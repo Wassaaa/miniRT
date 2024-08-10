@@ -7,9 +7,9 @@ v_rotated = v * cos(θ) + (k × v) * sin(θ) + k * (k · v) * (1 - cos(θ))
 t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
 {
 	t_vector	result;
-	double c;
-	double s;
-	double t;
+	double		c;
+	double		s;
+	double		t;
 
 	c = cos(angle);
 	s = sin(angle);
