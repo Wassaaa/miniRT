@@ -15,7 +15,7 @@ void	scale_shape(t_list *node, double mult)
 	else
 		return ;
 	node->content = new_shape;
-	if (shape->image)
+	if (shape->image && shape->image != rtx()->checkerboard)
 		mlx_delete_image(rtx()->mlx, shape->image);
 	free(shape);
 }
