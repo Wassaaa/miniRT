@@ -15,12 +15,12 @@ static void	start_mlx(void)
 
 static void	init_camera(void)
 {
-	t_scene	*scene;
+	t_camera	*camera;
 
-	scene = rtx()->scene;
-	scene->camera.pos = TEST_CAM_POS;
-	scene->camera.dir = vector_normalize(TEST_CAM_DIR);
-	scene->camera.fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
+	camera = &(rtx()->camera);
+	camera->pos = TEST_CAM_POS;
+	camera->dir = vector_normalize(TEST_CAM_DIR);
+	camera->fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
 	fix_camera();
 }
 
@@ -55,11 +55,8 @@ static void	init_checkerboard(void)
 static void	setup_scene(void)
 {
 	init_checkerboard();
-	rtx()->scene = ft_calloc(1, sizeof(t_scene));
-	if (!rtx()->scene)
-		error();
-	rtx()->scene->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
-	rtx()->scene->ambient = color_scale(rtx()->scene->ambient, TEST_AMBIENT_INT);
+	rtx()->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
+	rtx()->ambient = color_scale(rtx()->ambient, TEST_AMBIENT_INT);
 	init_camera();
 	get_shapes(); //fix allocs
 	if (rtx()->bvh)

@@ -13,7 +13,7 @@ t_light	*make_light(t_vector pos, t_color color, double birght)
 
 void	get_lights(void)
 {
-	ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT)));
+	ft_lstadd_back(&rtx()->lights, ft_lstnew(make_light(TEST_LIGHT)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT2)));
 	// ft_lstadd_back(&rtx()->scene->lights, ft_lstnew(make_light(TEST_LIGHT3)));

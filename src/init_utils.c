@@ -7,13 +7,13 @@ CAMERA_FORWARD x CAM_RIGHT = CAM_UP
 */
 void	fix_camera(void)
 {
-	t_scene	*scene;
+	t_camera	*camera;
 
-	scene = rtx()->scene;
-	scene->camera.right = vector_cross(WORLD_UP, scene->camera.dir);
-	scene->camera.right = vector_normalize(scene->camera.right);
-	scene->camera.up = vector_cross(scene->camera.dir, scene->camera.right);
-	scene->camera.up = vector_normalize(scene->camera.up);
+	camera = &(rtx()->camera);
+	camera->right = vector_cross(WORLD_UP, camera->dir);
+	camera->right = vector_normalize(camera->right);
+	camera->up = vector_cross(camera->dir, camera->right);
+	camera->up = vector_normalize(camera->up);
 }
 
 t_rtx	*rtx(void)

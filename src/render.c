@@ -21,14 +21,14 @@ t_vector	add_panning(t_vector *vector)
 	t_vector	right;
 	t_vector	up;
 
-	right = rtx()->scene->camera.right;
-	up = rtx()->scene->camera.up;
+	right = rtx()->camera.right;
+	up = rtx()->camera.up;
 	direction = vector_add(
 		vector_scale(right, vector->x),
 		vector_scale(up, vector->y));
 	direction = vector_add(
 		direction,
-		vector_scale(rtx()->scene->camera.dir, vector->z));
+		vector_scale(rtx()->camera.dir, vector->z));
 	return (direction);
 }
 
@@ -67,18 +67,18 @@ t_ray	generate_ray(double x, double y)
 {
 	t_ray		ray;
 	t_vector	vector;
-	t_scene		*scene;
+	t_camera	*camera;
 	double		aspect_ratio;
 	double		fov;
 
-	scene = rtx()->scene;
-	ray.origin = scene->camera.pos;
+	camera = &(rtx()->camera);
+	ray.origin = camera->pos;
 	aspect_ratio = (double)WIDTH / (double)HEIGHT;
-	fov = scene->camera.fov;
+	fov = camera->fov;
 	vector.x = (2 * (x / WIDTH) - 1) * fov * aspect_ratio;
 	vector.y = (1 - 2 * (y / HEIGHT)) * fov;
 	vector.z = 1;
-	ray = create_ray(scene->camera.pos, add_panning(&vector));
+	ray = create_ray(camera->pos, add_panning(&vector));
 	return ray;
 }
 

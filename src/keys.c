@@ -4,7 +4,7 @@ static void	pan_camera(double horizontal_angle, double vertical_angle)
 {
 	t_camera	*camera;
 
-	camera = &(rtx()->scene->camera);
+	camera = &(rtx()->camera);
 	camera->dir = vector_rotate(camera->dir, WORLD_UP, horizontal_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -vertical_angle);
 	camera->dir = vector_normalize(camera->dir);
@@ -15,7 +15,7 @@ static void	adjust_fov(int direction)
 {
 	double current_fov;
 
-	current_fov = 2 * atan(rtx()->scene->camera.fov) * (180.0 / M_PI);
+	current_fov = 2 * atan(rtx()->camera.fov) * (180.0 / M_PI);
 	if (direction > 0)
 		current_fov += FOV_STEP;
 	else
@@ -24,23 +24,23 @@ static void	adjust_fov(int direction)
 		current_fov = MIN_FOV;
 	else if (current_fov > MAX_FOV)
 		current_fov = MAX_FOV;
-	rtx()->scene->camera.fov = tan((current_fov * 0.5) * (M_PI / 180.0));
+	rtx()->camera.fov = tan((current_fov * 0.5) * (M_PI / 180.0));
 }
 
 static bool	move_camera(mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_SPACE && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, UP);
+		translate_vector(&rtx()->camera.pos, UP);
 	else if (keydata.key == MLX_KEY_C && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, DOWN);
+		translate_vector(&rtx()->camera.pos, DOWN);
 	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, FORWARD);
+		translate_vector(&rtx()->camera.pos, FORWARD);
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, LEFT);
+		translate_vector(&rtx()->camera.pos, LEFT);
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, BACK);
+		translate_vector(&rtx()->camera.pos, BACK);
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
-		translate_vector(&rtx()->scene->camera.pos, RIGHT);
+		translate_vector(&rtx()->camera.pos, RIGHT);
 	else if (keydata.key == MLX_KEY_UP && (keydata.action == MLX_PRESS))
 		pan_camera(0, PAN_AMOUNT);
 	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS))

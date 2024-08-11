@@ -72,9 +72,9 @@ t_lighting	calc_lighting(t_hit *hit)
 	t_light		*light;
 	t_lighting	lighting;
 
-	lights = rtx()->scene->lights;
+	lights = rtx()->lights;
 	lighting = (t_lighting){{0, 0, 0},{0, 0, 0},{0, 0, 0}};
-	lighting.ambient = rtx()->scene->ambient;
+	lighting.ambient = rtx()->ambient;
 	while (lights)
 	{
 		light = (t_light *)lights->content;

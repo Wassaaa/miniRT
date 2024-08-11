@@ -21,6 +21,7 @@
         "minirt.h": "c",
         "random": "c",
         "libft.h": "c",
-        "struct.h": "c"
+        "struct.h": "c",
+        "ios": "c"
     }
 }

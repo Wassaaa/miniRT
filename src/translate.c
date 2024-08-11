@@ -7,7 +7,7 @@ void	translate_vector(t_vector *object, t_direction dir)
 {
 	t_camera	*camera;
 
-	camera = &(rtx()->scene->camera);
+	camera = &(rtx()->camera);
 	if (dir == UP)
 		*object = vector_add(
 			*object, vector_scale(camera->up, MOVE_SPEED));
@@ -68,7 +68,7 @@ static void	move_lights(t_direction dir)
 	t_list	*lights;
 	t_light	*light;
 
-	lights = rtx()->scene->lights;
+	lights = rtx()->lights;
 	while(lights)
 	{
 		light = (t_light *)lights->content;

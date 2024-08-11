@@ -17,7 +17,7 @@ void	loop_hook(void *data)
 	t_camera		camera;
 
 	(void)data;
-	camera = rtx()->scene->camera;
+	camera = rtx()->camera;
 	i += rtx()->mlx->delta_time;
 	fps++;
 	if (i >= 1)

@@ -77,13 +77,6 @@ typedef struct s_quadratic_coeffs
 	double	c;
 } t_quadratic_coeffs;
 
-typedef struct s_scene
-{
-	t_camera	camera;
-	t_list		*lights;
-	t_color		ambient;
-}	t_scene;
-
 typedef struct s_aabb
 {
 	t_vector min;
@@ -137,7 +130,10 @@ typedef struct s_rtx
 	mlx_image_t		*img;
 	t_list			*shapes;
 	t_list			*unbound;
-	t_scene			*scene;
+	t_camera		camera;
+	t_list			*lights;
+	t_color			ambient;
+	// t_scene			*scene;
 	t_bvh			*bvh;
 	t_bvh			*wireframe_bvh;
 	int				width;
