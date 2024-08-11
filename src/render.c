@@ -46,21 +46,40 @@ t_ray	create_ray(t_vector origin, t_vector direction)
 	return (ray);
 }
 
-t_ray	generate_ray(int x, int y)
+// t_ray	generate_ray(int x, int y)
+// {
+// 	t_ray		ray;
+// 	t_vector	vector;
+// 	double		fov;
+// 	t_scene		*scene;
+
+// 	scene = rtx()->scene;
+// 	ray.origin = rtx()->scene->camera.pos;
+// 	fov = scene->camera.fov;
+// 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
+// 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
+// 	vector.z = 1;
+// 	ray = create_ray(rtx()->scene->camera.pos, add_panning(&vector));
+// 	return (ray);
+// }
+
+t_ray	generate_ray(double x, double y)
 {
 	t_ray		ray;
 	t_vector	vector;
-	double		fov;
 	t_scene		*scene;
+	double		aspect_ratio;
+	double		fov;
 
 	scene = rtx()->scene;
-	ray.origin = rtx()->scene->camera.pos;
+	ray.origin = scene->camera.pos;
+	aspect_ratio = (double)WIDTH / (double)HEIGHT;
 	fov = scene->camera.fov;
-	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
-	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
+	vector.x = (2 * (x / WIDTH) - 1) * fov * aspect_ratio;
+	vector.y = (1 - 2 * (y / HEIGHT)) * fov;
 	vector.z = 1;
-	ray = create_ray(rtx()->scene->camera.pos, add_panning(&vector));
-	return (ray);
+	ray = create_ray(scene->camera.pos, add_panning(&vector));
+	return ray;
 }
 
 void	render_scene(void)

@@ -24,7 +24,7 @@ static void	adjust_fov(int direction)
 		current_fov = MIN_FOV;
 	else if (current_fov > MAX_FOV)
 		current_fov = MAX_FOV;
-	rtx()->scene->camera.fov = tan((current_fov / 2) * (M_PI / 180.0));
+	rtx()->scene->camera.fov = tan((current_fov * 0.5) * (M_PI / 180.0));
 }
 
 static bool	move_camera(mlx_key_data_t keydata)

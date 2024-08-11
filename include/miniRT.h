@@ -67,8 +67,8 @@
 
 # define REFLECT_DEPTH 1
 //test cam
-# define TEST_CAM_POS (t_vector){-19, 21, -19}
-# define TEST_CAM_DIR (t_vector){0.1, -0.66, 0.75}
+# define TEST_CAM_POS (t_vector){-28.52, 6.58, -2.44}
+# define TEST_CAM_DIR (t_vector){0.59, -0.66, 0.46}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -128,7 +128,7 @@ void			render(void);
 void			render_scene(void);
 void			render_multi_threaded(void);
 t_ray			create_ray(t_vector origin, t_vector direction);
-t_ray			generate_ray(int x, int y);
+t_ray			generate_ray(double x, double y);
 t_color			trace_ray (t_ray *ray, int depth);
 //intersect
 bool			check_unbound(t_ray *ray, t_hit *hit);

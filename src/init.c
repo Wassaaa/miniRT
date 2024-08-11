@@ -20,7 +20,7 @@ static void	init_camera(void)
 	scene = rtx()->scene;
 	scene->camera.pos = TEST_CAM_POS;
 	scene->camera.dir = vector_normalize(TEST_CAM_DIR);
-	scene->camera.fov = tan((TEST_FOV / 2) * (M_PI / 180.0));
+	scene->camera.fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
 	fix_camera();
 }
 
