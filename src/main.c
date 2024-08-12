@@ -34,15 +34,15 @@ void	render(void)
 	// render_scene();
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	init_rtx();
-	render();
-	mlx_resize_hook(rtx()->mlx, resize_hook, rtx());
-	mlx_key_hook(rtx()->mlx, key_hook, rtx());
-	mlx_loop_hook(rtx()->mlx, loop_hook, rtx());
-	mlx_loop(rtx()->mlx);
-	mlx_terminate(rtx()->mlx);
+	parse_input(argc, argv);
+	// init_rtx();
+	// render();
+	// mlx_key_hook(rtx()->mlx, key_hook, NULL);
+	// mlx_loop_hook(rtx()->mlx, loop_hook, NULL);
+	// mlx_loop(rtx()->mlx);
+	// mlx_terminate(rtx()->mlx);
 	return (0);
 }
 

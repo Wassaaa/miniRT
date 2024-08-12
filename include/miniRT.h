@@ -103,6 +103,7 @@ typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
 
 // parsing
+void		parse_input(int argc, char *argv[]);
 t_vector	check_dir(t_vector dir);
 
 //basic vector equation

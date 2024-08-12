@@ -75,12 +75,13 @@ SRCS			=	main.c \
 					aabb_generate_rays.c \
 					aabb_intersect_line.c \
 					wireframe.c \
+					parser.c
 
 
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors
+vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors $(SRC_DIR)/parser
 
 all: libmlx $(NAME)
 
