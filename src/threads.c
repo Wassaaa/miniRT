@@ -1,7 +1,7 @@
 #include <miniRT.h>
 #include <pthread.h>
 
-#define SSAA 16
+#define SSAA 4
 
 typedef struct s_thread_data
 {

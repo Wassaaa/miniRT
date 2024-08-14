@@ -60,6 +60,7 @@ void	random_rotate(void)
 		shape = (t_shape *)shapes->content;
 		shape->dir = vector_normalize(vector_rotate(shape->dir, rotation_axis, rotation_angle));
 		shape->box = shape->boxfunc(shape);
+		create_local_system(shape);
 		shapes = shapes->next;
 	}
 	printf("\e[7;1HRotated all shapes %.2f degrees around axis {%.2f, %.2f, %.2f}\e[K\n",

@@ -21,8 +21,8 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	cone->shine = SHINE;
 	cone->reflectivity = 0.0;
 	cone->image = rtx()->checkerboard;
-	// cone->image = png_to_image(rtx()->mlx, "textures/hive.png", false);
-	cone->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
+	cone->image = png_to_image(rtx()->mlx, "textures/trunk.png", false);
+	cone->bump = png_to_image(rtx()->mlx, "textures/trunk.png", true);
 	create_local_system(cone);
 	return (cone);
 }

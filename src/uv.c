@@ -43,6 +43,7 @@ static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 	v_axis = hit->shape->v_axis;
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
 	height = vector_dot(local_point, hit->shape->dir);
+	height += (hit->shape->half_height);
 	theta = atan2(vector_dot(local_point, v_axis),
 			vector_dot(local_point, u_axis));
 	*u = (theta + M_PI) / (2 * M_PI);
