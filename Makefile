@@ -57,7 +57,9 @@ SRCS			=	main.c \
 					color.c \
 					color_utils.c \
 					color_utils2.c \
+					color_gray.c \
 					basic_equation.c \
+					mlx_image.c \
 					hooks.c \
 					keys.c \
 					clamp.c \

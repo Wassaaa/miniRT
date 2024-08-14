@@ -23,7 +23,7 @@ static int wrap_coordinate(int value, int max)
 	return (value);
 }
 
-static t_color	get_texture_uv(mlx_image_t *image, double u, double v)
+t_color	uv_get_color(mlx_image_t *image, double u, double v)
 {
 	int		x;
 	int		y;
@@ -42,7 +42,7 @@ static t_color	get_texture_uv(mlx_image_t *image, double u, double v)
 t_color	add_material(t_hit *hit)
 {
 	if (hit->shape->image)
-		return (get_texture_uv(hit->shape->image, hit->u, hit->v));
+		return (uv_get_color(hit->shape->image, hit->u, hit->v));
 	else
 		return (hit->shape->color);
 }

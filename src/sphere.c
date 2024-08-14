@@ -3,7 +3,6 @@
 t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 {
 	t_shape			*sphere;
-	mlx_texture_t	*texture;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
@@ -15,12 +14,10 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->boxfunc = box_sphere;
 	sphere->box = sphere->boxfunc(sphere);
 	sphere->shine = SHINE;
-	// sphere->texture = mlx_load_png("hive.png");
-	texture = mlx_load_png("textures/moon.png");
-	sphere->image = mlx_texture_to_image(rtx()->mlx, texture);
+	// sphere->image = png_to_image(rtx()->mlx,"hive.png", false);
+	sphere->image = png_to_image(rtx()->mlx, "textures/smile2.png", false);
+	// sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
 	// sphere->image = rtx()->checkerboard;
-	if (texture)
-		mlx_delete_texture(texture);
 	create_local_system(sphere);
 	return (sphere);
 }

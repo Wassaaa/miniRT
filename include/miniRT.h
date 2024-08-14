@@ -10,11 +10,12 @@
 # include <struct.h> //colors
 
 
-# define VV (t_vector){0, 0, 0} //dummy 0 vector for initializationsõ
+# define VV (t_vector){0, 0, 0} //dummy 0 vector for initializations
+# define BPP 4
 
 # define LINE_THICKNESS 0.45
 
-#define NUM_THREADS 24
+# define NUM_THREADS 24
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -49,7 +50,7 @@
 # define TEST_PLANER (t_vector){35, 0, 0}, (t_vector){-1, -1, 0}, RGBA(WALL_COLOR)
 # define TEST_PLANEL (t_vector){-35, 0, 0}, (t_vector){1, 1, 0}, RGBA(WALL_COLOR)
 
-# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){0, 1, 0}, 4, 8, RGBA(WALL_COLOR)
+# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){0, 1, 0}, 4, 8, RGBA(COLOR_BROWN)
 # define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
 
 # define TEST_CONE (t_vector){0, 0, 15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
@@ -64,6 +65,8 @@
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
 # define SHINE 500
+
+# define BUMP_STR 2.0
 
 # define REFLECT_DEPTH 1
 //test cam
@@ -83,7 +86,7 @@
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
 
 # define TEST_AMBIENT_COL RGBA(COLOR_WARM_WHITE)
-# define TEST_AMBIENT_INT 0.15
+# define TEST_AMBIENT_INT 0.05
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -166,6 +169,8 @@ void			key_hook(mlx_key_data_t keydata, void* param);
 bool			keys(mlx_key_data_t keydata);
 bool			change_target(void);
 void			move_objects(t_direction dir);
+mlx_image_t		*mlx_image_gray(mlx_t *mlx, mlx_image_t *image);
+mlx_image_t		*png_to_image(mlx_t *mlx, char *path, bool to_grayscale);
 
 //rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
@@ -189,6 +194,7 @@ t_aabb		box_cone(t_shape *cone);
 
 //uv
 void		get_uv(t_hit *hit);
+t_color		uv_get_color(mlx_image_t *image, double u, double v);
 void		uv_repeat_wrap(double *u, double *v, int repeat);
 void		create_local_system(t_shape *shape);
 //wireframe

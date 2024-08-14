@@ -97,6 +97,7 @@ typedef struct s_shape
 	double			reflectivity;
 	double			shine;
 	mlx_image_t		*image;
+	mlx_image_t		*bump;
 	int				checkerboard;
 	double			half_angle;
 	double			tan_half_angle;

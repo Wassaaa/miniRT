@@ -17,7 +17,9 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->box = cylinder->boxfunc(cylinder);
 	cylinder->shine = SHINE;
 	cylinder->reflectivity = 0.0;
-	cylinder->image = rtx()->checkerboard;
+	// cylinder->image = rtx()->checkerboard;
+	// cylinder->image = png_to_image(rtx()->mlx, "textures/trunk.png", false);
+	cylinder->bump = png_to_image(rtx()->mlx, "textures/trunk.png", true);
 	create_local_system(cylinder);
 	return (cylinder);
 }
