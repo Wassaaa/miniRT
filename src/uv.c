@@ -24,10 +24,8 @@ static void plane_uv(t_hit *hit, double *u, double *v, int repeat)
 	t_vector	local_point;
 
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
-	u_axis = vector_normalize(vector_cross(hit->shape->dir, WORLD_UP));
-	if (vector_length(u_axis) < EPSILON)
-		u_axis = vector_normalize(vector_cross(hit->shape->dir, WORLD_RIGHT));
-	v_axis = vector_normalize(vector_cross(hit->shape->dir, u_axis));
+	u_axis = hit->shape->u_axis;
+	v_axis = hit->shape->v_axis;
 	*u = vector_dot(u_axis, local_point) * SCALE_PLANE;
 	*v = vector_dot(v_axis, local_point) * SCALE_PLANE;
 	uv_repeat_wrap(u, v, repeat);
@@ -41,7 +39,8 @@ static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 	double		height;
 	double		theta;
 
-	create_local_system(hit->shape, &u_axis, &v_axis);
+	u_axis = hit->shape->u_axis;
+	v_axis = hit->shape->v_axis;
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
 	height = vector_dot(local_point, hit->shape->dir);
 	theta = atan2(vector_dot(local_point, v_axis),
@@ -59,7 +58,8 @@ static void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
 	double		height;
 	double		theta;
 
-	create_local_system(hit->shape, &u_axis, &v_axis);
+	u_axis = hit->shape->u_axis;
+	v_axis = hit->shape->v_axis;
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
 	height = vector_dot(local_point, hit->shape->dir);
 	if (fabs(vector_dot(hit->normal, hit->shape->dir)) > 1 - EPSILON)

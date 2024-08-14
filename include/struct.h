@@ -102,6 +102,8 @@ typedef struct s_shape
 	double			tan_half_angle;
 	double			cos_theta;
 	double			sin_theta;
+	t_vector		u_axis;
+	t_vector		v_axis;
 	t_aabb 			(*boxfunc)(struct s_shape *sphere);
 }	t_shape;
 

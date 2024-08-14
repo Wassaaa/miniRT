@@ -18,6 +18,7 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	cylinder->shine = SHINE;
 	cylinder->reflectivity = 0.0;
 	cylinder->image = rtx()->checkerboard;
+	create_local_system(cylinder);
 	return (cylinder);
 }
 

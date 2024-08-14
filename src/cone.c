@@ -25,6 +25,7 @@ t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t
 	// texture = mlx_load_png("textures/smile2.png");
 	// cone->image = mlx_texture_to_image(rtx()->mlx, texture);
 	// mlx_delete_texture(texture);
+	create_local_system(cone);
 	return (cone);
 }
 

@@ -18,6 +18,7 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	// mlx_delete_texture(texture);
 	plane->image = rtx()->checkerboard;
 	plane->checkerboard = 0;
+	create_local_system(plane);
 
 	return (plane);
 }

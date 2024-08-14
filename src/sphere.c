@@ -8,6 +8,7 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
 	sphere->pos = pos;
+	sphere->dir = WORLD_UP;
 	sphere->diameter = diameter;
 	sphere->radius = sphere->diameter * 0.5;
 	sphere->color = color_from_int(color.r, color.g, color.b);
@@ -20,7 +21,7 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	// sphere->image = rtx()->checkerboard;
 	if (texture)
 		mlx_delete_texture(texture);
-
+	create_local_system(sphere);
 	return (sphere);
 }
 

@@ -37,11 +37,18 @@ double	calculate_theta(t_vector proj_point, t_vector axis)
 	return (theta);
 }
 
-void	create_local_system(t_shape *shape, t_vector *u_axis, t_vector *v_axis)
+void	create_local_system(t_shape *shape)
 {
-	*u_axis = vector_cross(shape->dir, WORLD_UP);
-	if (vector_length(*u_axis) < EPSILON)
-		*u_axis = vector_cross(shape->dir, WORLD_RIGHT);
-	*u_axis = vector_normalize(*u_axis);
-	*v_axis = vector_normalize(vector_cross(shape->dir, *u_axis));
+	t_vector	u_axis;
+	t_vector	v_axis;
+	t_vector	normal;
+
+	normal = shape->dir;
+	u_axis = vector_cross(normal, WORLD_UP);
+	if (vector_length(u_axis) < EPSILON)
+		u_axis = vector_cross(normal, WORLD_RIGHT);
+	u_axis = vector_normalize(u_axis);
+	v_axis = vector_normalize(vector_cross(normal, u_axis));
+	shape->u_axis = u_axis;
+	shape->v_axis = v_axis;
 }
