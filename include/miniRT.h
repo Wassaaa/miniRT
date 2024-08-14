@@ -190,7 +190,6 @@ t_aabb		box_cone(t_shape *cone);
 //uv
 void		get_uv(t_hit *hit);
 void		uv_repeat_wrap(double *u, double *v, int repeat);
-double		calculate_theta(t_vector proj_point, t_vector axis);
 void		create_local_system(t_shape *shape);
 //wireframe
 t_bvh		*make_wireframe(t_bvh *shapes_bvh);
