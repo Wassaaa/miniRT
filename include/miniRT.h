@@ -143,6 +143,10 @@ void			fix_hit_normal(t_hit *hit);
 //lights
 double			get_diffuse(t_hit *hit, t_vector *light_dir);
 t_lighting		calc_lighting(t_hit *hit);
+//material
+t_color			add_material(t_hit *hit);
+//reflection
+t_color			get_reflections(t_hit *hit, int depth);
 //colors
 t_color			get_pixel_color(t_ray *ray, t_hit *hit, int depth);
 int				color_to_int(t_color c);
@@ -184,11 +188,10 @@ t_aabb		box_line(t_shape *line);
 t_aabb		box_cone(t_shape *cone);
 
 //uv
-void		sphere_uv(t_vector point, double *u, double *v, int repeat);
-void		plane_uv(t_hit *hit, double *u, double *v, int repeat);
-void		cylindrical_uv(t_hit *hit, double *u, double *v, int repeat);
-void		cone_uv(t_hit *hit, double *u, double *v, int repeat);
-
+void		get_uv(t_hit *hit);
+void		uv_repeat_wrap(double *u, double *v, int repeat);
+double		calculate_theta(t_vector proj_point, t_vector axis);
+void		create_local_system(t_shape *shape, t_vector *u_axis, t_vector *v_axis);
 //wireframe
 t_bvh		*make_wireframe(t_bvh *shapes_bvh);
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, int depth);

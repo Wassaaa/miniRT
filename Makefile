@@ -51,6 +51,8 @@ SRCS			=	main.c \
 					aabb_intersect.c \
 					intersect.c \
 					normal.c \
+					reflections.c \
+					material.c \
 					point_light.c \
 					color.c \
 					color_utils.c \
@@ -60,6 +62,7 @@ SRCS			=	main.c \
 					keys.c \
 					clamp.c \
 					uv.c \
+					uv_utils.c \
 					translate.c \
 					rotate.c \
 					scale.c \

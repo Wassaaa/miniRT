@@ -62,12 +62,8 @@ void	fix_hit_normal(t_hit *hit)
 		hit->normal = cylinder_normal(hit);
 	else if (hit->shape->type == CONE)
 		hit->normal = cone_normal(hit);
-	else
-	{
+	else if (hit->shape->type == SPHERE)
 		hit->normal = vector_normalize(vector_subtract(hit->hit_point, hit->shape->pos));
-			if (vector_dot(hit->ray->direction, hit->normal) > 0)
-		hit->normal = vector_scale(hit->normal, -1);
-	}
 	if (vector_dot(hit->ray->direction, hit->normal) > 0)
 		hit->normal = vector_scale(hit->normal, -1);
 }

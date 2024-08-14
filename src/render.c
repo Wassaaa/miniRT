@@ -4,7 +4,7 @@ t_color trace_ray(t_ray *ray, int depth)
 {
 	t_hit	hit;
 
-	hit = (t_hit){INFINITY, NULL, false, VV, VV, NULL};
+	hit = (t_hit){INFINITY, NULL, false, VV, VV, NULL, 0, 0};
 	if (rtx()->wireframe_bvh && rtx()->wireframe)
 		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &hit);
 	if (rtx()->bvh)

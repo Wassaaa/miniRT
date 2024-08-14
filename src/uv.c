@@ -1,18 +1,6 @@
 #include <miniRT.h>
 
-void	uv_repeat_wrap(double *u, double *v, int repeat)
-{
-	*u *= repeat;
-	*v *= repeat;
-	*u = fmod(*u, 1.0);
-	*v = fmod(*v, 1.0);
-	if (*u < 0)
-		*u += 1.0;
-	if (*v < 0)
-		*v += 1.0;
-}
-
-void	sphere_uv(t_vector normal, double *u, double *v, int repeat)
+static void	sphere_uv(t_vector normal, double *u, double *v, int repeat)
 {
 	double	phi;
 	double	theta;
@@ -29,7 +17,7 @@ void	sphere_uv(t_vector normal, double *u, double *v, int repeat)
 2. Create a consistent local coordinate system
 3. Calculate UV coordinates
 */
-void plane_uv(t_hit *hit, double *u, double *v, int repeat)
+static void plane_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	u_axis;
 	t_vector	v_axis;
@@ -44,41 +32,8 @@ void plane_uv(t_hit *hit, double *u, double *v, int repeat)
 	*v = vector_dot(v_axis, local_point) * SCALE_PLANE;
 	uv_repeat_wrap(u, v, repeat);
 }
-/*
-1. Create a local coordinate system
-2. Project the point onto our local x and y axes
-3. Calculate the angle
-*/
-double	calculate_theta(t_vector proj_point, t_vector axis)
-{
-	t_vector	x_axis;
-	t_vector	y_axis;
-	double		x_coord;
-	double		y_coord;
-	double		theta;
 
-	x_axis = vector_cross(axis, WORLD_UP);
-	if (vector_length(x_axis) < EPSILON)
-		x_axis = vector_cross(axis, WORLD_RIGHT);
-	x_axis = vector_normalize(x_axis);
-	y_axis = vector_normalize(vector_cross(axis, x_axis));
-	x_coord = vector_dot(proj_point, x_axis);
-	y_coord = vector_dot(proj_point, y_axis);
-	theta = atan2(y_coord, x_coord);
-
-	return (theta);
-}
-
-void	create_local_system(t_shape *shape, t_vector *u_axis, t_vector *v_axis)
-{
-	*u_axis = vector_cross(shape->dir, WORLD_UP);
-	if (vector_length(*u_axis) < EPSILON)
-		*u_axis = vector_cross(shape->dir, WORLD_RIGHT);
-	*u_axis = vector_normalize(*u_axis);
-	*v_axis = vector_normalize(vector_cross(shape->dir, *u_axis));
-}
-
-void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
+static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	local_point;
 	t_vector	u_axis;
@@ -96,7 +51,7 @@ void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 	uv_repeat_wrap(u, v, repeat);
 }
 
-void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
+static void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	local_point;
 	t_vector	u_axis;
@@ -122,4 +77,23 @@ void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
 	uv_repeat_wrap(u, v, repeat);
 }
 
+void	get_uv(t_hit *hit)
+{
+	double	u;
+	double	v;
+	t_shape	*shape;
 
+	u = 0.0;
+	v = 0.0;
+	shape = hit->shape;
+	if (shape->type == SPHERE)
+		sphere_uv(hit->normal, &u, &v, 1);
+	else if (shape->type == PLANE)
+		plane_uv(hit, &u, &v, 1);
+	else if (shape->type == CYLINDER)
+		cylindrical_uv(hit, &u, &v, 1);
+	else if (shape->type == CONE)
+		cone_uv(hit, &u, &v, 1);
+	hit->u = u;
+	hit->v = v;
+}
