@@ -73,10 +73,10 @@ t_ray	generate_ray(double x, double y)
 
 	camera = &(rtx()->camera);
 	ray.origin = camera->pos;
-	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	aspect_ratio = (double)rtx()->width / (double)rtx()->height;
 	fov = camera->fov;
-	vector.x = (2 * (x / WIDTH) - 1) * fov * aspect_ratio;
-	vector.y = (1 - 2 * (y / HEIGHT)) * fov;
+	vector.x = (2 * (x / rtx()->width) - 1) * fov * aspect_ratio;
+	vector.y = (1 - 2 * (y / rtx()->height)) * fov;
 	vector.z = 1;
 	ray = create_ray(camera->pos, add_panning(&vector));
 	return ray;
@@ -90,10 +90,10 @@ void	render_scene(void)
 	int		y;
 
 	y = 0;
-	while(y < HEIGHT)
+	while(y < rtx()->height)
 	{
 		x = 0;
-		while(x < WIDTH)
+		while(x < rtx()->width)
 		{
 			ray = generate_ray(x, y);
 			color = trace_ray(&ray, REFLECT_DEPTH);

@@ -108,9 +108,9 @@ void	render_multi_threaded(void)
 	while (i < NUM_THREADS)
 	{
 		data[i].start_x = 0;
-		data[i].end_x = WIDTH;
-		data[i].start_y = i * (HEIGHT / NUM_THREADS);
-		data[i].end_y = (i + 1) * (HEIGHT / NUM_THREADS);
+		data[i].end_x = rtx()->width;
+		data[i].start_y = i * (rtx()->height / NUM_THREADS);
+		data[i].end_y = (i + 1) * (rtx()->height / NUM_THREADS);
 		pthread_create(&threads[i], NULL, sample_region, &data[i]);
 		i++;
 	}

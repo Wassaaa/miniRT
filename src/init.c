@@ -2,15 +2,15 @@
 
 static void	start_mlx(void)
 {
-	rtx()->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", 1);
+	rtx()->width = WIDTH;
+	rtx()->height = HEIGHT;
+	rtx()->mlx = mlx_init(rtx()->width, rtx()->height, "miniRT", 1);
 	if (!rtx()->mlx)
 		error();
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	rtx()->img = mlx_new_image(rtx()->mlx, WIDTH, HEIGHT);
+	rtx()->img = mlx_new_image(rtx()->mlx, rtx()->width, rtx()->height);
 	if (!rtx()->img)
 		error();
-	rtx()->width = WIDTH;
-	rtx()->height = HEIGHT;
 }
 
 static void	init_camera(void)

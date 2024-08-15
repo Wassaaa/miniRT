@@ -35,3 +35,8 @@ void	loop_hook(void *data)
 	printf("\e[6;1HCamera direction [{%.2f, %.2f, %.2f}]\e[K\n",
 		camera.dir.x, camera.dir.y, camera.dir.z);
 }
+
+void	resize_hook(void *data)
+{
+	
+}
