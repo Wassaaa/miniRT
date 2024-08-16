@@ -164,6 +164,7 @@ t_color			color_create(double r, double g, double b);
 t_color			color_blend(t_color c1, t_color c2, double factor);
 
 //MLX
+void			resize_hook(int32_t width, int32_t height, void *data);
 void			loop_hook(void *data);
 void			key_hook(mlx_key_data_t keydata, void* param);
 bool			keys(mlx_key_data_t keydata);

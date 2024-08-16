@@ -4,6 +4,7 @@ void	error(void)
 {
 	perror("ERROR\n");
 	perror(mlx_strerror(mlx_errno));
+	mlx_terminate(rtx()->mlx);
 	exit(1);
 }
 
@@ -37,8 +38,9 @@ int	main(void)
 {
 	init_rtx();
 	render();
-	mlx_key_hook(rtx()->mlx, key_hook, NULL);
-	mlx_loop_hook(rtx()->mlx, loop_hook, NULL);
+	mlx_resize_hook(rtx()->mlx, resize_hook, rtx());
+	mlx_key_hook(rtx()->mlx, key_hook, rtx());
+	mlx_loop_hook(rtx()->mlx, loop_hook, rtx());
 	mlx_loop(rtx()->mlx);
 	mlx_terminate(rtx()->mlx);
 	return (0);

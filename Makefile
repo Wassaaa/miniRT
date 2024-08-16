@@ -3,6 +3,7 @@
 ################################################################################
 CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror -pthread
+MAKEFLAGS		+=	-j4
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 AGGR_OPTI		=	-mavx2 -mfma -fno-exceptions

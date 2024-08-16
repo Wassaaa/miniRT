@@ -1,14 +1,18 @@
 #include <miniRT.h>
 
-static void	start_mlx(void)
+static void	start_mlx(int width, int height)
 {
-	rtx()->width = WIDTH;
-	rtx()->height = HEIGHT;
-	rtx()->mlx = mlx_init(rtx()->width, rtx()->height, "miniRT", 1);
+	rtx()->width = width;
+	rtx()->height = height;
 	if (!rtx()->mlx)
-		error();
-	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	rtx()->img = mlx_new_image(rtx()->mlx, rtx()->width, rtx()->height);
+	{
+		rtx()->mlx = mlx_init(width, height, "miniRT", 1);
+		if (!rtx()->mlx)
+			error();
+	}
+	if (rtx()->img)
+		mlx_delete_image(rtx()->mlx, rtx()->img);
+	rtx()->img = mlx_new_image(rtx()->mlx, width, height);
 	if (!rtx()->img)
 		error();
 }
@@ -71,7 +75,7 @@ static void	setup_scene(void)
 void	init_rtx(void)
 {
 	ft_bzero(rtx(), sizeof(t_rtx));
-	start_mlx();
+	start_mlx(WIDTH, HEIGHT);
 	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
 	setup_scene();
 	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)

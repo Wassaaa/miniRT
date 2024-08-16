@@ -144,7 +144,6 @@ typedef struct s_rtx
 	int				width;
 	int				height;
 	int				bvh_node_id;
-	int				cache_hits;
 	int				wireframe;
 	int				grid_size;
 	int				ssaa;
