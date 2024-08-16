@@ -15,8 +15,8 @@ t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
 	sphere->box = sphere->boxfunc(sphere);
 	sphere->shine = SHINE;
 	// sphere->image = png_to_image(rtx()->mlx,"hive.png", false);
-	sphere->image = png_to_image(rtx()->mlx, "textures/smile2.png", false);
-	// sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
+	// sphere->image = png_to_image(rtx()->mlx, "textures/smile2.png", false);
+	sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
 	// sphere->image = rtx()->checkerboard;
 	create_local_system(sphere);
 	return (sphere);

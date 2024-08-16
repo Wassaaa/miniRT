@@ -17,9 +17,12 @@ void	scale_shape(t_list *node, double mult)
 	new_shape->u_axis = shape->u_axis;
 	new_shape->v_axis = shape->v_axis;
 	new_shape->dir = shape->dir;
+	new_shape->color = shape->color;
 	node->content = new_shape;
 	if (shape->image && shape->image != rtx()->checkerboard)
 		mlx_delete_image(rtx()->mlx, shape->image);
+	if (shape->bump)
+		mlx_delete_image(rtx()->mlx, shape->bump);
 	free(shape);
 }
 
