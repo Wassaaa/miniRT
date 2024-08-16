@@ -71,7 +71,7 @@
 # define REFLECT_DEPTH 0
 //test cam
 # define TEST_CAM_POS (t_vector){1.83, 5.48, -8.87}
-# define TEST_CAM_DIR (t_vector){0.25, -0.07, 0.97}
+# define TEST_CAM_DIR (t_vector){0, 0, 1}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0

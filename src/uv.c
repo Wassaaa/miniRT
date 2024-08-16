@@ -8,16 +8,16 @@ static void	sphere_uv(t_hit *hit, double *u, double *v, int repeat)
 	t_shape		*shape;
 
 	shape = hit->shape;	
-	local_point = vector_subtract(hit->hit_point, shape->pos);
+	local_point = hit->normal;
 	local_point = (t_vector){
 		vector_dot(local_point, shape->u_axis),
 		vector_dot(local_point, shape->dir),
 		vector_dot(local_point, shape->v_axis)};
 	local_point = vector_normalize(local_point);
 	phi = atan2(local_point.z, local_point.x);
-	theta = asin(local_point.y);
+	theta = acos(local_point.y);
 	*u = (phi + M_PI) / (2 * M_PI);
-	*v = 1 - (theta + M_PI / 2) / M_PI;
+	*v = theta / M_PI;
 	uv_repeat_wrap(u, v, repeat);
 }
 

@@ -14,6 +14,9 @@ void	scale_shape(t_list *node, double mult)
 		new_shape = make_cone(shape->pos, vector_scale(shape->dir, -1), shape->diameter * mult, shape->height * mult, shape->color);
 	else
 		return ;
+	new_shape->u_axis = shape->u_axis;
+	new_shape->v_axis = shape->v_axis;
+	new_shape->dir = shape->dir;
 	node->content = new_shape;
 	if (shape->image && shape->image != rtx()->checkerboard)
 		mlx_delete_image(rtx()->mlx, shape->image);

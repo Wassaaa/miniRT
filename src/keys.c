@@ -7,7 +7,6 @@ static void	pan_camera(double horizontal_angle, double vertical_angle)
 	camera = &(rtx()->camera);
 	camera->dir = vector_rotate(camera->dir, WORLD_UP, horizontal_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -vertical_angle);
-	camera->dir = vector_normalize(camera->dir);
 	fix_camera();
 }
 

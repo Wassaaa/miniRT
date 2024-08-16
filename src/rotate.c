@@ -14,7 +14,7 @@ t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
 	c = cos(angle);
 	s = sin(angle);
 	t = 1.0f - c;
-	
+	axis = vector_normalize(axis);	
 	result.x =
 			v.x * (t * axis.x * axis.x + c) +
 			v.y * (t * axis.x * axis.y - s * axis.z) +
@@ -27,7 +27,7 @@ t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
 			v.x * (t * axis.x * axis.z - s * axis.y) +
 			v.y * (t * axis.y * axis.z + s * axis.x) +
 			v.z * (t * axis.z * axis.z + c);
-	return (result);
+	return (vector_normalize(result));
 }
 
 t_vector random_direction()
@@ -53,7 +53,7 @@ void	random_rotate(t_direction dir)
 	double		rotation_angle;
 
 	shapes = rtx()->shapes;
-	rotation_axis = WORLD_RIGHT;
+	rotation_axis = rtx()->camera.dir;
 	// rotation_axis = random_direction();
 	rotation_angle = M_PI / 8;
 	if (dir == FORWARD)
@@ -62,9 +62,10 @@ void	random_rotate(t_direction dir)
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
-		shape->dir = vector_normalize(vector_rotate(shape->dir, rotation_axis, rotation_angle));
+		shape->dir = vector_rotate(shape->dir, rotation_axis, rotation_angle);
+		shape->u_axis = vector_rotate(shape->u_axis, rotation_axis, rotation_angle);
+		shape->v_axis = vector_rotate(shape->v_axis, rotation_axis, rotation_angle);
 		shape->box = shape->boxfunc(shape);
-		create_local_system(shape);
 		shapes = shapes->next;
 	}
 	printf("\e[7;1HRotated all shapes %.2f degrees around axis {%.2f, %.2f, %.2f}\e[K\n",
