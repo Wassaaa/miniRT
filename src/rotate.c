@@ -45,7 +45,7 @@ double random_angle()
 	return (double)rand() / RAND_MAX * (M_PI / 2);
 }
 
-void	random_rotate(void)
+void	random_rotate(t_direction dir)
 {
 	t_list		*shapes;
 	t_shape		*shape;
@@ -53,8 +53,12 @@ void	random_rotate(void)
 	double		rotation_angle;
 
 	shapes = rtx()->shapes;
-	rotation_axis = random_direction();
-	rotation_angle = random_angle();
+	rotation_axis = WORLD_RIGHT;
+	// rotation_axis = random_direction();
+	rotation_angle = M_PI / 8;
+	if (dir == FORWARD)
+		rotation_angle = -rotation_angle;
+	// rotation_angle = random_angle();
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;

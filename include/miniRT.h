@@ -15,7 +15,7 @@
 
 # define LINE_THICKNESS 0.45
 
-# define NUM_THREADS 24
+# define NUM_THREADS 1
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -68,10 +68,10 @@
 
 # define BUMP_STR 2.0
 
-# define REFLECT_DEPTH 1
+# define REFLECT_DEPTH 0
 //test cam
-# define TEST_CAM_POS (t_vector){-28.52, 6.58, -2.44}
-# define TEST_CAM_DIR (t_vector){0.59, -0.66, 0.46}
+# define TEST_CAM_POS (t_vector){1.83, 5.48, -8.87}
+# define TEST_CAM_DIR (t_vector){0.25, -0.07, 0.97}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
@@ -175,7 +175,7 @@ mlx_image_t		*png_to_image(mlx_t *mlx, char *path, bool to_grayscale);
 
 //rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
-void			random_rotate(void);
+void			random_rotate(t_direction dir);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
 void			scale(t_direction dir);

@@ -30,8 +30,8 @@ void	get_shapes(void)
 
 void	render(void)
 {
-	render_multi_threaded();
-	// render_scene();
+	// render_multi_threaded();
+	render_scene();
 }
 
 int	main(void)
