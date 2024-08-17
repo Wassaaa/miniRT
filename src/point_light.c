@@ -44,8 +44,7 @@ double	get_diffuse(t_hit *hit, t_vector *light_dir)
 {
 	double	diffuse;
 
-	diffuse = fmax(
-		vector_dot(hit->normal, *light_dir), 0.0);
+	diffuse = fmax(vector_dot(hit->normal, *light_dir), 0.0);
 	return (diffuse);
 }
 
@@ -59,6 +58,8 @@ void	light_one(t_lighting *lighting, t_light *light, t_hit *hit)
 
 	light_dir = vector_normalize(
 		vector_subtract(light->pos, hit->hit_point));
+	if (vector_dot(hit->normal_pre_perturb, light_dir) < -EPSILON)
+		return ;
 	diff_int = get_diffuse(hit, &light_dir);
 	spec_int = get_specular(hit, &light_dir);
 	diff_contrib = color_scale(light->color, light->bright * diff_int);

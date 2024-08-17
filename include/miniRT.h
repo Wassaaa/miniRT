@@ -15,7 +15,7 @@
 
 # define LINE_THICKNESS 0.45
 
-# define NUM_THREADS 1
+# define NUM_THREADS 24
 
 // # define WIDTH 2560
 // # define HEIGHT 1440
@@ -81,7 +81,7 @@
 # define MOVE_SPEED 3.0
 
 //test light
-# define TEST_LIGHT (t_vector){4, 2, -5}, RGBA(COLOR_PASTEL_BLUE), 1.0
+# define TEST_LIGHT (t_vector){4, 2, 5}, RGBA(COLOR_BRIGHT_WHITE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
 # define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
 # define TEST_LIGHT4 (t_vector){10, 5, 0}, RGBA(COLOR_RED), 1.0
@@ -89,7 +89,7 @@
 # define TEST_LIGHT6 (t_vector){4, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
 
 # define TEST_AMBIENT_COL RGBA(COLOR_WARM_WHITE)
-# define TEST_AMBIENT_INT 0.2
+# define TEST_AMBIENT_INT 0.1
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;

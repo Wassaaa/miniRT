@@ -64,7 +64,7 @@ void	fix_hit_normal(t_hit *hit)
 		hit->normal = cone_normal(hit);
 	else if (hit->shape->type == SPHERE)
 		hit->normal = vector_normalize(vector_subtract(hit->hit_point, hit->shape->pos));
-	hit->normal_pre_perturb = hit->normal;
 	if (vector_dot(hit->ray->direction, hit->normal) > 0)
 		hit->normal = vector_scale(hit->normal, -1);
+	hit->normal_pre_perturb = hit->normal;
 }
