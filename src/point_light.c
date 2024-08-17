@@ -30,13 +30,18 @@ double	get_specular(t_hit *hit, t_vector *light_dir)
 	t_vector	hit_view;
 	double		reflection_angle;
 	double		specular;
+	double		intensity_scale;
 
+	if (hit->shape->shine == 0)
+		return (0.0);
 	hit_view = vector_normalize(vector_scale(hit->hit_point, -1));
 	reflection_angle = vector_dot(*light_dir, hit->normal) * 2.0;
 	reflection = vector_scale(hit->normal, reflection_angle);
 	reflection = vector_subtract(reflection, *light_dir);
 	specular = fmax(vector_dot(reflection, hit_view), 0.0);
 	specular = pow(specular, hit->shape->shine);
+	intensity_scale = hit->shape->shine / (hit->shape->shine + SHINE_MOD);
+	specular *= intensity_scale;
 	return (specular);
 }
 
@@ -89,9 +94,6 @@ t_lighting	calc_lighting(t_hit *hit)
 		lights = lights->next;
 	}
 	if (total_intensity > 1.0)
-	{
 		lighting.diffuse = color_scale(lighting.diffuse, 1.0 / total_intensity);
-		// lighting.specular = color_scale(lighting.specular, 1.0 / total_intensity);
-	}
 	return (lighting);
 }

@@ -64,14 +64,17 @@
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
-# define SHINE 1500
+# define SHINE 150
+# define SHINE_MOD 50
 
 # define BUMP_STR 2.0
 
 # define REFLECT_DEPTH 0
+
+# define GAMMA 2.2
 //test cam
-# define TEST_CAM_POS (t_vector){1.83, 5.48, -8.87}
-# define TEST_CAM_DIR (t_vector){0, 0, 1}
+# define TEST_CAM_POS (t_vector){3.12, 2.87, 3.19}
+# define TEST_CAM_DIR (t_vector){0.30, -0.61, 0.73}
 # define TEST_FOV 80.0
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
