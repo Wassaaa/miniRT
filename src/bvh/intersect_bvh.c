@@ -25,8 +25,8 @@ static inline bool	next_branches(t_bvh *node, t_ray *ray, t_hit *hit)
 	t_hit	right;
 	t_hit	left;
 
-	left = (t_hit){INFINITY, NULL, false, VV, VV, NULL, 0, 0};
-	right = (t_hit){INFINITY, NULL, false, VV, VV, NULL, 0, 0};
+	left = (t_hit){INFINITY, NULL, false, VV, VV, VV, NULL, 0, 0};
+	right = (t_hit){INFINITY, NULL, false, VV, VV, VV, NULL, 0, 0};
 	hit_left = intersect_bvh(node->left, ray, &left);
 	hit_right = intersect_bvh(node->right, ray, &right);
 	if (hit_left && (!hit_right || left.distance < right.distance))
@@ -47,7 +47,7 @@ bool	intersect_bvh(t_bvh *node, t_ray *ray, t_hit *old_t)
 	bool	curr_hit;
 	t_hit	hit;
 
-	hit = (t_hit){INFINITY, NULL, false, VV, VV, NULL, 0, 0};
+	hit = (t_hit){INFINITY, NULL, false, VV, VV, VV, NULL, 0, 0};
 	curr_hit = false;
 
 	if (!intersect_aabb(*ray, node->box, hit.distance))

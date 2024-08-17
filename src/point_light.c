@@ -44,7 +44,8 @@ double	get_diffuse(t_hit *hit, t_vector *light_dir)
 {
 	double	diffuse;
 
-	diffuse = fmax(vector_dot(hit->normal, *light_dir), 0.0);
+	diffuse = fmax(
+		vector_dot(hit->normal, *light_dir), 0.0);
 	return (diffuse);
 }
 
@@ -71,16 +72,25 @@ t_lighting	calc_lighting(t_hit *hit)
 	t_list		*lights;
 	t_light		*light;
 	t_lighting	lighting;
+	double		total_intensity;
 
 	lights = rtx()->lights;
 	lighting = (t_lighting){{0, 0, 0},{0, 0, 0},{0, 0, 0}};
-	lighting.ambient = rtx()->ambient;
+	total_intensity = 0.0;
 	while (lights)
 	{
 		light = (t_light *)lights->content;
 		if (!check_shadow(hit, light))
+		{
 			light_one(&lighting, light, hit);
+			total_intensity += light->bright;
+		}
 		lights = lights->next;
+	}
+	if (total_intensity > 1.0)
+	{
+		lighting.diffuse = color_scale(lighting.diffuse, 1.0 / total_intensity);
+		// lighting.specular = color_scale(lighting.specular, 1.0 / total_intensity);
 	}
 	return (lighting);
 }

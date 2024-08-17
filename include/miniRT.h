@@ -64,7 +64,7 @@
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
-# define SHINE 500
+# define SHINE 1500
 
 # define BUMP_STR 2.0
 
@@ -83,10 +83,13 @@
 //test light
 # define TEST_LIGHT (t_vector){4, 2, -5}, RGBA(COLOR_PASTEL_BLUE), 1.0
 # define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
-# define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_GREEN), 1.0
+# define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
+# define TEST_LIGHT4 (t_vector){10, 5, 0}, RGBA(COLOR_RED), 1.0
+# define TEST_LIGHT5 (t_vector){8, 12, 0}, RGBA(COLOR_CORAL_PINK), 1.0
+# define TEST_LIGHT6 (t_vector){4, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
 
 # define TEST_AMBIENT_COL RGBA(COLOR_WARM_WHITE)
-# define TEST_AMBIENT_INT 0.05
+# define TEST_AMBIENT_INT 0.2
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;

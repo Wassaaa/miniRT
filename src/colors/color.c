@@ -32,7 +32,7 @@ void	perturb_normal(t_hit *hit)
 	t_vector	tangent_normal;
 
 	shape = hit->shape;
-	if (shape->bump)
+	if (shape->bump && vector_dot(hit->ray->direction, hit->normal_pre_perturb) <= 0)
 	{
 		sample_bumps(hit, &dh_du, &dh_dv);
 		tangent_normal = vector_add(
@@ -44,6 +44,18 @@ void	perturb_normal(t_hit *hit)
 			tangent_normal);
 		hit->normal = vector_normalize(hit->normal);
 	}
+}
+
+t_color	ambient_factor(t_hit *hit)
+{
+	double		factor;
+	t_color		ambient;
+
+	factor = (vector_dot(hit->normal, hit->normal_pre_perturb) + 1.0) * 0.5;
+	factor = fmax(factor, 0.1);
+	factor = pow(factor, 1.4);
+	ambient = color_scale(rtx()->ambient, factor);
+	return (ambient);
 }
 
 t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
@@ -61,6 +73,7 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 	fix_hit(hit);
 	perturb_normal(hit);
 	lighting = calc_lighting(hit);
+	lighting.ambient = ambient_factor(hit);
 	material_color = add_material(hit);
 	diffuse_and_ambient = color_add(lighting.diffuse, lighting.ambient);
 	final_color = color_multiply(diffuse_and_ambient, material_color);

@@ -114,6 +114,7 @@ typedef struct s_hit
 	t_shape		*shape;
 	bool		hit;
 	t_vector	normal;
+	t_vector	normal_pre_perturb;
 	t_vector	hit_point;
 	t_ray		*ray;
 	double		u;
