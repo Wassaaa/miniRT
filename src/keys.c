@@ -7,7 +7,10 @@ static void	pan_camera(double horizontal_angle, double vertical_angle)
 	camera = &(rtx()->camera);
 	camera->dir = vector_rotate(camera->dir, WORLD_UP, horizontal_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -vertical_angle);
-	fix_camera();
+	camera->right = vector_rotate(camera->right, WORLD_UP, horizontal_angle);
+	camera->right = vector_rotate(camera->right, camera->right, -vertical_angle);
+	camera->up = vector_rotate(camera->up, WORLD_UP, horizontal_angle);
+	camera->up = vector_rotate(camera->up, camera->right, -vertical_angle);
 }
 
 static void	adjust_fov(int direction)

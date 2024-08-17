@@ -13,11 +13,11 @@
 - [x] restructure main.c into different parts and folders
 - [x] change all make_shape functions to take pointers as argument
 - [x] bump maps implemented
-- [ ] Parsing of scene files
+- [x] check all artifacts between shape intersections
+- [x] correct bump map transitions from light to ambient to be a bit smoother and better looking
+- [x] camera gimbal lock when panning up or down
 - [ ] fix all memory things, free when creating new lists, bvhs, destroy images/textures, destroy MLX
-- [ ] check all artifacts between shape intersections
-- [ ] correct bump map transitions from light to ambient to be a bit smoother and better looking
-- [ ] 
+- [ ] Parsing of scene files
 
 # LIGHT
 - [ ] fix hard-coded SHINE values
