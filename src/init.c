@@ -28,37 +28,9 @@ static void	init_camera(void)
 	fix_camera();
 }
 
-static void	init_checkerboard(void)
-{
-	mlx_image_t	*checkerboard;
-	t_color		color;
-	t_color		inverted;
-	int			i;
-	int			j;
-
-	color = color_from_hex(CHECKERB_COLOR);
-	inverted = color_subtract(color_create(1, 1, 1), color);
-	checkerboard = mlx_new_image(rtx()->mlx, 256, 256);
-	if (!checkerboard)
-		error();
-	i = -1;
-	while (++i < 256)
-	{
-		j = -1;
-		while (++j < 256)
-		{
-			if ((i / 32 + j / 32) % 2 == 0)
-				mlx_put_pixel(checkerboard, i, j, color_to_int(inverted));
-			else
-				mlx_put_pixel(checkerboard, i, j, color_to_int(color));
-		}
-	}
-	rtx()->checkerboard = checkerboard;
-}
-
 static void	setup_scene(void)
 {
-	init_checkerboard();
+	rtx()->checkerboard = make_checkerboard(color_from_hex(CHECKERB_COLOR));
 	rtx()->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
 	rtx()->ambient = color_scale(rtx()->ambient, TEST_AMBIENT_INT);
 	init_camera();

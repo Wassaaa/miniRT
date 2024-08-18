@@ -30,7 +30,9 @@ MLX_DEBUG		= -DDEBUG=0
 ################################################################################
 NAME			=	miniRT
 INCLUDES		=	./include
-M_HEADERS		=	$(INCLUDES)/miniRT.h $(INCLUDES)/wireframe.h
+M_HEADERS		=	$(INCLUDES)/miniRT.h \
+					$(INCLUDES)/wireframe.h \
+					$(INCLUDES)/struct.h
 OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
@@ -40,6 +42,7 @@ SRCS			=	main.c \
 					bvh_utils.c \
 					init_utils.c \
 					init_lights.c \
+					checkerboard.c \
 					sphere.c \
 					plane.c \
 					cylinder.c \

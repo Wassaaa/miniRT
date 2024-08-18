@@ -40,7 +40,7 @@
 
 # define TEST_BG 0x000000FF
 
-# define CHECKERB_COLOR COLOR_BLUE
+# define CHECKERB_COLOR COLOR_MAGENTA
 
 // test shapes
 # define TEST_PLANEF (t_vector){0, 0, 30}, (t_vector){0, 0, -1}, RGBA(WALL_COLOR)
@@ -127,6 +127,7 @@ void			init_rtx(void);
 void			fix_camera(void);
 void			get_lights(void);
 void			get_shapes(void);
+mlx_image_t		*make_checkerboard(t_color color);
 t_bvh			*bvh(t_list *shapes);
 //bvh
 t_aabb			compute_box(t_shape **shapes, int num_shapes);
