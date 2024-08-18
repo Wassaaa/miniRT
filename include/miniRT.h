@@ -64,7 +64,7 @@
 # define TEXT_COLOR COLOR_METALLIC_GOLD
 # define LIGHT_COLOR COLOR_WARM_WHITE
 
-# define SHINE 150
+# define SHINE 100
 # define SHINE_MOD 50
 
 # define BUMP_STR 2.0

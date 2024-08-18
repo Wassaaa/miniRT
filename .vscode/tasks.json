@@ -15,28 +15,7 @@
 		  "isDefault": true
 		},
 		"detail": "compiler: /usr/bin/gcc"
-	},
-	{
-		"type": "shell",
-		"label": "run make",
-		"command": "bash",
-		"args": [
-		  "-c",
-		  "cd \"${workspaceFolder}\" && make"
-		],
-		"problemMatcher": ["$gcc"],
-		"group": {
-		  "kind": "build",
-		  "isDefault": true
-		},
-		"detail": "Task to run make",
-		"presentation": {
-		  "echo": true,
-		  "reveal": "always",
-		  "focus": false,
-		  "panel": "shared"
-		}
-	  },
+	}
 	],
 	"inputs": [
 		{
@@ -45,6 +24,6 @@
 		"description": "make args",
 		"default": ""
 		}
-		],
+	],
 	
 }

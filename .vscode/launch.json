@@ -21,16 +21,6 @@
 			// 	"ignoreFailures": true
 			// }
 			]
-		},
-		{
-			"type": "vgdb",
-			"request": "launch",
-			"name": "vdbg miniRT",
-			"debugger": "gdb",
-			"program": "${workspaceFolder}/miniRT",
-			"args": [],
-			"preLaunchTask": "run make",
-			"cwd": "${workspaceFolder}",
 		}
 	]
 }

@@ -82,10 +82,12 @@ vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors
 all: libmlx $(NAME)
 
 libmlx:
-	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build -j4
+	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build
 
 $(NAME): $(LIBFT) $(OBJECTS)
 	$(CC_FULL) $(OBJECTS) $(LIBFT) $(MLX42) -o $(NAME)
+
+$(OBJECTS): libmlx
 
 $(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 	mkdir -p $(@D)

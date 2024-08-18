@@ -40,6 +40,26 @@ static void plane_uv(t_hit *hit, double *u, double *v, int repeat)
 	uv_repeat_wrap(u, v, repeat);
 }
 
+// static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
+// {
+// 	t_vector	local_point;
+// 	t_vector	u_axis;
+// 	t_vector	v_axis;
+// 	double		height;
+// 	double		theta;
+
+// 	u_axis = hit->shape->u_axis;
+// 	v_axis = hit->shape->v_axis;
+// 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
+// 	height = vector_dot(local_point, hit->shape->dir);
+// 	height += (hit->shape->half_height);
+// 	theta = atan2(vector_dot(local_point, v_axis),
+// 			vector_dot(local_point, u_axis));
+// 	*u = (theta + M_PI) / (2 * M_PI);
+// 	*v = height / hit->shape->height;
+// 	uv_repeat_wrap(u, v, repeat);
+// }
+
 static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	local_point;
@@ -53,25 +73,6 @@ static void	cylindrical_uv(t_hit *hit, double *u, double *v, int repeat)
 	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
 	height = vector_dot(local_point, hit->shape->dir);
 	height += (hit->shape->half_height);
-	theta = atan2(vector_dot(local_point, v_axis),
-			vector_dot(local_point, u_axis));
-	*u = (theta + M_PI) / (2 * M_PI);
-	*v = height / hit->shape->height;
-	uv_repeat_wrap(u, v, repeat);
-}
-
-static void	cone_uv(t_hit *hit, double *u, double *v, int repeat)
-{
-	t_vector	local_point;
-	t_vector	u_axis;
-	t_vector	v_axis;
-	double		height;
-	double		theta;
-
-	u_axis = hit->shape->u_axis;
-	v_axis = hit->shape->v_axis;
-	local_point = vector_subtract(hit->hit_point, hit->shape->pos);
-	height = vector_dot(local_point, hit->shape->dir);
 	if (fabs(vector_dot(hit->normal, hit->shape->dir)) > 1 - EPSILON)
 	{
 		*u = (vector_dot(local_point, u_axis) / hit->shape->radius + 1) / 2;
@@ -103,7 +104,7 @@ void	get_uv(t_hit *hit)
 	else if (shape->type == CYLINDER)
 		cylindrical_uv(hit, &u, &v, 1);
 	else if (shape->type == CONE)
-		cone_uv(hit, &u, &v, 1);
+		cylindrical_uv(hit, &u, &v, 1);
 	hit->u = u;
 	hit->v = v;
 }
