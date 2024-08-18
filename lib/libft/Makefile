@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
+#    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/05 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/07/27 09:53:07 by aklein           ###   ########.fr        #
+#    Updated: 2024/08/18 18:49:25 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ SRCS = ft_isalpha.c \
 vpath %.c get_next_line ft_printf
 OPTIMIZATION = -Ofast -march=native -fno-signed-zeros -fno-trapping-math -funroll-loops
 
-CFLAGS = -Wall -Wextra -Werror $(OPTIMIZATION)
+CFLAGS = -Wall -Wextra -Werror #$(OPTIMIZATION)
 
 OBJS = $(addprefix obj/, $(SRCS:%.c=%.o))
 
