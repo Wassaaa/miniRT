@@ -69,7 +69,7 @@
 
 # define BUMP_STR 2.0
 
-# define REFLECT_DEPTH 0
+# define REFLECT_DEPTH 1
 
 # define GAMMA 1.6
 

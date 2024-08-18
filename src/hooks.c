@@ -45,11 +45,10 @@ void	resize_hook(int32_t width, int32_t height, void *data)
 	rtx->width = width;
 	rtx->height = height;
 	if (rtx->img)
-		mlx_delete_image(rtx->mlx, rtx->img);
-	rtx->img = mlx_new_image(rtx->mlx, width, height);
-	if (!rtx->img)
-		error();
-	if (mlx_image_to_window(rtx->mlx, rtx->img, 0, 0) == -1)
-		error();
+	{
+		if (!mlx_resize_image(rtx->img, width, height))
+			error();
+		ft_bzero(rtx->img->pixels, rtx->img->width * rtx->img->height * sizeof(uint32_t));
+	}
 	render();
 }

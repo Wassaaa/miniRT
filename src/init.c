@@ -41,6 +41,25 @@ static void	setup_scene(void)
 	if (!rtx()->bvh)
 		error();
 	get_lights(); //fix allocs
+}
+
+void	init_ui(void)
+{
+	int	i;
+
+	rtx()->ui[SPHERE] = mlx_put_string(rtx()->mlx, "SPHERE", 0, 0);
+	rtx()->ui[CYLINDER] = mlx_put_string(rtx()->mlx, "CYLINDER", 0, 0);
+	rtx()->ui[CONE] = mlx_put_string(rtx()->mlx, "CONE", 0, 0);
+	rtx()->ui[PLANE] = mlx_put_string(rtx()->mlx, "PLANE", 0, 0);
+	rtx()->ui[LIGHT] = mlx_put_string(rtx()->mlx, "LIGHT", 0, 0);
+	i = 0;
+	while (i < SHAPE_NUM)
+	{
+		if (!rtx()->ui[i])
+			error();
+		rtx()->ui[i]->enabled = false;
+		i++;
+	}
 	change_target();
 }
 
@@ -52,4 +71,5 @@ void	init_rtx(void)
 	setup_scene();
 	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)
 		error();
+	init_ui();
 }

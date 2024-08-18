@@ -38,6 +38,7 @@ OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
 SRCS			=	main.c \
 					init.c \
+					ui.c \
 					bvh.c \
 					bvh_utils.c \
 					init_utils.c \

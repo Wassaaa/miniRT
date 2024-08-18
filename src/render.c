@@ -84,10 +84,10 @@ t_ray	generate_ray(double x, double y)
 
 void	render_scene(void)
 {
-	t_ray	ray;
-	t_color	color;
-	int		x;
-	int		y;
+	t_ray		ray;
+	t_color		color;
+	uint32_t	x;
+	uint32_t	y;
 
 	y = 0;
 	while(y < rtx()->height)

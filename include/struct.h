@@ -6,8 +6,8 @@
 
 typedef enum e_shape_type
 {
-	SPHERE,
 	CYLINDER,
+	SPHERE,
 	CONE,
 	PLANE,
 	LIGHT,
@@ -134,6 +134,7 @@ typedef struct s_rtx
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*ui[SHAPE_NUM];
 	t_list			*shapes;
 	t_list			*unbound;
 	t_camera		camera;
@@ -142,8 +143,8 @@ typedef struct s_rtx
 	// t_scene			*scene;
 	t_bvh			*bvh;
 	t_bvh			*wireframe_bvh;
-	int				width;
-	int				height;
+	uint32_t		width;
+	uint32_t		height;
 	int				bvh_node_id;
 	int				wireframe;
 	int				grid_size;

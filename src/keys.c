@@ -83,21 +83,6 @@ static bool	adjust_shapes(mlx_key_data_t keydata)
 	return (true);
 }
 
-bool	change_target(void)
-{
-	static const char *tar_type_strings[] = {
-	[PLANE] = "PLANE",
-	[SPHERE] = "SPHERE",
-	[CYLINDER] = "CYLINDER",
-	[CONE] = "CONE",
-	[LIGHT] = "LIGHT"
-	};
-
-	rtx()->target = (rtx()->target + 1) % SHAPE_NUM;
-	printf("\e[8;1HTARGET: [%s]\e[K\n", tar_type_strings[rtx()->target]);
-	return (false);
-}
-
 bool	keys(mlx_key_data_t keydata)
 {
 	if (move_camera(keydata))
