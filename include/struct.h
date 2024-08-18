@@ -6,10 +6,10 @@
 
 typedef enum e_shape_type
 {
-	PLANE,
 	SPHERE,
 	CYLINDER,
 	CONE,
+	PLANE,
 	LIGHT,
 	SHAPE_NUM,
 	WIREFRAME
@@ -96,9 +96,9 @@ typedef struct s_shape
 	double			half_height;
 	double			reflectivity;
 	double			shine;
-	mlx_image_t		*image;
+	mlx_image_t		*texture;
 	mlx_image_t		*bump;
-	int				checkerboard;
+	mlx_image_t		*checkerboard;
 	double			half_angle;
 	double			tan_half_angle;
 	double			cos_theta;

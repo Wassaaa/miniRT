@@ -30,50 +30,49 @@ t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
 	return (vector_normalize(result));
 }
 
-t_vector random_direction()
+void	rotate_shape(t_shape *shape, t_vector axis, double angle)
 {
-	t_vector	dir;
-
-	dir.x = (double)rand() / RAND_MAX * 2.0 - 1.0;
-	dir.y = (double)rand() / RAND_MAX * 2.0 - 1.0;
-	dir.z = (double)rand() / RAND_MAX * 2.0 - 1.0;
-	return (vector_normalize(dir));
-}
-
-double random_angle()
-{
-	return (double)rand() / RAND_MAX * (M_PI / 2);
-}
-
-void	random_rotate(t_direction dir)
-{
-	t_list		*shapes;
-	t_shape		*shape;
-	t_vector	rotation_axis;
-	double		rotation_angle;
-
-	shapes = rtx()->shapes;
-	rotation_axis = rtx()->camera.dir;
-	// rotation_axis = random_direction();
-	rotation_angle = M_PI / 8;
-	if (dir == FORWARD)
-		rotation_angle = -rotation_angle;
-	// rotation_angle = random_angle();
-	while (shapes)
-	{
-		shape = (t_shape *)shapes->content;
-		shape->dir = vector_rotate(shape->dir, rotation_axis, rotation_angle);
-		shape->u_axis = vector_rotate(shape->u_axis, rotation_axis, rotation_angle);
-		shape->v_axis = vector_rotate(shape->v_axis, rotation_axis, rotation_angle);
+	shape->dir = vector_rotate(shape->dir, axis, angle);
+	shape->u_axis = vector_rotate(shape->u_axis, axis, angle);
+	shape->v_axis = vector_rotate(shape->v_axis, axis, angle);
+	if (shape->type != PLANE)
 		shape->box = shape->boxfunc(shape);
-		shapes = shapes->next;
-	}
-	printf("\e[7;1HRotated all shapes %.2f degrees around axis {%.2f, %.2f, %.2f}\e[K\n",
-		rotation_angle * (180.0 / M_PI),
-		rotation_axis.x, rotation_axis.y, rotation_axis.z);
+}
+
+void	rebuild_bvh(void)
+{
 	if (rtx()->bvh)
 		free_bvh(rtx()->bvh);
 	rtx()->bvh = bvh(rtx()->shapes);
 	if (!rtx()->bvh)
 		error();
+}
+
+bool	rotate_objects(t_direction dir)
+{
+	t_list		*shapes;
+	t_shape		*shape;
+	t_vector	axis;
+	double		angle;
+
+	if (rtx()->target > 3)
+		return (false);
+	if (rtx()->target == PLANE)
+		shapes = rtx()->unbound;
+	else
+		shapes = rtx()->shapes;
+	axis = rtx()->camera.dir;
+	angle = ROTATION_ANGLE * M_PI / 180;
+	if (dir == FORWARD)
+		angle = -angle;
+	while (shapes)
+	{
+		shape = (t_shape *)shapes->content;
+		if (shape->type == rtx()->target)
+			rotate_shape(shape, axis, angle);
+		shapes = shapes->next;
+	}
+	if (rtx()->target < 3)
+		rebuild_bvh();
+	return (true);
 }

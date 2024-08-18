@@ -71,9 +71,9 @@ static bool	adjust_shapes(mlx_key_data_t keydata)
 	else if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
 		move_objects(RIGHT);
 	else if (keydata.key == MLX_KEY_R && keydata.action == MLX_RELEASE)
-		random_rotate(FORWARD);
+		return (rotate_objects(FORWARD));
 	else if (keydata.key == MLX_KEY_T && keydata.action == MLX_RELEASE)
-		random_rotate(BACK);
+		return (rotate_objects(BACK));
 	else if (keydata.key == MLX_KEY_PERIOD && keydata.action == MLX_RELEASE)
 		scale(UP);
 	else if (keydata.key == MLX_KEY_COMMA && keydata.action == MLX_RELEASE)

@@ -23,6 +23,7 @@
         "libft.h": "c",
         "struct.h": "c",
         "ios": "c",
-        "float.h": "c"
+        "float.h": "c",
+        "mlx42.h": "c"
     }
 }

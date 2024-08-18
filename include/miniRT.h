@@ -71,7 +71,9 @@
 
 # define REFLECT_DEPTH 0
 
-# define GAMMA 2.2
+# define GAMMA 1.6
+
+# define ROTATION_ANGLE 30
 //test cam
 # define TEST_CAM_POS (t_vector){3.12, 2.87, 3.19}
 # define TEST_CAM_DIR (t_vector){0.30, -0.61, 0.73}
@@ -181,7 +183,7 @@ mlx_image_t		*png_to_image(mlx_t *mlx, char *path, bool to_grayscale);
 
 //rotate and translate
 t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
-void			random_rotate(t_direction dir);
+bool			rotate_objects(t_direction dir);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
 void			scale(t_direction dir);

@@ -3,7 +3,6 @@
 ################################################################################
 CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror -pthread
-MAKEFLAGS		+=	-j4
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 AGGR_OPTI		=	-mavx2 -mfma -fno-exceptions
@@ -82,12 +81,10 @@ vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors
 all: libmlx $(NAME)
 
 libmlx:
-	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build
+	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build -j4
 
 $(NAME): $(LIBFT) $(OBJECTS)
 	$(CC_FULL) $(OBJECTS) $(LIBFT) $(MLX42) -o $(NAME)
-
-$(OBJECTS): libmlx
 
 $(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 	mkdir -p $(@D)
