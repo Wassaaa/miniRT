@@ -17,30 +17,28 @@ static void	start_mlx(int width, int height)
 		error();
 }
 
-static void	init_camera(void)
-{
-	t_camera	*camera;
+// static void	init_camera(void)
+// {
+// 	t_camera	*camera;
 
-	camera = &(rtx()->camera);
-	camera->pos = TEST_CAM_POS;
-	camera->dir = vector_normalize(TEST_CAM_DIR);
-	camera->fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
-	fix_camera();
-}
+// 	camera = &(rtx()->camera);
+// 	camera->pos = TEST_CAM_POS;
+// 	camera->dir = vector_normalize(TEST_CAM_DIR);
+// 	camera->fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
+// 	fix_camera();
+// }
 
 static void	setup_scene(void)
 {
 	rtx()->checkerboard = make_checkerboard(color_from_hex(CHECKERB_COLOR));
-	rtx()->ambient = color_scale(TEST_AMBIENT_COL, 1.0/255.0);
-	rtx()->ambient = color_scale(rtx()->ambient, TEST_AMBIENT_INT);
-	init_camera();
+	// init_camera();
 	get_shapes(); //fix allocs
 	if (rtx()->bvh)
 		free_bvh(rtx()->bvh);
 	rtx()->bvh = bvh(rtx()->shapes);
 	if (!rtx()->bvh)
 		error();
-	get_lights(); //fix allocs
+	//get_lights(); //fix allocs
 }
 
 void	init_ui(void)
@@ -60,6 +58,7 @@ void	init_ui(void)
 		rtx()->ui[i]->enabled = false;
 		i++;
 	}
+	//get_lights(); //fix allocs
 	change_target();
 }
 

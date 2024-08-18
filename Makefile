@@ -75,7 +75,8 @@ SRCS			=	main.c \
 					aabb_generate_rays.c \
 					aabb_intersect_line.c \
 					wireframe.c \
-					parser.c
+					parser.c \
+					ft_atof.c
 
 
 ################################################################################

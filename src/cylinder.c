@@ -24,18 +24,6 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	return (cylinder);
 }
 
-t_vector	check_dir(t_vector dir)
-{
-	if (dir.x > 1 || dir.y > 1 || dir.z > 1 || dir.x < -1 || dir.y < -1 || dir.z < -1)
-		printf("Wrong direction input");
-	if (vector_length(dir) != 1)
-	{
-		printf("Dirction is not normalized");
-		return (vector_normalize(dir));
-	}
-	return (dir);
-}
-
 
 t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 {
