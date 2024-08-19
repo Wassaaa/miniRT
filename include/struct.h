@@ -113,6 +113,7 @@ typedef struct s_hit
 	double		distance;
 	t_shape		*shape;
 	bool		hit;
+	bool		inshape;
 	t_vector	normal;
 	t_vector	normal_pre_perturb;
 	t_vector	hit_point;
