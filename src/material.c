@@ -41,6 +41,8 @@ t_color	uv_get_color(mlx_image_t *image, double u, double v)
 
 t_color	add_material(t_hit *hit)
 {
+	if (hit->shape->checkerboard)
+		return (uv_get_color(hit->shape->checkerboard, hit->u, hit->v));
 	if (hit->shape->texture)
 		return (uv_get_color(hit->shape->texture, hit->u, hit->v));
 	else

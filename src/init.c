@@ -30,7 +30,6 @@ static void	start_mlx(int width, int height)
 
 void	setup_scene(void)
 {
-	rtx()->checkerboard = make_checkerboard(color_from_hex(CHECKERB_COLOR));
 	// init_camera();
 	// get_shapes(); //fix allocs
 	if (rtx()->bvh)

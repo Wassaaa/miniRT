@@ -19,10 +19,12 @@ void	scale_shape(t_list *node, double mult)
 	new_shape->dir = shape->dir;
 	new_shape->color = shape->color;
 	node->content = new_shape;
-	if (shape->texture && shape->texture != rtx()->checkerboard)
+	if (shape->texture)
 		mlx_delete_image(rtx()->mlx, shape->texture);
 	if (shape->bump)
 		mlx_delete_image(rtx()->mlx, shape->bump);
+	if (shape->checkerboard)
+		mlx_delete_image(rtx()->mlx, shape->checkerboard);
 	free(shape);
 }
 

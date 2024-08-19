@@ -13,8 +13,6 @@ t_shape	*make_plane(t_vector pos, t_vector dir, t_color color)
 	plane->reflectivity = 0.7;
 	// plane->texture = png_to_texture(rtx()->mlx, "textures/tree.png", false);
 	// plane->bump = png_to_texture(rtx()->mlx, "textures/tree.png", true);
-	plane->texture = rtx()->checkerboard;
-	plane->checkerboard = 0;
 	create_local_system(plane);
 
 	return (plane);

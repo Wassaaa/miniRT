@@ -141,7 +141,6 @@ typedef struct s_rtx
 	t_camera		camera;
 	t_list			*lights;
 	t_color			ambient;
-	// t_scene			*scene;
 	t_bvh			*bvh;
 	t_bvh			*wireframe_bvh;
 	uint32_t		width;
@@ -152,7 +151,6 @@ typedef struct s_rtx
 	int				ssaa;
 	t_shape_type	target;
 	unsigned int	seed;
-	mlx_image_t		*checkerboard;
 }	t_rtx;
 
 #endif
