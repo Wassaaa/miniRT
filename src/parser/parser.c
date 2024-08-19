@@ -166,7 +166,6 @@ void	set_sphere(char	**element)
 	sphere->box = sphere->boxfunc(sphere);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, sphere);
-	sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
 	create_local_system(sphere);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
 }
@@ -202,8 +201,11 @@ void	set_cylinder(char **element)
 	check_range_double(cylinder->diameter, 0.0, DBL_MAX, "Invalid cylinder diameter! Range:[0.0, DBL_MAX]");
 	cylinder->radius = cylinder->diameter * 0.5;
 	cylinder->height= ft_atof(element[4]);
+	cylinder->half_height = cylinder->height / 2;
 	check_range_double(cylinder->height, 0.0, DBL_MAX, "Invalid cylinder height! Range:[0.0, DBL_MAX]");
 	cylinder->color = color_scale(parse_color(element[5]), 1.0/255.0);
+	cylinder->boxfunc = box_cylinder;
+	cylinder->box = cylinder->boxfunc(cylinder);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, cylinder);
 	create_local_system(cylinder);
@@ -225,7 +227,13 @@ void	set_cone(char **element)
 	cone->radius = cone->diameter * 0.5;
 	cone->height= ft_atof(element[4]);
 	check_range_double(cone->height, 0.0, DBL_MAX, "Invalid cone height! Range:[0.0, DBL_MAX]");
+	cone->half_angle = atan(cone->radius / cone->height);
+	cone->tan_half_angle = tan(cone->half_angle);
+	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half_angle * cone->tan_half_angle);
+	cone->sin_theta = cone->tan_half_angle * cone->cos_theta;
 	cone->color = color_scale(parse_color(element[5]), 1.0/255.0);
+	cone->boxfunc = box_cone;
+	cone->box = cone->boxfunc(cone);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, cone);
 	create_local_system(cone);
