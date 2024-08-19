@@ -28,7 +28,7 @@ static void	start_mlx(int width, int height)
 // 	fix_camera();
 // }
 
-static void	setup_scene(void)
+void	setup_scene(void)
 {
 	rtx()->checkerboard = make_checkerboard(color_from_hex(CHECKERB_COLOR));
 	// init_camera();
@@ -67,7 +67,7 @@ void	init_rtx(void)
 	ft_bzero(rtx(), sizeof(t_rtx));
 	start_mlx(WIDTH, HEIGHT);
 	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
-	setup_scene();
+	// setup_scene();
 	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)
 		error();
 	init_ui();

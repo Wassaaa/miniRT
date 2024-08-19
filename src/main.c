@@ -30,14 +30,15 @@ void	error(void)
 
 void	render(void)
 {
-	render_multi_threaded();
-	// render_scene();
+	// render_multi_threaded();
+	render_scene();
 }
 
 int	main(int argc, char *argv[])
 {
-	parse_input(argc, argv);
 	init_rtx();
+	parse_input(argc, argv);
+	setup_scene();
 	render();
 	mlx_key_hook(rtx()->mlx, key_hook, NULL);
 	mlx_loop_hook(rtx()->mlx, loop_hook, NULL);

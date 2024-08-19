@@ -129,6 +129,7 @@ void			ft_swap(double *a, double *b);
 t_rtx			*rtx(void);
 void			init_rtx(void);
 void			fix_camera(void);
+void			setup_scene(void);
 void			get_lights(void);
 void			get_shapes(void);
 mlx_image_t		*make_checkerboard(t_color color);

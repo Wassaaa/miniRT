@@ -30,12 +30,15 @@ t_vector	check_dir(t_vector dir)
 	return (dir);
 }
 
-void	split_line(char *line, char ***element)
+char	**split_line(char *line)
 {
+	char **element;
+
 	line = ft_strtrim(line, " \t\n");
 	if (*line == '\0' || *line == '\n')
-		return ;
-	*element = ft_split(line, '\t'); //need to free later
+		return (NULL);
+	element = ft_split(line, '\t'); //need to free later
+	return (element);
 }
 
 t_color	parse_color(char *color_str)
@@ -282,9 +285,12 @@ void	parse_input(int argc, char *argv[])
 	line = get_next_line(fd);
 	while (line)
 	{
-		split_line(line, &element);
-		if (*element[0] != '\n' && *element[0] != '#')
-			parse_element(element);
+		element = split_line(line);
+		if (element && *element[0] != '\n' && *element[0] != '#')
+		{
+			if (element)
+				parse_element(element);
+		}
 		free(line);
 		line = get_next_line(fd);
 		print_string_array(element);
