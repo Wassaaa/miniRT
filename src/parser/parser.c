@@ -99,6 +99,7 @@ void	parse_bonus(char **element, t_shape	*shape)
 			shape->reflectivity = ft_atof(*element + 4);
 			check_range_double(shape->reflectivity, 0.0, 1.0, "Wrong reflection value! Range:[0.0,1.0]");
 		}
+		element++;
 	}
 }
 
@@ -184,7 +185,7 @@ void	set_plane(char	**element)
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, plane);
 	create_local_system(plane);
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(plane));
+	ft_lstadd_back(&rtx()->unbound, ft_lstnew(plane));
 }
 
 void	set_cylinder(char **element)
