@@ -11,6 +11,8 @@ void	fix_camera(void)
 
 	camera = &(rtx()->camera);
 	camera->right = vector_cross(WORLD_UP, camera->dir);
+	if (vector_length(camera->right) < EPSILON)
+		camera->right = vector_cross(WORLD_RIGHT, camera->dir);
 	camera->right = vector_normalize(camera->right);
 	camera->up = vector_cross(camera->dir, camera->right);
 	camera->up = vector_normalize(camera->up);
