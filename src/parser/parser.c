@@ -1,4 +1,3 @@
-
 #include <miniRT.h>
 
 void	error_exit(char *err_msg)
@@ -66,29 +65,36 @@ t_vector	parse_vector(char *vector_str)
 	return (vector);
 }
 
-void	parse_bonus(char *element, t_shape	*shape)
+void	parse_bonus(char **element, t_shape	*shape)
 {
+	int	len;
+
 	while (*element)
 	{
-		if (ft_strncmp(*element, "chk:", 4) == 0)
-		{
-
-		}
+		len = ft_strlen(*element);
+		if (ft_strncmp(*element, "chk:1", 6) == 0)
+			shape->checkerboard = make_checkerboard(shape->color);
 		if (ft_strncmp(*element, "tex:", 4) == 0)
 		{
-
+			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
+				error_exit("Wrong texture format!");
+			shape->texture = png_to_image(rtx()->mlx, *element + 4, true);
 		}
 		if (ft_strncmp(*element, "bmp:", 4) == 0)
 		{
-
+			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
+				error_exit("Wrong bump map format!");
+			shape->bump = png_to_image(rtx()->mlx, *element + 4, true);
 		}
 		if (ft_strncmp(*element, "shn:", 4) == 0)
 		{
-
+			shape->shine = ft_atoi(*element + 4);
+			check_range_int(shape->shine, 0, INT_MAX, "Wrong shine value! Range:[0,INT_MAX]");
 		}
 		if (ft_strncmp(*element, "ref:", 4) == 0)
 		{
-
+			shape->reflectivity = ft_atof(*element + 4);
+			check_range_double(shape->reflectivity, 0.0, 1.0, "Wrong reflection value! Range:[0.0,1.0]");
 		}
 	}
 }
@@ -112,7 +118,7 @@ void	set_camera(char **element)
 	camera = &(rtx()->camera);
 	camera->pos = parse_vector(element[1]);
 	dir = parse_vector(element[2]);
-	camera->dir = vector_normalize(check_dir(dir));
+	camera->dir = check_dir(dir);
 	fov = ft_atoi(element[3]);
 	check_range_int(fov, 0, 180, "Wrong horizontal field of view! Range:[0,180]");
 	camera->fov = tan((fov * 0.5) * (M_PI / 180.0));
@@ -131,6 +137,16 @@ void	set_light(char **element)
 	ft_lstadd_back(&rtx()->lights, ft_lstnew(light));
 }
 
+int	array_len(char **array)
+{
+	int	len;
+
+	len = 0;
+	while (array[len])
+		len++;
+	return (len);
+}
+
 void	set_sphere(char	**element)
 {
 	t_shape			*sphere;
@@ -140,26 +156,81 @@ void	set_sphere(char	**element)
 	sphere->pos = parse_vector(element[1]);
 	sphere->dir = WORLD_UP;
 	sphere->diameter = ft_atof(element[2]);
+	check_range_double(sphere->diameter, 0.0, DBL_MAX, "Invalid sphere diameter! Range:[0.0, DBL_MAX]");
 	sphere->radius = sphere->diameter * 0.5;
 	sphere->color = color_scale(parse_color(element[3]), 1.0/255.0);
 	sphere->boxfunc = box_sphere;
 	sphere->box = sphere->boxfunc(sphere);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, sphere);
-	sphere->shine = SHINE;
-	// sphere->image = png_to_image(rtx()->mlx,"hive.png", false);
-	// sphere->image = png_to_image(rtx()->mlx, "textures/smile2.png", false);
 	sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
-	// sphere->image = rtx()->checkerboard;
 	create_local_system(sphere);
-	ft_lstadd_back(&rtx()->shapes, ft_lstnew(make_sphere(TEST_SPHERE)));
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
 }
 
+void	set_plane(char	**element)
+{
+	t_shape		*plane;
+	t_vector	dir;
+
+	plane = ft_calloc(1, sizeof(t_shape));
+	plane->type = PLANE;
+	plane->pos = parse_vector(element[1]);
+	dir = parse_vector(element[2]);
+	plane->dir = check_dir(dir);
+	plane->color = color_scale(parse_color(element[3]), 1.0/255.0);
+	if (array_len(element) > 4)
+		parse_bonus(element + 4, plane);
+	create_local_system(plane);
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(plane));
+}
+
+void	set_cylinder(char **element)
+{
+	t_shape		*cylinder;
+	t_vector	dir;
+
+	cylinder = ft_calloc(1, sizeof(t_shape));
+	cylinder->type = CYLINDER;
+	cylinder->pos = parse_vector(element[1]);
+	dir = parse_vector(element[2]);
+	cylinder->dir = check_dir(dir);
+	cylinder->diameter = ft_atof(element[3]);
+	check_range_double(cylinder->diameter, 0.0, DBL_MAX, "Invalid cylinder diameter! Range:[0.0, DBL_MAX]");
+	cylinder->radius = cylinder->diameter * 0.5;
+	cylinder->height= ft_atof(element[4]);
+	check_range_double(cylinder->height, 0.0, DBL_MAX, "Invalid cylinder height! Range:[0.0, DBL_MAX]");
+	cylinder->color = color_scale(parse_color(element[5]), 1.0/255.0);
+	if (array_len(element) > 4)
+		parse_bonus(element + 4, cylinder);
+	create_local_system(cylinder);
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cylinder));
+}
+
+void	set_cone(char **element)
+{
+	t_shape		*cone;
+	t_vector	dir;
+
+	cone = ft_calloc(1, sizeof(t_shape));
+	cone->type = CONE;
+	cone->pos = parse_vector(element[1]);
+	dir = parse_vector(element[2]);
+	cone->dir = check_dir(dir);
+	cone->diameter = ft_atof(element[3]);
+	check_range_double(cone->diameter, 0.0, DBL_MAX, "Invalid cone diameter! Range:[0.0, DBL_MAX]");
+	cone->radius = cone->diameter * 0.5;
+	cone->height= ft_atof(element[4]);
+	check_range_double(cone->height, 0.0, DBL_MAX, "Invalid cone height! Range:[0.0, DBL_MAX]");
+	cone->color = color_scale(parse_color(element[5]), 1.0/255.0);
+	if (array_len(element) > 4)
+		parse_bonus(element + 4, cone);
+	create_local_system(cone);
+	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cone));
+}
 
 void	parse_element(char **element)
 {
-	if (element[0][0] == '#')
-		return ;
 	if (ft_strncmp(element[0], "A", 2) == 0)
 		set_ambient(element);
 	else if (ft_strncmp(element[0],"C", 2) == 0)
@@ -168,12 +239,12 @@ void	parse_element(char **element)
 		set_light(element);
 	else if (ft_strncmp(element[0], "sp", 3) == 0)
 		set_sphere(element);
-	// else if (ft_strncmp(element[0], "pl", 3) == 0)
-	// 	set_plane();
-	// else if (ft_strncmp(element[0], "cy", 3) == 0)
-	// 	set_cylinder();
-	// else if (ft_strncmp(element[0], "cn", 3) == 0)
-	// 	set_cone();
+	else if (ft_strncmp(element[0], "pl", 3) == 0)
+		set_plane(element);
+	else if (ft_strncmp(element[0], "cy", 3) == 0)
+		set_cylinder(element);
+	else if (ft_strncmp(element[0], "cn", 3) == 0)
+		set_cone(element);
 }
 
 void print_string_array(char **array) // test function
@@ -212,7 +283,7 @@ void	parse_input(int argc, char *argv[])
 	while (line)
 	{
 		split_line(line, &element);
-		if (*element[0] != '\n')
+		if (*element[0] != '\n' && *element[0] != '#')
 			parse_element(element);
 		free(line);
 		line = get_next_line(fd);
