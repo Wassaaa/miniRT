@@ -52,7 +52,7 @@ double	intersect_cylinder_caps(t_ray *ray, t_shape *cylinder)
 	while (++i < 2)
 	{
 		v_caps[i] = vector_add(cylinder->pos, vector_scale(cylinder->dir,
-					(i * 2 - 1) * 0.5 * cylinder->height));
+					(i * 2 - 1) * cylinder->half_height));
 		t_caps[i] = vector_dot(vector_subtract(v_caps[i], ray->origin),
 				cylinder->dir) / vector_dot(ray->direction, cylinder->dir);
 		if (t_caps[i] > 0)
@@ -88,7 +88,7 @@ int	intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t)
 				vector_scale(ray->direction, t_body[0]));
 		y = vector_dot(vector_subtract(intersection, cylinder->pos),
 				cylinder->dir);
-		if (fabs(y) > cylinder->height / 2)
+		if (fabs(y) > cylinder->half_height)
 			t_body[0] = INFINITY;
 	}
 	else

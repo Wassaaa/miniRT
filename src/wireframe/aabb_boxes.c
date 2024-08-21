@@ -28,8 +28,8 @@ t_aabb	box_cylinder(t_shape *cylinder)
 	t_vector	end;
 	t_aabb		cylinder_box;
 
-	start = vector_subtract(cylinder->pos, vector_scale(cylinder->dir, cylinder->height / 2));
-	end = vector_add(cylinder->pos, vector_scale(cylinder->dir, cylinder->height / 2));
+	start = vector_subtract(cylinder->pos, vector_scale(cylinder->dir, cylinder->half_height));
+	end = vector_add(cylinder->pos, vector_scale(cylinder->dir, cylinder->half_height));
 	radius_vec = (t_vector){cylinder->radius, cylinder->radius, cylinder->radius};
 	cylinder_box.min = vector_subtract(vector_min(start, end), radius_vec);
 	cylinder_box.max = vector_add(vector_max(start, end), radius_vec);
