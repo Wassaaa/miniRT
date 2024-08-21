@@ -40,24 +40,24 @@ void	setup_scene(void)
 	//get_lights(); //fix allocs
 }
 
+static mlx_image_t *safe_mlx_put_string(mlx_t *mlx, char *str)
+{
+	mlx_image_t	*img;
+
+	img = mlx_put_string(mlx, str, 0, 0);
+	if (!img)
+		error();
+	img->enabled = false;
+	return (img);
+}
+
 void	init_ui(void)
 {
-	int	i;
-
-	rtx()->ui[SPHERE] = mlx_put_string(rtx()->mlx, "SPHERE", 0, 0);
-	rtx()->ui[CYLINDER] = mlx_put_string(rtx()->mlx, "CYLINDER", 0, 0);
-	rtx()->ui[CONE] = mlx_put_string(rtx()->mlx, "CONE", 0, 0);
-	rtx()->ui[PLANE] = mlx_put_string(rtx()->mlx, "PLANE", 0, 0);
-	rtx()->ui[LIGHT] = mlx_put_string(rtx()->mlx, "LIGHT", 0, 0);
-	i = 0;
-	while (i < SHAPE_NUM)
-	{
-		if (!rtx()->ui[i])
-			error();
-		rtx()->ui[i]->enabled = false;
-		i++;
-	}
-	//get_lights(); //fix allocs
+	rtx()->ui[SPHERE] = safe_mlx_put_string(rtx()->mlx, "SPHERE");
+	rtx()->ui[CYLINDER] = safe_mlx_put_string(rtx()->mlx, "CYLINDER");
+	rtx()->ui[CONE] = safe_mlx_put_string(rtx()->mlx, "CONE");
+	rtx()->ui[PLANE] = safe_mlx_put_string(rtx()->mlx, "PLANE");
+	rtx()->ui[LIGHT] = safe_mlx_put_string(rtx()->mlx, "LIGHT");
 	change_target();
 }
 

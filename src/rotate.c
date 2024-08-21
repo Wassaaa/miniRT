@@ -55,7 +55,7 @@ bool	rotate_objects(t_direction dir)
 	t_vector	axis;
 	double		angle;
 
-	if (rtx()->target > 3)
+	if (rtx()->target > LIM_ROTATE)
 		return (false);
 	if (rtx()->target == PLANE)
 		shapes = rtx()->unbound;
@@ -72,7 +72,7 @@ bool	rotate_objects(t_direction dir)
 			rotate_shape(shape, axis, angle);
 		shapes = shapes->next;
 	}
-	if (rtx()->target < 3)
-		rebuild_bvh();
+	if (rtx()->target < LIM_BVH)
+	rebuild_bvh();
 	return (true);
 }

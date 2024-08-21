@@ -34,6 +34,8 @@ void	scale(t_direction dir)
 	t_list	*shapes;
 	t_shape	*shape;
 
+	if (rtx()->target > LIM_SCALE)
+		return (false);
 	if (dir == UP)
 		mult = 1.0 + SCALE_STEP;
 	else

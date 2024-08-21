@@ -9,7 +9,10 @@ typedef enum e_shape_type
 	CYLINDER,
 	SPHERE,
 	CONE,
+	LIM_SCALE,
+	LIM_BVH,
 	PLANE,
+	LIM_ROTATE,
 	LIGHT,
 	SHAPE_NUM,
 	WIREFRAME
