@@ -193,7 +193,7 @@ t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
 bool			rotate_objects(t_direction dir);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
-void			scale(t_direction dir);
+bool			scale(t_direction dir);
 
 //shapes
 t_shape			*make_sphere(t_vector pos, double diameter, t_color color);

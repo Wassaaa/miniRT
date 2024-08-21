@@ -16,8 +16,8 @@
 - [x] check all artifacts between shape intersections
 - [x] correct bump map transitions from light to ambient to be a bit smoother and better looking
 - [x] camera gimbal lock when panning up or down
+- [x] only resize if last resize was more than a second (or less) ago
 - [ ] fix all memory things, free when creating new lists, bvhs, destroy images/textures, destroy MLX
-- [ ] only resize if last resize was more than a second (or less) ago
 - [ ] Parsing of scene files
 
 # LIGHT
