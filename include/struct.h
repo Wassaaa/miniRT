@@ -145,6 +145,8 @@ typedef struct s_rtx
 	t_bvh			*wireframe_bvh;
 	uint32_t		width;
 	uint32_t		height;
+	bool			resize;
+	double			resize_time;
 	int				bvh_node_id;
 	int				wireframe;
 	int				grid_size;

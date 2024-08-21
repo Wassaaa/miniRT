@@ -42,6 +42,7 @@ int	main(int argc, char *argv[])
 	render();
 	mlx_key_hook(rtx()->mlx, key_hook, rtx());
 	mlx_loop_hook(rtx()->mlx, loop_hook, rtx());
+	mlx_resize_hook(rtx()->mlx, resize_hook, rtx());
 	mlx_loop(rtx()->mlx);
 	mlx_terminate(rtx()->mlx);
 	return (0);

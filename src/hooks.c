@@ -10,6 +10,29 @@ void	key_hook(mlx_key_data_t keydata, void* param)
 	}
 }
 
+void	resize()
+{
+	double	since_resize;
+
+	if (rtx()->resize)
+	{
+		since_resize = mlx_get_time() - rtx()->resize_time;
+		if (since_resize > RESIZE_TIME)
+		{
+			if (rtx()->img)
+			{
+				if (!mlx_resize_image(rtx()->img, rtx()->width, rtx()->height))
+					error();
+				ft_bzero(rtx()->img->pixels,
+					rtx()->img->width * rtx()->img->height * sizeof(uint32_t));
+				rtx()->resize = false;
+				render();
+			}
+		}
+
+	}
+}
+
 void	loop_hook(void *data)
 {
 	static int		fps = 1;
@@ -27,6 +50,7 @@ void	loop_hook(void *data)
 		i = 0;
 		fps = 0;
 	}
+	resize();
 	printf("\e[2;1HLast Frame [%.0fms]\e[K\n",
 		rtx->mlx->delta_time * 1000);
 	printf("\e[4;1HFOV [%.2f]\e[K\n",
@@ -44,11 +68,6 @@ void	resize_hook(int32_t width, int32_t height, void *data)
 	rtx = data;
 	rtx->width = width;
 	rtx->height = height;
-	if (rtx->img)
-	{
-		if (!mlx_resize_image(rtx->img, width, height))
-			error();
-		ft_bzero(rtx->img->pixels, rtx->img->width * rtx->img->height * sizeof(uint32_t));
-	}
-	render();
+	rtx->resize_time = mlx_get_time();
+	rtx->resize = true;
 }
