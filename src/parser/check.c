@@ -55,6 +55,7 @@ int	check_int(char *str)
 	{
 		if (!ft_isdigit(str[i]))
 			error_exit("Invalid integer!");
+		i++;
 	}
 	return (1);
 }
@@ -62,10 +63,8 @@ int	check_int(char *str)
 int	check_vector(char *str)
 {
 	char	**components;
-	int		i;
 	
 	components = ft_safe_split(str, ',');
-	i = 0;
 	if (array_len(components) != 3)
 		error_exit("Wrong vector format!");
 	if (!check_float(components[0]) || !check_float(components[1]) || !check_float(components[2]))
