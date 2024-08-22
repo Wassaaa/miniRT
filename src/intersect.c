@@ -14,12 +14,9 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 		{
 			if (intersect_plane(ray, shape, &distance) && distance < hit->distance)
 			{
-				if (distance > 0.001 && distance < hit->distance)
-				{
-					hit->distance = distance;
-					hit->shape = shape;
-					hit->hit = true;
-				}
+				hit->distance = distance;
+				hit->shape = shape;
+				hit->hit = true;
 			}
 		}
 		unbound = unbound->next;

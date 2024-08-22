@@ -38,6 +38,7 @@ t_ray	create_ray(t_vector origin, t_vector direction)
 
 	ray.origin = origin;
 	ray.direction = vector_normalize(direction);
+	ray.origin = vector_add(origin, vector_scale(ray.direction, EPSILON));
 	ray.inv_dir = (t_vector){
 		1.0 / ray.direction.x,
 		1.0 / ray.direction.y,

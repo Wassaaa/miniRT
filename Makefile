@@ -2,14 +2,15 @@
 # COMPILATION
 ################################################################################
 CC				=	cc
-CC_STRICT		=	-Wall -Wextra -Werror -pthread
+CC_STRICT		=	-Wall -Wextra -Werror
+CC_FLAGS		=	-pthread
 DB_FLAGS		=	-g
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES) -I $(MLX42_DIR)/include
 AGGR_OPTI		=	-mavx2 -mfma -fno-exceptions
 OPTIMIZATION	=	-Ofast -march=native -flto -fno-signed-zeros \
 					-fno-trapping-math -funroll-loops \
 					$(AGGR_OPTI)
-CC_FULL			=	$(CC) $(CC_STRICT) $(DB_FLAGS) $(HEADERS) #$(OPTIMIZATION)
+CC_FULL			=	$(CC) $(CC_STRICT) $(CC_FLAGS) $(DB_FLAGS) $(HEADERS) #$(OPTIMIZATION)
 
 ################################################################################
 # LIBFT
@@ -150,7 +151,7 @@ VG_FLAGS =	--leak-check=full \
 			--track-fds=yes \
 			# --suppressions=suppressions
 
-VG_CC = $(CC) $(CC_STRICT) $(HEADERS)
+VG_CC = $(CC) $(CC_FLAGS) $(HEADERS)
 
 VG_LOG_FLAGS =	$(VG_FLAGS) \
 				--log-file=$(VG_LOG) \
