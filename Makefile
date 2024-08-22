@@ -76,7 +76,11 @@ SRCS			=	main.c \
 					aabb_intersect_line.c \
 					wireframe.c \
 					parser.c \
-					ft_atof.c
+					ft_atof.c \
+					init_scene.c \
+					init_shapes.c \
+					parser_utils.c \
+					check.c \
 
 
 ################################################################################
