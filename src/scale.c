@@ -36,10 +36,7 @@ bool	scale(t_direction dir)
 			scale_shape(shape, mult);
 		shapes = shapes->next;
 	}
-	if (rtx()->bvh)
-		free_bvh(rtx()->bvh);
-	rtx()->bvh = bvh(rtx()->shapes);
-	if (!rtx()->bvh)
-		error();
+	if (rtx()->target < LIM_BVH)
+		rebuild_bvh();
 	return (true);
 }

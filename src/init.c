@@ -28,6 +28,17 @@ static void	start_mlx(int width, int height)
 // 	fix_camera();
 // }
 
+void	rebuild_bvh(void)
+{
+	if (rtx()->bvh)
+		free_bvh(rtx()->bvh);
+	if (!rtx()->shapes)
+		return ;
+	rtx()->bvh = bvh(rtx()->shapes);
+	if (!rtx()->bvh)
+		error();
+}
+
 void	setup_scene(void)
 {
 	/*
@@ -37,11 +48,7 @@ void	setup_scene(void)
 	mlx_image_t		*checkerboard;
 	for each shape based on the new char* paths that you brought from parser
 	*/
-	if (rtx()->bvh)
-		free_bvh(rtx()->bvh);
-	rtx()->bvh = bvh(rtx()->shapes);
-	if (!rtx()->bvh)
-		error();
+	rebuild_bvh();
 }
 
 static mlx_image_t *safe_mlx_put_string(mlx_t *mlx, char *str)

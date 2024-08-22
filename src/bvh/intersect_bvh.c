@@ -50,6 +50,8 @@ bool	intersect_bvh(t_bvh *node, t_ray *ray, t_hit *old_t)
 	hit = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
 	curr_hit = false;
 
+	if (!node)
+		return (false);
 	if (!intersect_aabb(*ray, node->box, hit.distance))
 		return (false);
 	if (node->shape)

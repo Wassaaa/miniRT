@@ -39,15 +39,6 @@ void	rotate_shape(t_shape *shape, t_vector axis, double angle)
 		shape->box = shape->boxfunc(shape);
 }
 
-void	rebuild_bvh(void)
-{
-	if (rtx()->bvh)
-		free_bvh(rtx()->bvh);
-	rtx()->bvh = bvh(rtx()->shapes);
-	if (!rtx()->bvh)
-		error();
-}
-
 bool	rotate_objects(t_direction dir)
 {
 	t_list		*shapes;
@@ -73,6 +64,6 @@ bool	rotate_objects(t_direction dir)
 		shapes = shapes->next;
 	}
 	if (rtx()->target < LIM_BVH)
-	rebuild_bvh();
+		rebuild_bvh();
 	return (true);
 }

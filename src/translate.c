@@ -44,11 +44,8 @@ void	move_shapes(t_direction dir)
 		}
 		shapes = shapes->next;
 	}
-	if (rtx()->bvh)
-		free_bvh(rtx()->bvh);
-	rtx()->bvh = bvh(rtx()->shapes);
-	if (!rtx()->bvh)
-		error();
+	if (rtx()->target < LIM_BVH)
+		rebuild_bvh();
 }
 
 static void	move_list(t_list *objects, t_direction dir)

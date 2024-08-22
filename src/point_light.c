@@ -7,16 +7,19 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	double		light_distance;
 	t_vector	direction;
 	
+	temp = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
 	direction = vector_subtract(
 		light->pos,
 		hit->hit_point);
 	light_distance = vector_length(direction);
 	shadow_ray = create_ray(hit->hit_point, direction);
 	temp.distance = light_distance;
-	if (rtx()->bvh && intersect_bvh(rtx()->bvh, &shadow_ray, &temp) && temp.distance < light_distance)
+	if (intersect_bvh(rtx()->bvh, &shadow_ray, &temp)
+		&& temp.distance < light_distance)
 		return (true);
 	temp.distance = light_distance;
-	if (check_unbound(&shadow_ray, &temp) && temp.distance < light_distance)
+	if (check_unbound(&shadow_ray, &temp)
+		&& temp.distance < light_distance)
 		return (true);
 	return (false);
 }
