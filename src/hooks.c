@@ -1,12 +1,16 @@
 #include <miniRT.h>
 
-void	key_hook(mlx_key_data_t keydata, void* param)
+void	key_hook(mlx_key_data_t keydata, void* data)
 {
-	(void)param;
+	double	build_time;
+
+	build_time = mlx_get_time();
+	(void)data;
 	if (keys(keydata))
 	{
-		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", rtx()->mlx->delta_time * 1000);
 		render();
+		build_time = mlx_get_time() - build_time;
+		printf("\e[3;1HLast step Frame [%.0fms]\e[K\n", build_time * 1000);
 	}
 }
 
