@@ -5,10 +5,10 @@
 # include <math.h> // math
 # include <stdio.h> // printf
 # include <MLX42/MLX42.h> // mlx
-# include <float.h>
+# include <float.h> //ft_atof
 # include <colors.h> //colors
-# include <struct.h> //colors
- #include <fcntl.h> //read file
+# include <struct.h> //structs
+# include <fcntl.h> //read file
 
 
 # define VV (t_vector){0, 0, 0} //dummy 0 vector for initializations
@@ -104,9 +104,29 @@ typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
 
 // parsing
-double		ft_atof(const char *str);
-void		parse_input(int argc, char *argv[]);
-t_vector	check_dir(t_vector dir);
+double			ft_atof(const char *str);
+void			parse_input(char *argv[]);
+t_vector		check_dir(t_vector dir);
+t_color			parse_color(char *color_str);
+t_vector		parse_vector(char *vector_str, bool dir);
+void			parse_bonus(char **element, t_shape	*shape);
+void			parse_element(char **element);
+void			check_range_int(int value, int min, int max, char *err_msg);
+void			check_range_double(double value, double min, double max, char *err_msg);
+t_vector		check_dir(t_vector dir);
+int				check_float(char *str);
+int				check_int(char *str);
+int				check_vector(char *str);
+int				check_color(char *str);
+
+// init
+void			set_ambient(char **element);
+void			set_camera(char **element);
+void			set_light(char **element);
+void			set_sphere(char	**element);
+void			set_plane(char	**element);
+void			set_cylinder(char **element);
+void			set_cone(char **element);
 
 //basic vector equation
 t_vector		vector_add(t_vector a, t_vector b);
@@ -123,8 +143,13 @@ t_vector		vector_max(t_vector a, t_vector b);
 //clamp
 int				clampi(int value, int min, int max);
 double			clampd(double value, double min, double max);
+
 //util
 void			ft_swap(double *a, double *b);
+int				array_len(char **array);
+void			error_exit(char *err_msg);
+char			**split_line(char *line);
+char			**ft_safe_split(char const *s, char c);
 
 //init
 t_rtx			*rtx(void);

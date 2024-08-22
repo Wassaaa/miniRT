@@ -36,8 +36,10 @@ void	render(void)
 
 int	main(int argc, char *argv[])
 {
+	if (argc != 2)
+		error_exit("Wrong argument number!");
 	init_rtx();
-	parse_input(argc, argv);
+	parse_input(argv);
 	setup_scene();
 	render();
 	mlx_key_hook(rtx()->mlx, key_hook, rtx());
@@ -47,4 +49,3 @@ int	main(int argc, char *argv[])
 	mlx_terminate(rtx()->mlx);
 	return (0);
 }
-

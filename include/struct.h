@@ -28,7 +28,6 @@ typedef enum e_direction
 	BACK
 }	t_direction;
 
-
 typedef struct s_vector
 {
 	double	x;

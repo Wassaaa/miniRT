@@ -1,5 +1,4 @@
-#include "libft.h"
-#include <float.h>
+#include <miniRT.h>
 
 static double	convert_fractional(const char *str, double value)
 {
