@@ -30,14 +30,18 @@ static void	start_mlx(int width, int height)
 
 void	setup_scene(void)
 {
-	// init_camera();
-	// get_shapes(); //fix allocs
+	/*
+	here you should loop through the shapes and create the
+	mlx_image_t		*texture;
+	mlx_image_t		*bump;
+	mlx_image_t		*checkerboard;
+	for each shape based on the new char* paths that you brought from parser
+	*/
 	if (rtx()->bvh)
 		free_bvh(rtx()->bvh);
 	rtx()->bvh = bvh(rtx()->shapes);
 	if (!rtx()->bvh)
 		error();
-	//get_lights(); //fix allocs
 }
 
 static mlx_image_t *safe_mlx_put_string(mlx_t *mlx, char *str)
@@ -63,10 +67,8 @@ void	init_ui(void)
 
 void	init_rtx(void)
 {
-	ft_bzero(rtx(), sizeof(t_rtx));
 	start_mlx(WIDTH, HEIGHT);
 	rtx()->seed = (unsigned int)(mlx_get_time() * 1000000);
-	// setup_scene();
 	if (mlx_image_to_window(rtx()->mlx, rtx()->img, 0, 0) == -1)
 		error();
 	init_ui();
