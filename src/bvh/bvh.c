@@ -53,13 +53,14 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	return (node);
 }
 
-void free_bvh(t_bvh *bvh)
+void free_bvh(t_bvh **bvh)
 {
-	if (bvh == NULL)
+	if (*bvh == NULL)
 		return;
-	free_bvh(bvh->left);
-	free_bvh(bvh->right);
-	free(bvh);
+	free_bvh(&(*bvh)->left);
+	free_bvh(&(*bvh)->right);
+	free(*bvh);
+	*bvh = NULL;
 }
 
 t_bvh	*bvh(t_list *shapes)

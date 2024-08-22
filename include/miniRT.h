@@ -165,7 +165,7 @@ t_aabb			compute_box(t_shape **shapes, int num_shapes);
 int				partition_shapes(t_shape **shapes, int num_shapes, int axis);
 t_shape			**shapes_to_arr(t_list *shapes, int num_shapes);
 void			rebuild_bvh(void);
-void			free_bvh(t_bvh *bvh);
+void			free_bvh(t_bvh **bvh);
 
 //render
 void			render(void);

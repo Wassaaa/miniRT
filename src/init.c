@@ -31,7 +31,7 @@ static void	start_mlx(int width, int height)
 void	rebuild_bvh(void)
 {
 	if (rtx()->bvh)
-		free_bvh(rtx()->bvh);
+		free_bvh(&rtx()->bvh);
 	if (!rtx()->shapes)
 		return ;
 	rtx()->bvh = bvh(rtx()->shapes);
