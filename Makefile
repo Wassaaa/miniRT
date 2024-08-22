@@ -146,22 +146,22 @@ pclean:
 ################################################################################
 VG = valgrind
 
-VG_FLAGS = --leak-check=full \
-	--show-leak-kinds=all \
-	--trace-children=yes \
-	--track-fds=yes \
-	--quiet \
-	--suppressions=readline.supp
+VG_FLAGS =	--leak-check=full \
+			--track-fds=yes \
+			# --suppressions=suppressions
 
-VG_LOG_FLAGS = $(VG_FLAGS) \
-	--log-file=$(VG_LOG) \
-	--track-origins=yes \
-	--verbose \
-	--gen-suppressions=all
+VG_CC = $(CC) $(CC_STRICT) $(HEADERS)
+
+VG_LOG_FLAGS =	$(VG_FLAGS) \
+				--log-file=$(VG_LOG) \
+				--track-origins=yes \
+				--verbose \
+				--gen-suppressions=all \
+				# --suppressions=suppressions
 
 VG_LOG = valgrind_leaks.log
 
-VG_ARGS =
+VG_ARGS = "scenes/rt_sample.rt"
 
 vg: vg_build
 	$(VG) $(VG_FLAGS) ./$(NAME) $(VG_ARGS)
@@ -169,8 +169,8 @@ vg: vg_build
 vglog: vg_build
 	$(VG) $(VG_LOG_FLAGS) ./$(NAME) $(VG_ARGS)
 
-vg_build: $(OBJECTS)
-	$(CC_FULL) $(OBJECTS) $(READLINE) $(LIBFT) -o $(NAME)
+vg_build: $(OBJECTS) $(LIBFT) libmlx
+	$(VG_CC) $(OBJECTS) $(LIBFT) $(MLX42) -o $(NAME)
 
 vglog_clean: fclean
 	rm -f $(VG_LOG)
