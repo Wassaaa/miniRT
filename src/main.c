@@ -49,3 +49,13 @@ int	main(int argc, char *argv[])
 	mlx_terminate(rtx()->mlx);
 	return (0);
 }
+
+// int	main(int argc, char *argv[])
+// {
+// 	if (argc != 2)
+// 		error_exit("Wrong argument number!");
+// 	parse_input(argv);
+// 	setup_scene();
+// 	//free_all function or something
+// 	return (0);
+// }
