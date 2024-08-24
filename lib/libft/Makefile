@@ -6,7 +6,7 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/05 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/08/18 18:49:25 by jtu              ###   ########.fr        #
+#    Updated: 2024/08/24 16:10:08 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS = ft_isalpha.c \
 	ft_specifier.c \
 	ft_numlen.c \
 	ft_lstadd_back_bonus.c \
+	ft_lstadd_front_bonus.c \
 	ft_lstnew_bonus.c \
 	ft_lstsize_bonus.c \
 	ft_lstclear_bonus.c \

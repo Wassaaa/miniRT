@@ -5,10 +5,11 @@ t_color	parse_color(char *color_str)
 	char	**components;
 	t_color	color;
 	
-	components = ft_safe_split(color_str, ','); //need to free later
+	components = ft_safe_split(color_str, ","); //need to free later
 	color.r = ft_atoi(components[0]);
 	color.g = ft_atoi(components[1]);
 	color.b = ft_atoi(components[2]);
+	free_parser(components, NULL);
 	// check_range_int(color.r, 0, 255, "Wrong Red value! Range:[0, 255]");
 	// check_range_int(color.g, 0, 255, "Wrong Green value! Range:[0, 255]");
 	// check_range_int(color.b, 0, 255, "Wrong Blue value! Range:[0, 255]");
@@ -20,10 +21,11 @@ t_vector	parse_vector(char *vector_str, bool dir)
 	char		**components;
 	t_vector	vector;
 	
-	components = ft_safe_split(vector_str, ','); //need to free later
+	components = ft_safe_split(vector_str, ","); //need to free later
 	vector.x = ft_atof(components[0]);
 	vector.y = ft_atof(components[1]);
 	vector.z = ft_atof(components[2]);
+	free_parser(components, NULL);
 	if (dir && fabs(vector.x) < EPSILON && fabs(vector.y) < EPSILON && fabs(vector.z) < EPSILON)
 		error_exit("Direction can't be zero vector");
 	return (vector);
@@ -37,18 +39,19 @@ void	parse_bonus(char **element, t_shape	*shape)
 	{
 		len = ft_strlen(*element);
 		if (ft_strncmp(*element, "chk:1", 6) == 0)
-			shape->checkerboard = make_checkerboard(shape->color);
+			shape->chk = true;
 		if (ft_strncmp(*element, "tex:", 4) == 0)
 		{
 			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
-				error_exit("Wrong texture format!");
-			shape->texture = png_to_image(rtx()->mlx, *element + 4, true);
+				free_parser(element, "Wrong texture format!");
+			shape->tex_path = ft_strdup(*element + 4);
 		}
 		if (ft_strncmp(*element, "bmp:", 4) == 0)
 		{
 			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
-				error_exit("Wrong bump map format!");
-			shape->bump = png_to_image(rtx()->mlx, *element + 4, true);
+				free_parser(element, "Wrong bump map format!");
+			shape->bpm_path = ft_strdup(*element + 4);
+			//shape->bump = png_to_image(rtx()->mlx, *element + 4, true);
 		}
 		if (ft_strncmp(*element, "shn:", 4) == 0)
 		{
@@ -120,11 +123,12 @@ void	parse_input(char *argv[])
 		element = split_line(line);
 		if (element && *element[0] != '\n' && *element[0] != '#')
 		{
-			if (element)
-				parse_element(element);
+			parse_element(element);
+			free_parser(element, NULL);
 		}
 		free(line);
 		line = get_next_line(fd);
 		//print_string_array(element);
+		close(fd);
 	}
 }

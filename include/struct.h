@@ -108,6 +108,9 @@ typedef struct s_shape
 	t_vector		u_axis;
 	t_vector		v_axis;
 	t_aabb 			(*boxfunc)(struct s_shape *sphere);
+	char			*bpm_path;
+	char			*tex_path;
+	bool			chk;
 }	t_shape;
 
 typedef struct s_hit

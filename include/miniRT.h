@@ -119,6 +119,14 @@ int				check_int(char *str);
 int				check_vector(char *str);
 int				check_color(char *str);
 
+//lalloc
+t_list			**allocs(void);
+void			clear_lal(void);
+void			ft_free(void **ptr);
+void			free_content(void *content);
+void			add_to_lal(void *ptr);
+void			free_one_lal(void *ptr);
+
 // init
 void			set_ambient(char **element);
 void			set_camera(char **element);
@@ -147,9 +155,14 @@ double			clampd(double value, double min, double max);
 //util
 void			ft_swap(double *a, double *b);
 int				array_len(char **array);
-void			error_exit(char *err_msg);
 char			**split_line(char *line);
-char			**ft_safe_split(char const *s, char c);
+char			**ft_safe_split(char const *s, char *set);
+char			**ft_split_new(char const *s, char *set);
+
+//error free
+void			free_parser(char **element, char *err_msg);
+void			error_exit(char *err_msg);
+void			error(void);
 
 //init
 t_rtx			*rtx(void);
@@ -245,5 +258,5 @@ void		make_aabb_line(t_list **lines, t_vector start, t_vector end, int depth);
 bool		intersect_aabb_line(t_ray *ray, t_shape *line, double *t);
 void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
-void		error(void);
+
 #endif

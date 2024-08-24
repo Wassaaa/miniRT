@@ -64,11 +64,12 @@ int	check_vector(char *str)
 {
 	char	**components;
 	
-	components = ft_safe_split(str, ',');
+	components = ft_safe_split(str, ",");
 	if (array_len(components) != 3)
 		error_exit("Wrong vector format!");
 	if (!check_float(components[0]) || !check_float(components[1]) || !check_float(components[2]))
 		error_exit("Wrong vector value!");
+	free_parser(components, NULL);
 	return (1);
 }
 
@@ -77,7 +78,7 @@ int	check_color(char *str)
 	char	**components;
 	int		i;
 	
-	components = ft_safe_split(str, ',');
+	components = ft_safe_split(str, ",");
 	i = 0;
 	if (array_len(components) != 3)
 		error_exit("Wrong color format!");
@@ -85,9 +86,10 @@ int	check_color(char *str)
 	{
 		if (!check_float(components[i]))
 			error_exit("Wrong color format!");
-		if (ft_atof(components[i]) < 0 || ft_atof(components[i]) > 255)
+		if (ft_atoi(components[i]) < 0 || ft_atoi(components[i]) > 255)
 			error_exit("Wrong color format!");
 		i++;
 	}
+	free_parser(components, NULL);
 	return (1);
 }

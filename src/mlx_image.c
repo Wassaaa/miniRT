@@ -6,6 +6,8 @@ mlx_image_t	*png_to_image(mlx_t *mlx, char *path, bool to_grayscale)
 	mlx_image_t		*image;
 	mlx_image_t		*gray;
 
+	if (!path)
+		return (NULL);
 	texture = mlx_load_png(path);
 	if (!texture)
 		error();

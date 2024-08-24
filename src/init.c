@@ -17,17 +17,6 @@ static void	start_mlx(int width, int height)
 		error();
 }
 
-// static void	init_camera(void)
-// {
-// 	t_camera	*camera;
-
-// 	camera = &(rtx()->camera);
-// 	camera->pos = TEST_CAM_POS;
-// 	camera->dir = vector_normalize(TEST_CAM_DIR);
-// 	camera->fov = tan((TEST_FOV * 0.5) * (M_PI / 180.0));
-// 	fix_camera();
-// }
-
 void	rebuild_bvh(void)
 {
 	if (rtx()->bvh)
@@ -41,13 +30,20 @@ void	rebuild_bvh(void)
 
 void	setup_scene(void)
 {
-	/*
-	here you should loop through the shapes and create the
-	mlx_image_t		*texture;
-	mlx_image_t		*bump;
-	mlx_image_t		*checkerboard;
-	for each shape based on the new char* paths that you brought from parser
-	*/
+	t_list	*shapes;
+	t_shape	*shape;
+
+	shapes = rtx()->shapes;
+	while (shapes)
+	{
+		shape = (t_shape *)shapes->content;
+		shape->texture = png_to_image(rtx()->mlx, shape->tex_path, false);
+		shape->bump = png_to_image(rtx()->mlx, shape->bpm_path, false);
+		if (shape->chk)
+			shape->checkerboard = make_checkerboard(shape->color);
+		free(shape->tex_path);
+		free(shape->bpm_path);
+	}
 	rebuild_bvh();
 }
 

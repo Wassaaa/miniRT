@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:46:51 by jtu               #+#    #+#             */
-/*   Updated: 2023/11/14 16:10:18 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/24 15:11:59 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
  * the terminating `\0'.
  * @param s - This is the C string to be scanned.
  * @param c - This is the character to be searched in str.
+ * @return If the character is found, returns a pointer to the first occurrence
+ *         of the character in the string. If the character is not found and
+ *         is not the null terminator, returns NULL. If 'c' is the null
+ *         terminator, returns a pointer to the null terminator of the string.
 */
 char	*ft_strchr(const char *s, int c)
 {
