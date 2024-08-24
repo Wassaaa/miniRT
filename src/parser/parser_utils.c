@@ -48,16 +48,18 @@ char	**split_line(char *line)
 char	**ft_safe_split(char const *s, char *set)
 {
 	char	**str;
+	char	**tmp;
 
 	str = ft_split_new(s, set);
 	if (!str)
 		error();
-	while (*str)
+	tmp = str;
+	while (*tmp)
 	{
-		add_to_lal(*str);
-		str++;
+		add_to_lal(*tmp);
+		tmp++;
 	}
-	// add_to_lal(str);
+	add_to_lal(str);
 	return (str);
 }
 

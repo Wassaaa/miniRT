@@ -11,6 +11,10 @@ void	free_shape(void *content)
 		mlx_delete_image(rtx()->mlx, shape->bump);
 	if (shape->checkerboard)
 		mlx_delete_image(rtx()->mlx, shape->checkerboard);
+	if (shape->bpm_path)
+		free(shape->bpm_path);
+	if (shape->tex_path)
+		free(shape->tex_path);
 	free(shape);
 }
 
@@ -64,14 +68,9 @@ int	main(int argc, char *argv[])
 	parse_input(argv);
 	// setup_scene();
 	// free_all function or something
-	// free_bvh(&rtx()->bvh);
-	// free_bvh(&rtx()->wireframe_bvh);
-	// //take care of all wireframe lists freeing
-	// ft_lstclear(&rtx()->shapes, free_shape);
-	// ft_lstclear(&rtx()->unbound, free_shape);
-	// ft_lstclear(&rtx()->lights, free);
-	// if (rtx()->mlx)
-	// 	mlx_terminate(rtx()->mlx);
+	ft_lstclear(&rtx()->shapes, free_shape);
+	ft_lstclear(&rtx()->unbound, free_shape);
+	ft_lstclear(&rtx()->lights, free);
 	error_exit("NULL");
 	return (0);
 }

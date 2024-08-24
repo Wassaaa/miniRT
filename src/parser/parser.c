@@ -117,18 +117,18 @@ void	parse_input(char *argv[])
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		error_exit("Open failed!");
-	line = get_next_line(fd);
-	while (line)
+	while (42)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break;
+		add_to_lal(line);
 		element = split_line(line);
 		if (element && *element && *element[0] != '\n' && *element[0] != '#')
-		{
 			parse_element(element);
-			free_parser(element, NULL);
-		}
-		free(line);
-		line = get_next_line(fd);
+		free_parser(element, NULL);
+		ft_free((void **)&line);
 		//print_string_array(element);
-		close(fd);
 	}
+	close(fd);
 }
