@@ -9,7 +9,6 @@ t_color	parse_color(char *color_str)
 	color.r = ft_atoi(components[0]);
 	color.g = ft_atoi(components[1]);
 	color.b = ft_atoi(components[2]);
-	free_parser(components, NULL);
 	// check_range_int(color.r, 0, 255, "Wrong Red value! Range:[0, 255]");
 	// check_range_int(color.g, 0, 255, "Wrong Green value! Range:[0, 255]");
 	// check_range_int(color.b, 0, 255, "Wrong Blue value! Range:[0, 255]");
@@ -25,7 +24,6 @@ t_vector	parse_vector(char *vector_str, bool dir)
 	vector.x = ft_atof(components[0]);
 	vector.y = ft_atof(components[1]);
 	vector.z = ft_atof(components[2]);
-	free_parser(components, NULL);
 	if (dir && fabs(vector.x) < EPSILON && fabs(vector.y) < EPSILON && fabs(vector.z) < EPSILON)
 		error_exit("Direction can't be zero vector");
 	return (vector);
@@ -43,13 +41,13 @@ void	parse_bonus(char **element, t_shape	*shape)
 		if (ft_strncmp(*element, "tex:", 4) == 0)
 		{
 			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
-				free_parser(element, "Wrong texture format!");
+				error_exit("Wrong texture format!");
 			shape->tex_path = ft_strdup(*element + 4);
 		}
 		if (ft_strncmp(*element, "bmp:", 4) == 0)
 		{
 			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
-				free_parser(element, "Wrong bump map format!");
+				error_exit("Wrong bump map format!");
 			shape->bpm_path = ft_strdup(*element + 4);
 			//shape->bump = png_to_image(rtx()->mlx, *element + 4, true);
 		}
@@ -113,10 +111,10 @@ void	parse_input(char *argv[])
 	// 	error_exit("Wrong argument number!");
 	len = ft_strlen(argv[1]);
 	if (len < 3 || ft_strncmp(argv[1] + len - 3, ".rt", 4))
-		error_exit("Wrong input format!");
+		error_exit(ERR_INPUT_FORMAT);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		error_exit("Open failed!");
+		error_exit(ERR_FILE_OPEN);
 	while (42)
 	{
 		line = get_next_line(fd);
@@ -126,7 +124,6 @@ void	parse_input(char *argv[])
 		element = split_line(line);
 		if (element && *element && *element[0] != '\n' && *element[0] != '#')
 			parse_element(element);
-		free_parser(element, NULL);
 		ft_free((void **)&line);
 		//print_string_array(element);
 	}

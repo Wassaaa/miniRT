@@ -4,10 +4,14 @@
 # include <libft.h>
 # include <math.h> // math
 # include <stdio.h> // printf
+# include <string.h> //strerror
+# include <errno.h> //errno
 # include <MLX42/MLX42.h> // mlx
 # include <float.h> //ft_atof
 # include <colors.h> //colors
+# include <error.h> //errors
 # include <struct.h> //structs
+# include <error.h> //structs
 # include <fcntl.h> //read file
 
 
@@ -161,9 +165,10 @@ char			**ft_split_new(char const *s, char *set);
 char			*ft_safe_strtrim(char const *s1, char const *set);
 
 //error free
-void			free_parser(char **element, char *err_msg);
-void			error_exit(char *err_msg);
-void			error(void);
+// void			free_parser(char **element, char *err_msg);
+
+void			error_exit(const char *err_msg);
+void			error(t_err_type err, const char *msg);
 
 //init
 t_rtx			*rtx(void);
@@ -258,6 +263,5 @@ t_bvh		*make_wireframe(t_bvh *shapes_bvh);
 void		make_aabb_line(t_list **lines, t_vector start, t_vector end, int depth);
 bool		intersect_aabb_line(t_ray *ray, t_shape *line, double *t);
 void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
-
 
 #endif

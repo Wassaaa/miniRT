@@ -1,38 +1,5 @@
 #include <miniRT.h>
 
-void	free_shape(void *content)
-{
-	t_shape	*shape;
-
-	shape = (t_shape *)content;
-	if (shape->texture)
-		mlx_delete_image(rtx()->mlx, shape->texture);
-	if (shape->bump)
-		mlx_delete_image(rtx()->mlx, shape->bump);
-	if (shape->checkerboard)
-		mlx_delete_image(rtx()->mlx, shape->checkerboard);
-	if (shape->bpm_path)
-		free(shape->bpm_path);
-	if (shape->tex_path)
-		free(shape->tex_path);
-	free(shape);
-}
-
-void	error(void)
-{
-	perror("ERROR\n");
-	// perror(mlx_strerror(mlx_errno));
-	free_bvh(&rtx()->bvh);
-	free_bvh(&rtx()->wireframe_bvh);
-	//take care of all wireframe lists freeing
-	ft_lstclear(&rtx()->shapes, free_shape);
-	ft_lstclear(&rtx()->unbound, free_shape);
-	ft_lstclear(&rtx()->lights, free);
-	if (rtx()->mlx)
-		mlx_terminate(rtx()->mlx);
-	exit(1);
-}
-
 void	render(void)
 {
 	render_multi_threaded();
@@ -60,10 +27,12 @@ void	render(void)
 // 	return (0);
 // }
 
+void	free_shape(void *content);
+
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
-		error_exit("Wrong argument number!");
+		error_exit(ERR_ARG_COUNT);
 	ft_bzero(rtx(), sizeof(t_rtx));
 	parse_input(argv);
 	// setup_scene();
@@ -71,6 +40,6 @@ int	main(int argc, char *argv[])
 	ft_lstclear(&rtx()->shapes, free_shape);
 	ft_lstclear(&rtx()->unbound, free_shape);
 	ft_lstclear(&rtx()->lights, free);
-	error_exit("NULL");
+	error(E_NOPE, NULL);
 	return (0);
 }

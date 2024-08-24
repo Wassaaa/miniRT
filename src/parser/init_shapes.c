@@ -12,7 +12,7 @@ void	set_sphere(char	**element)
 	sphere->pos = parse_vector(element[1], false);
 	sphere->dir = WORLD_UP;
 	sphere->diameter = ft_atof(element[2]);
-	check_range_double(sphere->diameter, 0.0, DBL_MAX, "Invalid sphere diameter! Range:[0.0, DBL_MAX]");
+	check_range_double(sphere->diameter, 0.0, DBL_MAX, ERR_SPHERE_DIAM);
 	sphere->radius = sphere->diameter * 0.5;
 	sphere->color = color_scale(parse_color(element[3]), 1.0/255.0);
 	sphere->boxfunc = box_sphere;
@@ -59,11 +59,11 @@ void	set_cylinder(char **element)
 	dir = parse_vector(element[2], true);
 	cylinder->dir = check_dir(dir);
 	cylinder->diameter = ft_atof(element[3]);
-	check_range_double(cylinder->diameter, 0.0, DBL_MAX, "Invalid cylinder diameter! Range:[0.0, DBL_MAX]");
+	check_range_double(cylinder->diameter, 0.0, DBL_MAX, ERR_CYL_DIAM);
 	cylinder->radius = cylinder->diameter * 0.5;
 	cylinder->height= ft_atof(element[4]);
 	cylinder->half_height = cylinder->height / 2;
-	check_range_double(cylinder->height, 0.0, DBL_MAX, "Invalid cylinder height! Range:[0.0, DBL_MAX]");
+	check_range_double(cylinder->height, 0.0, DBL_MAX, ERR_CYL_HEIGHT);
 	cylinder->color = color_scale(parse_color(element[5]), 1.0/255.0);
 	cylinder->boxfunc = box_cylinder;
 	cylinder->box = cylinder->boxfunc(cylinder);
@@ -89,10 +89,10 @@ void	set_cone(char **element)
 	dir = parse_vector(element[2], true);
 	cone->dir = check_dir(dir);
 	cone->diameter = ft_atof(element[3]);
-	check_range_double(cone->diameter, 0.0, DBL_MAX, "Invalid cone diameter! Range:[0.0, DBL_MAX]");
+	check_range_double(cone->diameter, 0.0, DBL_MAX, ERR_CONE_DIAM);
 	cone->radius = cone->diameter * 0.5;
 	cone->height= ft_atof(element[4]);
-	check_range_double(cone->height, 0.0, DBL_MAX, "Invalid cone height! Range:[0.0, DBL_MAX]");
+	check_range_double(cone->height, 0.0, DBL_MAX, ERR_CONE_HEIGHT);
 	cone->half_angle = atan(cone->radius / cone->height);
 	cone->tan_half_angle = tan(cone->half_angle);
 	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half_angle * cone->tan_half_angle);

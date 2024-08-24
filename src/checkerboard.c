@@ -10,7 +10,7 @@ mlx_image_t	*make_checkerboard(t_color color)
 	inverted = color_subtract(color_create(1, 1, 1), color);
 	checkerboard = mlx_new_image(rtx()->mlx, 256, 256);
 	if (!checkerboard)
-		error();
+		error(E_MLX, NULL);
 	i = -1;
 	while (++i < 256)
 	{

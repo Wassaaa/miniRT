@@ -98,7 +98,7 @@ bool	keys(mlx_key_data_t keydata)
 		rtx()->wireframe = !rtx()->wireframe;
 		rtx()->wireframe_bvh = make_wireframe(rtx()->bvh);
 		if (!rtx()->wireframe_bvh)
-			error();
+			error(E_MEM, NULL);
 	}
 	else if (adjust_shapes(keydata))
 		return (true);

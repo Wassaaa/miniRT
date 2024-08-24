@@ -55,7 +55,7 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 
 void free_bvh(t_bvh **bvh)
 {
-	if (*bvh == NULL)
+	if (!bvh || !*bvh)
 		return;
 	free_bvh(&(*bvh)->left);
 	free_bvh(&(*bvh)->right);

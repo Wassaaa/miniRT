@@ -10,27 +10,19 @@ int	array_len(char **array)
 	return (len);
 }
 
-void	free_parser(char **element, char *err_msg)
-{
-	if (!element)
-		error_exit(err_msg);
-	while (*element)
-	{
-		ft_free((void **)&(*element));
-		element++;
-	}
-	ft_free((void **)element);
-	if (err_msg)
-		error_exit(err_msg);
-}
-
-void	error_exit(char *err_msg)
-{
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	ft_putstr_fd(err_msg, STDERR_FILENO);
-	clear_lal();
-	exit(EXIT_FAILURE);
-}
+// void	free_parser(char **element, char *err_msg)
+// {
+// 	if (!element)
+// 		error_exit(err_msg);
+// 	while (*element)
+// 	{
+// 		ft_free((void **)&(*element));
+// 		element++;
+// 	}
+// 	ft_free((void **)element);
+// 	if (err_msg)
+// 		error_exit(err_msg);
+// }
 
 char	**split_line(char *line)
 {
@@ -52,7 +44,7 @@ char	**ft_safe_split(char const *s, char *set)
 
 	str = ft_split_new(s, set);
 	if (!str)
-		error();
+		error(E_MEM, NULL);
 	tmp = str;
 	while (*tmp)
 	{
@@ -69,7 +61,7 @@ t_list	*ft_safe_lstnew(void *content)
 
 	new_list = ft_lstnew(content);
 	if (!new_list)
-		error();
+		error(E_MEM, NULL);
 	add_to_lal(new_list);
 	return (new_list);
 }
@@ -80,7 +72,7 @@ char	*ft_safe_strtrim(char const *s1, char const *set)
 
 	s1_trim = ft_strtrim(s1, set);
 	if (!s1_trim)
-		error();
+		error(E_MEM, NULL);
 	add_to_lal(s1_trim);
 	return (s1_trim);
 }

@@ -26,7 +26,7 @@ void	resize()
 			if (rtx()->img)
 			{
 				if (!mlx_resize_image(rtx()->img, rtx()->width, rtx()->height))
-					error();
+					error(E_MLX, NULL);
 				ft_bzero(rtx()->img->pixels,
 					rtx()->img->width * rtx()->img->height * sizeof(uint32_t));
 				rtx()->resize = false;
