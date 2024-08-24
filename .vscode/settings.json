@@ -24,6 +24,7 @@
         "struct.h": "c",
         "ios": "c",
         "float.h": "c",
-        "mlx42.h": "c"
+        "mlx42.h": "c",
+        "pthread.h": "c"
     }
 }

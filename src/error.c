@@ -22,8 +22,8 @@ void	free_shape(void *content)
 		mlx_delete_image(rtx()->mlx, shape->bump);
 	if (shape->checkerboard)
 		mlx_delete_image(rtx()->mlx, shape->checkerboard);
-	if (shape->bpm_path)
-		free(shape->bpm_path);
+	if (shape->bmp_path)
+		free(shape->bmp_path);
 	if (shape->tex_path)
 		free(shape->tex_path);
 	free(shape);

@@ -28,22 +28,35 @@ void	rebuild_bvh(void)
 		error(E_MEM, NULL);
 }
 
-void	setup_scene(void)
+void	build_images(t_list *shapes)
 {
-	t_list	*shapes;
 	t_shape	*shape;
 
-	shapes = rtx()->shapes;
 	while (shapes)
 	{
 		shape = (t_shape *)shapes->content;
-		shape->texture = png_to_image(rtx()->mlx, shape->tex_path, false);
-		shape->bump = png_to_image(rtx()->mlx, shape->bpm_path, false);
+		if (shape->tex_path)
+		{
+			shape->texture = png_to_image(rtx()->mlx, shape->tex_path, false);
+			free(shape->tex_path);
+			shape->tex_path = NULL;
+		}
+		if (shape->tex_path)
+		{
+			shape->bump = png_to_image(rtx()->mlx, shape->bmp_path, false);
+			free(shape->bmp_path);
+			shape->bmp_path = NULL;
+		}
 		if (shape->chk)
 			shape->checkerboard = make_checkerboard(shape->color);
-		free(shape->tex_path);
-		free(shape->bpm_path);
+		shapes = shapes->next;
 	}
+}
+
+void	setup_scene(void)
+{
+	build_images(rtx()->unbound);
+	build_images(rtx()->shapes);
 	rebuild_bvh();
 }
 

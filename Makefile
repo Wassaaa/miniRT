@@ -33,7 +33,8 @@ NAME			=	miniRT
 INCLUDES		=	./include
 M_HEADERS		=	$(INCLUDES)/miniRT.h \
 					$(INCLUDES)/wireframe.h \
-					$(INCLUDES)/struct.h
+					$(INCLUDES)/struct.h \
+					$(INCLUDES)/error.h
 OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
@@ -160,6 +161,7 @@ VG_CC = $(CC) $(CC_FLAGS) $(HEADERS)
 VG_LOG_FLAGS =	$(VG_FLAGS) \
 				--log-file=$(VG_LOG) \
 				--track-origins=yes \
+				--show-leak-kinds=all \
 				--verbose \
 				--gen-suppressions=all \
 				# --suppressions=suppressions

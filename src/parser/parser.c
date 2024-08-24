@@ -48,7 +48,7 @@ void	parse_bonus(char **element, t_shape	*shape)
 		{
 			if (len < 5 || ft_strncmp(*element + len - 4, ".png", 5))
 				error_exit("Wrong bump map format!");
-			shape->bpm_path = ft_strdup(*element + 4);
+			shape->bmp_path = ft_strdup(*element + 4);
 			//shape->bump = png_to_image(rtx()->mlx, *element + 4, true);
 		}
 		if (ft_strncmp(*element, "shn:", 4) == 0)

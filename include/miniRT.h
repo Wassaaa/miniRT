@@ -20,7 +20,7 @@
 
 # define LINE_THICKNESS 0.45
 
-# define NUM_THREADS 1
+# define NUM_THREADS 24
 # define RESIZE_TIME 0.5
 
 // # define WIDTH 2560
