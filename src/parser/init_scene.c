@@ -21,7 +21,6 @@ void	set_camera(char **element)
 	t_vector	dir;
 	int			fov;
 
-	printf("%d", array_len(element));
 	if (array_len(element) != 4 || !check_vector(element[1]) || !check_vector(element[2]) || !check_int(element[3]))
 		error(E_PARSER, ERR_CAM_SETUP); //need to free
 	camera = &(rtx()->camera);
