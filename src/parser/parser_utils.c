@@ -16,7 +16,7 @@ void	free_parser(char **element, char *err_msg)
 		error_exit(err_msg);
 	while (*element)
 	{
-		ft_free((void **)*element);
+		ft_free((void **)&(*element));
 		element++;
 	}
 	ft_free((void **)element);
@@ -37,11 +37,11 @@ char	**split_line(char *line)
 	char	**element;
 	char	*line_trim;
 
-	line_trim = ft_strtrim(line, " \t\n\v\f\r");
+	line_trim = ft_safe_strtrim(line, " \t\n\v\f\r");
 	if (*line_trim == '\0' || *line_trim == '\n')
 		return (NULL);
 	element = ft_safe_split(line_trim, " \t\n\v\f\r"); //need to free later
-	free(line_trim);
+	ft_free((void **)&line_trim);
 	return (element);
 }
 
@@ -57,7 +57,7 @@ char	**ft_safe_split(char const *s, char *set)
 		add_to_lal(*str);
 		str++;
 	}
-	add_to_lal(str);
+	// add_to_lal(str);
 	return (str);
 }
 

@@ -72,6 +72,6 @@ int	main(int argc, char *argv[])
 	// ft_lstclear(&rtx()->lights, free);
 	// if (rtx()->mlx)
 	// 	mlx_terminate(rtx()->mlx);
-	error_exit(NULL);
+	error_exit("NULL");
 	return (0);
 }

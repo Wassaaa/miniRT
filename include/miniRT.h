@@ -16,7 +16,7 @@
 
 # define LINE_THICKNESS 0.45
 
-# define NUM_THREADS 24
+# define NUM_THREADS 1
 # define RESIZE_TIME 0.5
 
 // # define WIDTH 2560
@@ -158,6 +158,7 @@ int				array_len(char **array);
 char			**split_line(char *line);
 char			**ft_safe_split(char const *s, char *set);
 char			**ft_split_new(char const *s, char *set);
+char			*ft_safe_strtrim(char const *s1, char const *set);
 
 //error free
 void			free_parser(char **element, char *err_msg);

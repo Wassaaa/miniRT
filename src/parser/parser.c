@@ -121,7 +121,7 @@ void	parse_input(char *argv[])
 	while (line)
 	{
 		element = split_line(line);
-		if (element && *element[0] != '\n' && *element[0] != '#')
+		if (element && *element && *element[0] != '\n' && *element[0] != '#')
 		{
 			parse_element(element);
 			free_parser(element, NULL);
