@@ -9,7 +9,7 @@ void	render(void)
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
-		error_exit("Wrong argument number!");
+		error(E_PARSER, "Wrong argument number!");
 	ft_bzero(rtx(), sizeof(t_rtx));
 	parse_input(argv);
 	init_rtx();

@@ -114,7 +114,7 @@ t_vector		check_dir(t_vector dir);
 t_color			parse_color(char *color_str);
 t_vector		parse_vector(char *vector_str, bool dir);
 void			parse_bonus(char **element, t_shape	*shape);
-void			parse_element(char **element);
+void			parse_element(char **element, int check[2]);
 void			check_range_int(int value, int min, int max, char *err_msg);
 void			check_range_double(double value, double min, double max, char *err_msg);
 t_vector		check_dir(t_vector dir);

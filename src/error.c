@@ -45,7 +45,6 @@ void	clear_mlx(void)
 /*
 @param err error type
 @param msg error message, NULL for success exit
-
 */
 void	error(t_err_type err, const char *msg)
 {

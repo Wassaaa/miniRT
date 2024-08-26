@@ -36,13 +36,13 @@ int	check_float(char *str)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]) && str[i] != '.')
-			error(E_PARSER, ERR_FLOAT_NO_DIGIT);
+			return (0);
 		if (str[i] == '.')
 			dot++;
 		i++;
 	}
 	if (dot > 1)
-		error(E_PARSER, ERR_FLOAT_MULTI_DOT);
+		return (0);
 	return (1);
 }
 
@@ -54,7 +54,7 @@ int	check_int(char *str)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			error(E_PARSER, ERR_INVALID_INT);
+			return (0);
 		i++;
 	}
 	return (1);
@@ -83,7 +83,7 @@ int	check_color(char *str)
 		error(E_PARSER, ERR_COLOR_FORMAT);
 	while (i < 3)
 	{
-		if (!check_float(components[i]))
+		if (!check_int(components[i]))
 			error(E_PARSER, ERR_COLOR_FORMAT);
 		if (ft_atoi(components[i]) < 0 || ft_atoi(components[i]) > 255)
 			error(E_PARSER, ERR_COLOR_FORMAT);

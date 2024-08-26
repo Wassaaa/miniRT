@@ -4,11 +4,8 @@ void	set_ambient(char **element)
 {
 	double	amb_light;
 
-	// if (!check_float(element[1]) || !check_color(element[2])))
-	// 	error(E_PARSER, ); //need to free
 	if (array_len(element) != 3 || !check_float(element[1]) || !check_color(element[2]))
 		error(E_PARSER, ERR_AMBIENT_SETUP);
-		//error(E_PARSER, "Wrong ambient setup!"); //need to free
 	amb_light = ft_atof(element[1]);
 	check_range_double(amb_light, 0.0, 1.0, ERR_AMBIENT_RATIO);
 	rtx()->ambient = color_scale(parse_color(element[2]), 1.0/255.0);
@@ -22,7 +19,7 @@ void	set_camera(char **element)
 	int			fov;
 
 	if (array_len(element) != 4 || !check_vector(element[1]) || !check_vector(element[2]) || !check_int(element[3]))
-		error(E_PARSER, ERR_CAM_SETUP); //need to free
+		error(E_PARSER, ERR_CAM_SETUP);
 	camera = &(rtx()->camera);
 	camera->pos = parse_vector(element[1], false);
 	dir = parse_vector(element[2], true);
@@ -38,7 +35,7 @@ void	set_light(char **element)
 	t_light	*light;
 
 	if (array_len(element) != 4 || !check_vector(element[1]) || !check_float(element[2]) || !check_color(element[3]))
-		error(E_PARSER, ERR_LIGHT_SETUP); //need to free
+		error(E_PARSER, ERR_LIGHT_SETUP);
 	light = ft_calloc(1, sizeof(t_light));
 	light->pos = parse_vector(element[1], false);
 	light->bright = ft_atof(element[2]);
