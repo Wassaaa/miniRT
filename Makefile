@@ -65,7 +65,8 @@ SRCS			=	main.c \
 					color_utils.c \
 					color_utils2.c \
 					color_gray.c \
-					basic_equation.c \
+					vector_calculation.c \
+					vector_utils.c \
 					mlx_image.c \
 					hooks.c \
 					keys.c \
@@ -94,7 +95,7 @@ SRCS			=	main.c \
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors $(SRC_DIR)/parser
+vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors $(SRC_DIR)/parser $(SRC_DIR)/math
 
 all: libmlx $(NAME)
 
