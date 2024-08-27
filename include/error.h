@@ -28,14 +28,15 @@ typedef enum e_err_type
 # define ERR_REFLECT_RANGE "Wrong reflection value! Range:[0.0,1.0]"
 # define ERR_DIR_INPUT "Wrong direction input!"
 # define ERR_DIR_NOT_NORM "Direction is not normalized!"
-//# define ERR_FLOAT_NO_DIGIT "Invalid float! No digits found"
-//# define ERR_FLOAT_MULTI_DOT "Invalid float! Multiple dots"
-//# define ERR_INVALID_INT "Invalid integer!"
+# define ERR_FLOAT_FORMAT "Invalid float format!"
 # define ERR_VEC_FORMAT "Wrong vector format!"
 # define ERR_VEC_VALUE "Wrong vector value!"
 # define ERR_COLOR_FORMAT "Wrong color format!"
 # define ERR_AMBIENT_SETUP "Wrong ambient setup!"
 # define ERR_AMBIENT_RATIO "Wrong ambient lighting ratio! Range:[0.0, 1.0]"
-
+# define ERR_NO_AMBIENT "No ambient light given"
+# define ERR_MULTI_AMBIENT "Multiple ambient lights are not allowed!"
+# define ERR_NO_CAMERA "No camera given"
+# define ERR_MULTI_CAMERA "Multiple cameras are not allowed!"
 
 #endif

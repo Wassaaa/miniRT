@@ -108,7 +108,7 @@ typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
 
 // parsing
-double			ft_atof(const char *str);
+double			ft_atof(char *str);
 void			parse_input(char *argv[]);
 t_vector		check_dir(t_vector dir);
 t_color			parse_color(char *color_str);
@@ -117,6 +117,7 @@ void			parse_bonus(char **element, t_shape	*shape);
 void			parse_element(char **element, int check[2]);
 void			check_range_int(int value, int min, int max, char *err_msg);
 void			check_range_double(double value, double min, double max, char *err_msg);
+void			check_ac(int check[2]);
 t_vector		check_dir(t_vector dir);
 int				check_float(char *str);
 int				check_int(char *str);
@@ -132,13 +133,18 @@ void			add_to_lal(void *ptr);
 void			free_one_lal(void *ptr);
 
 // init
-void			set_ambient(char **element);
-void			set_camera(char **element);
-void			set_light(char **element);
-void			set_sphere(char	**element);
-void			set_plane(char	**element);
-void			set_cylinder(char **element);
-void			set_cone(char **element);
+void			parse_ambient(char **element);
+void			parse_camera(char **element);
+void			parse_light(char **element);
+void			parse_sphere(char	**element);
+void			parse_plane(char	**element);
+void			parse_cylinder(char **element);
+void			parse_cone(char **element);
+void			parse_checkerboard(char *element, t_shape *shape);
+void			parse_texture(char *element, t_shape *shape);
+void			parse_bump_map(char *element, t_shape *shape);
+void			parse_shine(char *element, t_shape *shape);
+void			parse_reflectivity(char *element, t_shape *shape);
 
 //basic vector equation
 t_vector		vector_add(t_vector a, t_vector b);

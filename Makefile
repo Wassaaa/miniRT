@@ -82,11 +82,13 @@ SRCS			=	main.c \
 					lalloc.c \
 					lalloc_utils.c \
 					ft_atof.c \
-					init_scene.c \
-					init_shapes.c \
+					parse_scene.c \
+					parse_shapes.c \
 					parser_utils.c \
 					check.c \
+					check_utils.c \
 					ft_split_new.c \
+					parse_bonus.c \
 
 
 ################################################################################

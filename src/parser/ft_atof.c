@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/27 13:40:45 by jtu               #+#    #+#             */
+/*   Updated: 2024/08/27 16:03:10 by jtu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <miniRT.h>
 
 static double	convert_fractional(const char *str, double value)
@@ -43,11 +55,13 @@ static double	convert_num(const char *str, double value, int sign)
  * The ft_atof() function converts the initial portion of the
  * string pointed to by str to double representation.
 */
-double	ft_atof(const char *str)
+double	ft_atof(char *str)
 {
 	double	value;
 	int		sign;
 
+	if (!check_float(str))
+		error(E_PARSER, ERR_FLOAT_FORMAT);
 	value = 0.0;
 	sign = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)

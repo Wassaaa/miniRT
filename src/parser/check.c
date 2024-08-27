@@ -1,20 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/27 13:51:47 by jtu               #+#    #+#             */
+/*   Updated: 2024/08/27 15:31:26 by jtu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <miniRT.h>
-
-void	check_range_int(int value, int min, int max, char *err_msg)
-{
-	if (value < min || value > max)
-		error(E_PARSER, err_msg);
-}
-
-void	check_range_double(double value, double min, double max, char *err_msg)
-{
-	if (value < min || value > max)
-		error(E_PARSER, err_msg);
-}
 
 t_vector	check_dir(t_vector dir)
 {
-	if (dir.x > 1 || dir.y > 1 || dir.z > 1 || dir.x < -1 || dir.y < -1 || dir.z < -1)
+	if (dir.x > 1 || dir.y > 1 || dir.z > 1
+		|| dir.x < -1 || dir.y < -1 || dir.z < -1)
 		printf(ERR_DIR_INPUT);
 	if (vector_length(dir) != 1)
 	{
@@ -24,50 +25,15 @@ t_vector	check_dir(t_vector dir)
 	return (dir);
 }
 
-int	check_float(char *str)
-{
-	int	i;
-	int	dot;
-
-	i = 0;
-	dot = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]) && str[i] != '.')
-			return (0);
-		if (str[i] == '.')
-			dot++;
-		i++;
-	}
-	if (dot > 1)
-		return (0);
-	return (1);
-}
-
-int	check_int(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	check_vector(char *str)
 {
 	char	**components;
-	
+
 	components = ft_safe_split(str, ",");
 	if (array_len(components) != 3)
 		error(E_PARSER, ERR_VEC_FORMAT);
-	if (!check_float(components[0]) || !check_float(components[1]) || !check_float(components[2]))
+	if (!check_float(components[0]) || !check_float(components[1])
+		|| !check_float(components[2]))
 		error(E_PARSER, ERR_VEC_VALUE);
 	return (1);
 }
@@ -76,7 +42,7 @@ int	check_color(char *str)
 {
 	char	**components;
 	int		i;
-	
+
 	components = ft_safe_split(str, ",");
 	i = 0;
 	if (array_len(components) != 3)
@@ -90,4 +56,16 @@ int	check_color(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	check_ac(int check[2])
+{
+	if (check[0] == 0)
+		error(E_PARSER, ERR_NO_AMBIENT);
+	if (check[0] > 1)
+		error(E_PARSER, ERR_MULTI_AMBIENT);
+	if (check[1] == 0)
+		error(E_PARSER, ERR_NO_CAMERA);
+	if (check[1] > 1)
+		error(E_PARSER, ERR_MULTI_CAMERA);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/27 18:17:06 by jtu               #+#    #+#             */
+/*   Updated: 2024/08/27 18:17:07 by jtu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <miniRT.h>
 
 t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color)
@@ -23,7 +35,6 @@ t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double heigh
 	create_local_system(cylinder);
 	return (cylinder);
 }
-
 
 t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 {
