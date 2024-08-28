@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:15 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:16 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:32:23 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-void	key_hook(mlx_key_data_t keydata, void* data)
+void	key_hook(mlx_key_data_t keydata, void *data)
 {
 	double	build_time;
 
@@ -26,7 +26,7 @@ void	key_hook(mlx_key_data_t keydata, void* data)
 	}
 }
 
-void	resize()
+void	resize(void)
 {
 	double	since_resize;
 
@@ -45,7 +45,6 @@ void	resize()
 				render();
 			}
 		}
-
 	}
 }
 

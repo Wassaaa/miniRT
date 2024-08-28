@@ -25,6 +25,12 @@
         "ios": "c",
         "float.h": "c",
         "mlx42.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "stdio.h": "c",
+        "wireframe.h": "c",
+        "string.h": "c",
+        "errno.h": "c",
+        "error.h": "c",
+        "fcntl.h": "c"
     }
 }

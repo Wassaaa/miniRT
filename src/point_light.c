@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   point_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:57 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:58 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:43:01 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	t_hit		temp;
 	double		light_distance;
 	t_vector	direction;
-	
+
 	temp = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
 	direction = vector_subtract(
-		light->pos,
-		hit->hit_point);
+			light->pos,
+			hit->hit_point);
 	light_distance = vector_length(direction);
 	shadow_ray = create_ray(hit->hit_point, direction);
-	temp.distance = light_distance;
+	temp.t = light_distance;
 	if (intersect_bvh(rtx()->bvh, &shadow_ray, &temp)
-		&& temp.distance < light_distance)
+		&& temp.t < light_distance)
 		return (true);
-	temp.distance = light_distance;
+	temp.t = light_distance;
 	if (check_unbound(&shadow_ray, &temp)
-		&& temp.distance < light_distance)
+		&& temp.t < light_distance)
 		return (true);
 	return (false);
 }
@@ -74,7 +74,7 @@ void	light_one(t_lighting *lighting, t_light *light, t_hit *hit)
 	t_color		spec_contrib;
 
 	light_dir = vector_normalize(
-		vector_subtract(light->pos, hit->hit_point));
+			vector_subtract(light->pos, hit->hit_point));
 	if (vector_dot(hit->normal_pre_perturb, light_dir) < -EPSILON)
 		return ;
 	diff_int = get_diffuse(hit, &light_dir);
@@ -93,7 +93,7 @@ t_lighting	calc_lighting(t_hit *hit)
 	double		total_intensity;
 
 	lights = rtx()->lights;
-	lighting = (t_lighting){{0, 0, 0},{0, 0, 0},{0, 0, 0}};
+	lighting = (t_lighting){{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 	total_intensity = 0.0;
 	while (lights)
 	{

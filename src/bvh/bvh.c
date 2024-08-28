@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:30 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:31 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:23:47 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ could also do abs(box.max.x - box.min.x) for each axis and get the biggest
 */
 static int	find_longest_axis(t_aabb box)
 {
-	t_vector dimensions;
+	t_vector	dimensions;
 
 	dimensions = vector_subtract(box.max, box.min);
 	dimensions.x = fabs(dimensions.x);
@@ -38,7 +38,7 @@ static int	find_longest_axis(t_aabb box)
 Bounding Volume Hierarchy (BVH) system for generating a box around each object
 gives us an ability to discard the need for calculation on many rays.
 */
-t_bvh *build_bvh(t_shape **shapes, int num_shapes)
+t_bvh	*build_bvh(t_shape **shapes, int num_shapes)
 {
 	t_bvh	*node;
 	int		split_axis;
@@ -65,10 +65,10 @@ t_bvh *build_bvh(t_shape **shapes, int num_shapes)
 	return (node);
 }
 
-void free_bvh(t_bvh **bvh)
+void	free_bvh(t_bvh **bvh)
 {
 	if (!bvh || !*bvh)
-		return;
+		return ;
 	free_bvh(&(*bvh)->left);
 	free_bvh(&(*bvh)->right);
 	free(*bvh);
@@ -92,4 +92,3 @@ t_bvh	*bvh(t_list *shapes)
 	free(shape_array);
 	return (bvh);
 }
-

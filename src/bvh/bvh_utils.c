@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bvh_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:27 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:28 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:23:09 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 /*
 go throught the array of all the shapes in the current partition
 and assign appropriate box around all the objects by adjusting the 
-min and max values of the box while going through all the objects in the partition
+min and max values of the box
+while going through all the objects in the partition
 effectively dragging the box bigger and bigger until all the shapes fit.
 */
-t_aabb compute_box(t_shape **shapes, int num_shapes)
+t_aabb	compute_box(t_shape **shapes, int num_shapes)
 {
-	t_shape *shape;
+	t_shape	*shape;
 	t_aabb	end_box;
 	int		i;
 

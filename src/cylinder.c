@@ -6,16 +6,16 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:06 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 17:53:19 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:33:48 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
+t_quad_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 {
-	t_quadratic_coeffs	coeffs;
-	t_vector			oc;
+	t_quad_coeffs	coeffs;
+	t_vector		oc;
 
 	oc = vector_subtract(ray->origin, shape->pos);
 	coeffs.a = vector_dot(ray->direction, ray->direction)
@@ -59,11 +59,11 @@ double	intersect_cylinder_caps(t_ray *ray, t_shape *cylinder)
 
 int	intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t)
 {
-	t_quadratic_coeffs	coeffs;
-	double				discriminant;
-	t_vector			intersection;
-	double				t_body[2];
-	double				y;
+	t_quad_coeffs	coeffs;
+	double			discriminant;
+	t_vector		intersection;
+	double			t_body[2];
+	double			y;
 
 	coeffs = quadratic_coeffs_cylinder(ray, cylinder);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);

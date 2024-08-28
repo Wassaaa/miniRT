@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:25 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:26 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:49:36 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,38 @@ void	fix_camera(void)
 	camera->right = vector_normalize(camera->right);
 	camera->up = vector_cross(camera->dir, camera->right);
 	camera->up = vector_normalize(camera->up);
+}
+
+void	build_images(t_list *shapes)
+{
+	t_shape	*shape;
+
+	while (shapes)
+	{
+		shape = (t_shape *)shapes->content;
+		if (shape->tex_path)
+		{
+			shape->texture = png_to_image(rtx()->mlx, shape->tex_path, false);
+			free(shape->tex_path);
+			shape->tex_path = NULL;
+		}
+		if (shape->tex_path)
+		{
+			shape->bump = png_to_image(rtx()->mlx, shape->bmp_path, false);
+			free(shape->bmp_path);
+			shape->bmp_path = NULL;
+		}
+		if (shape->chk)
+			shape->checkerboard = make_checkerboard(shape->color);
+		shapes = shapes->next;
+	}
+}
+
+void	setup_scene(void)
+{
+	build_images(rtx()->unbound);
+	build_images(rtx()->shapes);
+	rebuild_bvh();
 }
 
 t_rtx	*rtx(void)

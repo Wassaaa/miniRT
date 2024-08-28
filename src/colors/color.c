@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:20 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:21 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:21:48 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	fix_hit(t_hit *hit)
 {
 	hit->hit_point = vector_add(
-		hit->ray->origin,
-		vector_scale(hit->ray->direction, hit->distance));
+			hit->ray->origin,
+			vector_scale(hit->ray->direction, hit->t));
 	fix_hit_normal(hit);
 	get_uv(hit);
 }
@@ -48,12 +48,12 @@ void	perturb_normal(t_hit *hit)
 	{
 		sample_bumps(hit, &dh_du, &dh_dv);
 		tangent_normal = vector_add(
-			vector_scale(shape->u_axis, -dh_du),
-			vector_scale(shape->v_axis, -dh_dv));
+				vector_scale(shape->u_axis, -dh_du),
+				vector_scale(shape->v_axis, -dh_dv));
 		tangent_normal = vector_scale(tangent_normal, BUMP_STR);
 		hit->normal = vector_add(
-			hit->normal,
-			tangent_normal);
+				hit->normal,
+				tangent_normal);
 		hit->normal = vector_normalize(hit->normal);
 	}
 }
@@ -76,7 +76,6 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 	t_color		final_color;
 	t_color		diffuse_and_ambient;
 	t_color		reflection;
-	
 
 	if (hit->shape->type == WIREFRAME)
 		return (hit->shape->color);
@@ -92,7 +91,9 @@ t_color	get_pixel_color(t_ray *ray, t_hit *hit, int depth)
 	if (!hit->inshape && hit->shape->reflectivity > 0.0 && depth > 0)
 	{
 		reflection = get_reflections(hit, depth - 1);
-		final_color = color_blend(final_color, reflection, hit->shape->reflectivity);
+		final_color = color_blend(
+				final_color,
+				reflection, hit->shape->reflectivity);
 	}
 	return (color_scale(final_color, 1.0 / GAMMA));
 }

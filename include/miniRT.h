@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
+/*   Updated: 2024/08/28 20:34:21 by aklein           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -11,67 +23,32 @@
 # include <colors.h> //colors
 # include <error.h> //errors
 # include <struct.h> //structs
-# include <error.h> //structs
 # include <fcntl.h> //read file
 
-
-# define VV (t_vector){0, 0, 0} //dummy 0 vector for initializations
-# define BPP 4
-
-# define LINE_THICKNESS 0.45
+# define VV (t_vector){0, 0, 0}
 
 # define NUM_THREADS 24
+# define SSAA 1
 # define RESIZE_TIME 0.5
 
-// # define WIDTH 2560
-// # define HEIGHT 1440
 # define WIDTH 800
 # define HEIGHT 600
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
+
 # define SCALE_PLANE 0.01
 # define SCALE_STEP 0.1
 
 # define WORLD_UP (t_vector){0, 1, 0}
 # define WORLD_RIGHT (t_vector){1, 0, 0}
-# define WORLD_X (t_vector){1, 0, 0}
-# define WORLD_Y (t_vector){0, 1, 0}
-# define WORLD_Z (t_vector){0, 0, 1}
-
 
 # define AXIS_X 1
 # define AXIS_Y 2
 # define AXIS_Z 3
 
-# define TEST_BG 0x000000FF
+# define BACKGROUND_COLOR COLOR_BLACK
 
-# define CHECKERB_COLOR COLOR_MAGENTA
-
-// test shapes
-# define TEST_PLANEF (t_vector){0, 0, 30}, (t_vector){0, 0, -1}, RGBA(WALL_COLOR)
-# define TEST_PLANEB (t_vector){0, 0, -165}, (t_vector){0, 0, 1}, RGBA(WALL_COLOR)
-# define TEST_PLANEU (t_vector){0, 30, 0}, (t_vector){0, -1, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANED (t_vector){0, -30, 0}, (t_vector){0, 1, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANER (t_vector){35, 0, 0}, (t_vector){-1, -1, 0}, RGBA(WALL_COLOR)
-# define TEST_PLANEL (t_vector){-35, 0, 0}, (t_vector){1, 1, 0}, RGBA(WALL_COLOR)
-
-# define TEST_CYLINDER1 (t_vector){-25, 0, 0}, (t_vector){0, 1, 0}, 4, 8, RGBA(COLOR_BROWN)
-# define TEST_CYLINDER2 (t_vector){25, 0, 0}, (t_vector){-1, 0, 0}, 60, 1, RGBA(WALL_COLOR)
-# define TEST_CYLINDER3 (t_vector){0, 0, -5}, (t_vector){0, 1, 0}, 5, 15, RGBA(WALL_COLOR)
-
-# define TEST_CONE (t_vector){0, 0, 15}, (t_vector){0, 1, 0}, 12, 15, RGBA(COLOR_MAGENTA)
-
-# define TEST_SPHERE2 (t_vector){0, 0, 15}, 81, RGBA(COLOR_PINK)
-# define TEST_SPHERE (t_vector){4, 2, 5}, 4, RGBA(COLOR_RED)
-# define TEST_SPHERE4 (t_vector){-4, 2, 5}, 4, RGBA(COLOR_BLACK)
-# define TEST_SPHERE3 (t_vector){0, -2, 5}, 2, RGBA(COLOR_RED)
-
-# define WALL_COLOR COLOR_WARM_WHITE
-# define TEXT_COLOR COLOR_METALLIC_GOLD
-# define LIGHT_COLOR COLOR_WARM_WHITE
-
-# define SHINE 100
 # define SHINE_MOD 50
 
 # define BUMP_STR 2.0
@@ -81,27 +58,13 @@
 # define GAMMA 1.6
 
 # define ROTATION_ANGLE 30
-//test cam
-# define TEST_CAM_POS (t_vector){3.12, 2.87, 3.19}
-# define TEST_CAM_DIR (t_vector){0.30, -0.61, 0.73}
-# define TEST_FOV 80.0
+
 # define FOV_STEP 10.0
 # define MIN_FOV 10.0
 # define MAX_FOV 170.0
 
 # define PAN_AMOUNT M_PI / 24
 # define MOVE_SPEED 3.0
-
-//test light
-# define TEST_LIGHT (t_vector){4, 2, 5}, RGBA(COLOR_BRIGHT_WHITE), 1.0
-# define TEST_LIGHT2 (t_vector){0, -7, -8}, RGBA(COLOR_PASTEL_ORANGE), 1.0
-# define TEST_LIGHT3 (t_vector){10, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
-# define TEST_LIGHT4 (t_vector){10, 5, 0}, RGBA(COLOR_RED), 1.0
-# define TEST_LIGHT5 (t_vector){8, 12, 0}, RGBA(COLOR_CORAL_PINK), 1.0
-# define TEST_LIGHT6 (t_vector){4, 10, 0}, RGBA(COLOR_BRIGHT_WHITE), 1.0
-
-# define TEST_AMBIENT_COL RGBA(COLOR_WARM_WHITE)
-# define TEST_AMBIENT_INT 0.1
 
 typedef struct s_scene t_scene;
 typedef struct s_bvh t_bvh;
@@ -201,7 +164,7 @@ t_color			trace_ray (t_ray *ray, int depth);
 bool			check_unbound(t_ray *ray, t_hit *hit);
 bool			intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
 bool			intersect(t_shape *shape, t_ray *ray, double *t);
-void			get_valid_t(double t[2], t_quadratic_coeffs *coeffs, double *discriminant);
+void			get_valid_t(double t[2], t_quad_coeffs *coeffs, double *d);
 bool			intersect_sphere(t_ray *ray, t_shape *sphere, double* t);
 int				intersect_plane(t_ray *ray, t_shape *plane, double *t);
 int				intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t);
@@ -258,8 +221,6 @@ void		uv_repeat_wrap(double *u, double *v, int repeat);
 void		create_local_system(t_shape *shape);
 //wireframe
 t_bvh		*make_wireframe(t_bvh *shapes_bvh);
-void		make_aabb_line(t_list **lines, t_vector start, t_vector end, int depth);
 bool		intersect_aabb_line(t_ray *ray, t_shape *line, double *t);
-void		generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
 
 #endif

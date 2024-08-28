@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:35 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:36 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 18:25:54 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-static void	pan_camera(double horizontal_angle, double vertical_angle)
+static void	pan_camera(double h_angle, double v_angle)
 {
 	t_camera	*camera;
 
 	camera = &(rtx()->camera);
-	camera->dir = vector_rotate(camera->dir, WORLD_UP, horizontal_angle);
-	camera->dir = vector_rotate(camera->dir, camera->right, -vertical_angle);
-	camera->right = vector_rotate(camera->right, WORLD_UP, horizontal_angle);
-	camera->right = vector_rotate(camera->right, camera->right, -vertical_angle);
-	camera->up = vector_rotate(camera->up, WORLD_UP, horizontal_angle);
-	camera->up = vector_rotate(camera->up, camera->right, -vertical_angle);
+	camera->dir = vector_rotate(camera->dir, WORLD_UP, h_angle);
+	camera->dir = vector_rotate(camera->dir, camera->right, -v_angle);
+	camera->right = vector_rotate(camera->right, WORLD_UP, h_angle);
+	camera->right = vector_rotate(camera->right, camera->right, -v_angle);
+	camera->up = vector_rotate(camera->up, WORLD_UP, h_angle);
+	camera->up = vector_rotate(camera->up, camera->right, -v_angle);
 }
 
 static void	adjust_fov(int direction)
 {
-	double current_fov;
+	double	current_fov;
 
 	current_fov = 2 * atan(rtx()->camera.fov) * (180.0 / M_PI);
 	if (direction > 0)
@@ -117,7 +117,4 @@ bool	keys(mlx_key_data_t keydata)
 	else
 		return (false);
 	return (true);
-
 }
-
-

@@ -6,16 +6,16 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:01 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 18:06:54 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:33:57 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-t_quadratic_coeffs	quadratic_coeffs_cone(t_ray *ray, t_shape *cone)
+t_quad_coeffs	quadratic_coeffs_cone(t_ray *ray, t_shape *cone)
 {
-	t_quadratic_coeffs	coeffs;
-	t_vector			oc;
+	t_quad_coeffs	coeffs;
+	t_vector		oc;
 
 	oc = vector_subtract(ray->origin, cone->pos);
 	coeffs.a = vector_dot(ray->direction, ray->direction)
@@ -82,9 +82,9 @@ void	check_height(double t_body[2], t_ray *ray, t_shape *cone)
 
 int	intersect_cone(t_ray *ray, t_shape *cone, double *t)
 {
-	t_quadratic_coeffs	coeffs;
-	double				discriminant;
-	double				t_body[2];
+	t_quad_coeffs	coeffs;
+	double			discriminant;
+	double			t_body[2];
 
 	coeffs = quadratic_coeffs_cone(ray, cone);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_boxes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:39 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:40 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:19:51 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ t_aabb	box_sphere(t_shape *sphere)
 	return (sphere_box);
 }
 
-t_aabb	box_cylinder(t_shape *cylinder)
+t_aabb	box_cylinder(t_shape *cyl)
 {
 	t_vector	radius_vec;
 	t_vector	start;
 	t_vector	end;
 	t_aabb		cylinder_box;
 
-	start = vector_subtract(cylinder->pos, vector_scale(cylinder->dir, cylinder->half_height));
-	end = vector_add(cylinder->pos, vector_scale(cylinder->dir, cylinder->half_height));
-	radius_vec = (t_vector){cylinder->radius, cylinder->radius, cylinder->radius};
+	start = vector_subtract(
+			cyl->pos,
+			vector_scale(cyl->dir, cyl->half_height));
+	end = vector_add(cyl->pos, vector_scale(cyl->dir, cyl->half_height));
+	radius_vec = (t_vector){cyl->radius, cyl->radius, cyl->radius};
 	cylinder_box.min = vector_subtract(vector_min(start, end), radius_vec);
 	cylinder_box.max = vector_add(vector_max(start, end), radius_vec);
 	return (cylinder_box);

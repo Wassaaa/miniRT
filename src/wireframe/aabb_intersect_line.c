@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:47 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:11:33 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:18:21 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline double	calc_denominator(t_coeff coeff)
 	return (1.0 / denom);
 }
 
-static inline	t_vector calc_closest_points(t_ray *ray, t_shape *line,
+static inline t_vector	calc_closest_points(t_ray *ray, t_shape *line,
 										double line_t, double ray_t)
 {
 	t_vector	p_on_line;
@@ -57,7 +57,7 @@ static inline bool	check_intersection(t_coeff *coeff, t_ray *ray,
 	double		ray_t;
 
 	line_t = fmin(fmax((coeff->b * coeff->e - coeff->c * coeff->d)
-		* coeff->inv_denom, 0), 1);
+				* coeff->inv_denom, 0), 1);
 	ray_t = (coeff->a * coeff->e - coeff->b * coeff->d) * coeff->inv_denom;
 	closest_points = calc_closest_points(ray, line, line_t, ray_t);
 	distance_sq = vector_length_squared(closest_points);
@@ -70,11 +70,13 @@ static inline bool	check_intersection(t_coeff *coeff, t_ray *ray,
 }
 
 /**
- * Checks if a ray intersects with an Axis-Aligned Bounding Box (AABB) line segment.
+ * Checks if a ray intersects with an Axis-Aligned
+ * Bounding Box (AABB) line segment.
  * 
  * This function uses the closest point approach to determine intersection:
  * 1. Calculate the closest points between the ray and the line segment.
- * 2. Check if these points are within a threshold distance (AABB_LINE_THICKNESS).
+ * 2. Check if these points are within a threshold distance
+ * (AABB_LINE_THICKNESS).
  * 
  * The calculations are based on the following formulas:
  * Let R(t) = ray_origin + t * ray_direction be the ray equation

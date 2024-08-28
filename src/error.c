@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:11 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:12 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:33:35 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	clear_mlx(void)
 		i++;
 	}
 }
-/*
-@param err error type
-@param msg error message, NULL for success exit
-*/
+
 void	error(t_err_type err, const char *msg)
 {
 	free_bvh(&rtx()->bvh);

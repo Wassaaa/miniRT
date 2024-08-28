@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:16 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:22 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:25:47 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	change_target(void)
 {
-	static const char *tar_type_strings[] = {
+	static const char	*tar_type_strings[] = {
 	[PLANE] = "PLANE",
 	[SPHERE] = "SPHERE",
 	[CYLINDER] = "CYLINDER",

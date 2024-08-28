@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scale.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:07 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:08 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:39:51 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	scale_shape(t_shape *shape, double mult)
 	{
 		shape->half_angle = atan(shape->radius / shape->height);
 		shape->tan_half_angle = tan(shape->half_angle);
-		shape->cos_theta = 1.0 / sqrt(1 + shape->tan_half_angle * shape->tan_half_angle);
+		shape->cos_theta = 1.0 / sqrt(
+				1 + shape->tan_half_angle * shape->tan_half_angle);
 		shape->sin_theta = shape->tan_half_angle * shape->cos_theta;
 	}
 }

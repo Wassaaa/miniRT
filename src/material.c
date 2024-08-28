@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:40 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:41 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 18:26:17 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_color	get_pixel(mlx_image_t *img, uint32_t x, uint32_t y)
 	return (color);
 }
 
-static int wrap_coordinate(int value, int max)
+static int	wrap_coordinate(int value, int max)
 {
 	value = value % max;
 	if (value < 0)

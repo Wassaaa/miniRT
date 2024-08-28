@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:00 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:01 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:24:53 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-t_color trace_ray(t_ray *ray, int depth)
+t_color	trace_ray(t_ray *ray, int depth)
 {
 	t_hit	hit;
 
@@ -23,7 +23,7 @@ t_color trace_ray(t_ray *ray, int depth)
 		hit.hit |= intersect_bvh(rtx()->bvh, ray, &hit);
 	hit.hit |= check_unbound(ray, &hit);
 	if (!hit.hit)
-		return (color_from_hex(TEST_BG));
+		return (color_from_hex(BACKGROUND_COLOR));
 	return (get_pixel_color(ray, &hit, depth));
 }
 
@@ -36,11 +36,11 @@ t_vector	add_panning(t_vector *vector)
 	right = rtx()->camera.right;
 	up = rtx()->camera.up;
 	direction = vector_add(
-		vector_scale(right, vector->x),
-		vector_scale(up, vector->y));
+			vector_scale(right, vector->x),
+			vector_scale(up, vector->y));
 	direction = vector_add(
-		direction,
-		vector_scale(rtx()->camera.dir, vector->z));
+			direction,
+			vector_scale(rtx()->camera.dir, vector->z));
 	return (direction);
 }
 
@@ -59,23 +59,6 @@ t_ray	create_ray(t_vector origin, t_vector direction)
 	return (ray);
 }
 
-// t_ray	generate_ray(int x, int y)
-// {
-// 	t_ray		ray;
-// 	t_vector	vector;
-// 	double		fov;
-// 	t_scene		*scene;
-
-// 	scene = rtx()->scene;
-// 	ray.origin = rtx()->scene->camera.pos;
-// 	fov = scene->camera.fov;
-// 	vector.x = (2 * ((x + 0.5) / WIDTH) - 1) * fov * WIDTH / HEIGHT;
-// 	vector.y = (1 - 2 * ((y + 0.5) / HEIGHT)) * fov;
-// 	vector.z = 1;
-// 	ray = create_ray(rtx()->scene->camera.pos, add_panning(&vector));
-// 	return (ray);
-// }
-
 t_ray	generate_ray(double x, double y)
 {
 	t_ray		ray;
@@ -92,7 +75,7 @@ t_ray	generate_ray(double x, double y)
 	vector.y = (1 - 2 * (y / rtx()->height)) * fov;
 	vector.z = 1;
 	ray = create_ray(camera->pos, add_panning(&vector));
-	return ray;
+	return (ray);
 }
 
 void	render_scene(void)
@@ -103,10 +86,10 @@ void	render_scene(void)
 	uint32_t	y;
 
 	y = 0;
-	while(y < rtx()->height)
+	while (y < rtx()->height)
 	{
 		x = 0;
-		while(x < rtx()->width)
+		while (x < rtx()->width)
 		{
 			ray = generate_ray(x, y);
 			color = trace_ray(&ray, REFLECT_DEPTH);

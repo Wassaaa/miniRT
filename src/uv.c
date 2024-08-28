@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:25 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 17:26:50 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:25:33 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	sphere_uv(t_hit *hit, double *u, double *v, int repeat)
 	t_vector	local_point;
 	t_shape		*shape;
 
-	shape = hit->shape;	
+	shape = hit->shape;
 	local_point = hit->normal;
 	local_point = (t_vector){
 		vector_dot(local_point, shape->u_axis),
@@ -38,7 +38,7 @@ static void	sphere_uv(t_hit *hit, double *u, double *v, int repeat)
 2. Create a consistent local coordinate system
 3. Calculate UV coordinates
 */
-static void plane_uv(t_hit *hit, double *u, double *v, int repeat)
+static void	plane_uv(t_hit *hit, double *u, double *v, int repeat)
 {
 	t_vector	u_axis;
 	t_vector	v_axis;

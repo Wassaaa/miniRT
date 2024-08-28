@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:03 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:04 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:29:31 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,16 @@ t_vector	vector_rotate(t_vector v, t_vector axis, double angle)
 	c = cos(angle);
 	s = sin(angle);
 	t = 1.0f - c;
-	axis = vector_normalize(axis);	
-	result.x =
-			v.x * (t * axis.x * axis.x + c) +
-			v.y * (t * axis.x * axis.y - s * axis.z) +
-			v.z * (t * axis.x * axis.z + s * axis.y);
-	result.y =
-			v.x * (t * axis.x * axis.y + s * axis.z) +
-			v.y * (t * axis.y * axis.y + c) +
-			v.z * (t * axis.y * axis.z - s * axis.x);
-	result.z =
-			v.x * (t * axis.x * axis.z - s * axis.y) +
-			v.y * (t * axis.y * axis.z + s * axis.x) +
-			v.z * (t * axis.z * axis.z + c);
+	axis = vector_normalize(axis);
+	result.x = v.x * (t * axis.x * axis.x + c)
+		+ v.y * (t * axis.x * axis.y - s * axis.z)
+		+ v.z * (t * axis.x * axis.z + s * axis.y);
+	result.y = v.x * (t * axis.x * axis.y + s * axis.z)
+		+ v.y * (t * axis.y * axis.y + c)
+		+ v.z * (t * axis.y * axis.z - s * axis.x);
+	result.z = v.x * (t * axis.x * axis.z - s * axis.y)
+		+ v.y * (t * axis.y * axis.z + s * axis.x)
+		+ v.z * (t * axis.z * axis.z + c);
 	return (vector_normalize(result));
 }
 

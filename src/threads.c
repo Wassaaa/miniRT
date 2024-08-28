@@ -3,36 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:09 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:10 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:38:43 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 #include <pthread.h>
 
-#define SSAA 1
-
-typedef struct s_thread_data
-{
-	int		start_x;
-	int		end_x;
-	int		start_y;	
-	int		end_y;
-}	t_thread_data;
-
 t_color	super_sample(int x, int y)
 {
-	int					i;
-	double				offset[2];
-	t_color				pixel_color;
-	t_ray				ray;
-	unsigned int		seed;
+	int				i;
+	double			offset[2];
+	t_color			pixel_color;
+	t_ray			ray;
+	unsigned int	seed;
 
-	seed =  rtx()->seed ^ (unsigned int)pthread_self() ^
-		(unsigned int)(mlx_get_time() * 100000);
+	seed = rtx()->seed ^ (unsigned int)pthread_self()
+		^ (unsigned int)(mlx_get_time() * 100000);
 	pixel_color = color_create(0, 0, 0);
 	i = 0;
 	while (i++ < SSAA)
@@ -44,45 +34,6 @@ t_color	super_sample(int x, int y)
 	}
 	return (pixel_color);
 }
-
-// static inline t_ray	sub_ray(int x, int y, int j, int i, int	grid_size)
-// {
-// 	double				off_x;
-// 	double				off_y;
-// 	unsigned int		seed;
-// 	static unsigned int	hits = 0;
-
-// 	seed =  rtx()->seed ^ (unsigned int)pthread_self() ^
-// 		(unsigned int)(mlx_get_time() * 100000) ^ ++hits;
-// 	off_x = ((double)j + (double)rand_r(&seed) / RAND_MAX) / grid_size;
-// 	off_y = ((double)i + (double)rand_r(&seed) / RAND_MAX) / grid_size;
-// 	return (generate_ray(x + off_x, y + off_y));
-// }
-
-// t_color	super_sample(int x, int y)
-// {
-// 	int		i;
-// 	int		j;
-// 	t_color	pixel_color;
-// 	t_ray	ray;
-// 	int		grid_size;
-
-// 	grid_size = rtx()->grid_size;
-// 	pixel_color = color_create(0, 0, 0);
-// 	j = 0;
-// 	while (j < grid_size)
-// 	{
-// 		i = 0;
-// 		while (i < grid_size)
-// 		{
-// 			ray = sub_ray(x, y, j, i, grid_size);
-// 			pixel_color = color_add(pixel_color, trace_ray(&ray, REFLECT_DEPTH));
-// 			i++;
-// 		}
-// 		j++;
-// 	}
-// 	return (pixel_color);
-// }
 
 void	*sample_region(void *arg)
 {

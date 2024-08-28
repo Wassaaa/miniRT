@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:28 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:29 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:49:24 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,7 @@ void	rebuild_bvh(void)
 		error(E_MEM, NULL);
 }
 
-void	build_images(t_list *shapes)
-{
-	t_shape	*shape;
-
-	while (shapes)
-	{
-		shape = (t_shape *)shapes->content;
-		if (shape->tex_path)
-		{
-			shape->texture = png_to_image(rtx()->mlx, shape->tex_path, false);
-			free(shape->tex_path);
-			shape->tex_path = NULL;
-		}
-		if (shape->tex_path)
-		{
-			shape->bump = png_to_image(rtx()->mlx, shape->bmp_path, false);
-			free(shape->bmp_path);
-			shape->bmp_path = NULL;
-		}
-		if (shape->chk)
-			shape->checkerboard = make_checkerboard(shape->color);
-		shapes = shapes->next;
-	}
-}
-
-void	setup_scene(void)
-{
-	build_images(rtx()->unbound);
-	build_images(rtx()->shapes);
-	rebuild_bvh();
-}
-
-static mlx_image_t *safe_mlx_put_string(mlx_t *mlx, char *str)
+static mlx_image_t	*safe_mlx_put_string(mlx_t *mlx, char *str)
 {
 	mlx_image_t	*img;
 
@@ -85,11 +53,14 @@ static mlx_image_t *safe_mlx_put_string(mlx_t *mlx, char *str)
 
 void	init_ui(void)
 {
-	rtx()->ui[SPHERE] = safe_mlx_put_string(rtx()->mlx, "SPHERE");
-	rtx()->ui[CYLINDER] = safe_mlx_put_string(rtx()->mlx, "CYLINDER");
-	rtx()->ui[CONE] = safe_mlx_put_string(rtx()->mlx, "CONE");
-	rtx()->ui[PLANE] = safe_mlx_put_string(rtx()->mlx, "PLANE");
-	rtx()->ui[LIGHT] = safe_mlx_put_string(rtx()->mlx, "LIGHT");
+	t_rtx	*rtx_data;
+
+	rtx_data = rtx();
+	rtx_data->ui[SPHERE] = safe_mlx_put_string(rtx_data->mlx, "SPHERE");
+	rtx_data->ui[CYLINDER] = safe_mlx_put_string(rtx_data->mlx, "CYLINDER");
+	rtx_data->ui[CONE] = safe_mlx_put_string(rtx_data->mlx, "CONE");
+	rtx_data->ui[PLANE] = safe_mlx_put_string(rtx_data->mlx, "PLANE");
+	rtx_data->ui[LIGHT] = safe_mlx_put_string(rtx_data->mlx, "LIGHT");
 	change_target();
 }
 

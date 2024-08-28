@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:32 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:33 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 19:02:19 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 {
 	t_list	*unbound;
 	t_shape	*shape;
-	double	distance;
+	double	t;
 
 	unbound = rtx()->unbound;
 	while (unbound)
@@ -24,9 +24,9 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 		shape = (t_shape *)unbound->content;
 		if (shape->type == PLANE)
 		{
-			if (intersect_plane(ray, shape, &distance) && distance < hit->distance)
+			if (intersect_plane(ray, shape, &t) && t < hit->t)
 			{
-				hit->distance = distance;
+				hit->t = t;
 				hit->shape = shape;
 				hit->hit = true;
 			}
@@ -38,17 +38,17 @@ bool	check_unbound(t_ray *ray, t_hit *hit)
 
 void	ft_swap(double *a, double *b)
 {
-	double temp;
+	double	temp;
 
 	temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
-void get_valid_t(double t_body[2], t_quadratic_coeffs *coeffs, double *discriminant)
+void	get_valid_t(double t_body[2], t_quad_coeffs *coeffs, double *disc)
 {
-	t_body[0] = (-coeffs->b - sqrt(*discriminant)) / (2.0 * coeffs->a);
-	t_body[1] = (-coeffs->b + sqrt(*discriminant)) / (2.0 * coeffs->a);
+	t_body[0] = (-coeffs->b - sqrt(*disc)) / (2.0 * coeffs->a);
+	t_body[1] = (-coeffs->b + sqrt(*disc)) / (2.0 * coeffs->a);
 	if (t_body[0] < 0)
 		t_body[0] = INFINITY;
 	if (t_body[1] < 0)

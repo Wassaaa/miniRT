@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:28 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 17:52:21 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:26:46 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ x = (-b ± √(b² - 4ac)) / (2a)
 (D · D)t² + 2((O - C) · D)t + ((O - C) · (O - C) - r²) = 0
 |  a  |     |     b      |    |          c           |
 */
-t_quadratic_coeffs	quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
+t_quad_coeffs	quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
 {
-	t_quadratic_coeffs	coeffs;
-	t_vector			oc;
+	t_quad_coeffs	coeffs;
+	t_vector		oc;
 
 	oc = vector_subtract(ray->origin, shape->pos);
 	coeffs.a = vector_dot(ray->direction, ray->direction);
@@ -55,9 +55,9 @@ t_quadratic_coeffs	quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
 
 bool	intersect_sphere(t_ray *ray, t_shape *sphere, double *t)
 {
-	t_quadratic_coeffs	coeffs;
-	double				discriminant;
-	double				t_body[2];
+	t_quad_coeffs	coeffs;
+	double			discriminant;
+	double			t_body[2];
 
 	coeffs = quadratic_coeffs_sphere(ray, sphere);
 	discriminant = (coeffs.b * coeffs.b) - (4 * coeffs.a * coeffs.c);

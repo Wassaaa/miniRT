@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_generate_rays.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:43 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:44 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:19:32 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <miniRT.h>
 #include <wireframe.h>
 
 static void	set_corners(t_aabb box, t_vector *corners)
@@ -29,15 +28,13 @@ void	make_aabb_line(t_list **lines, t_vector start,
 						t_vector end, int depth)
 {
 	t_shape	*line;
-	t_color		color;
 
-	color = depth_colors[depth % MAX_DEPTH];
 	line = ft_calloc(1, sizeof(t_shape));
 	if (!line)
 		return ;
 	line->type = WIREFRAME;
 	line->pos = start;
-	line->color = color_from_int(color.r, color.g, color.b);
+	line->color = wireframe_color(depth);
 	line->dir = vector_subtract(end, start);
 	line->radius = AABB_LINE_THICKNESS * pow(0.8, depth);
 	line->diameter = line->radius * 2;
@@ -66,6 +63,7 @@ static void	add_lines(t_list **lines, t_vector *corners, int depth)
 	make_aabb_line(lines, corners[2], corners[6], depth);
 	make_aabb_line(lines, corners[3], corners[7], depth);
 }
+
 static void	add_connecting_edges(t_list **lines, t_vector *corners,
 				int depth)
 {

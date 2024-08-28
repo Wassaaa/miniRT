@@ -1,7 +1,5 @@
 #ifndef COLORS_H
 # define COLORS_H
-//remove macro
-# define RGBA(hex) (t_color){(hex >> 24) & 0xFF, (hex >> 16) & 0xFF, (hex >> 8) & 0xFF}
 
 // Basic colors
 # define COLOR_BLACK   0x000000FF

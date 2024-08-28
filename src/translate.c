@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:12 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:18:13 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:26:34 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,28 @@ void	translate_vector(t_vector *object, t_direction dir)
 	camera = &(rtx()->camera);
 	if (dir == UP)
 		*object = vector_add(
-			*object, vector_scale(camera->up, MOVE_SPEED));
+				*object, vector_scale(camera->up, MOVE_SPEED));
 	if (dir == RIGHT)
 		*object = vector_add(
-			*object, vector_scale(camera->right, MOVE_SPEED));
+				*object, vector_scale(camera->right, MOVE_SPEED));
 	if (dir == DOWN)
 		*object = vector_add(
-			*object, vector_scale(camera->up, -MOVE_SPEED));
+				*object, vector_scale(camera->up, -MOVE_SPEED));
 	if (dir == LEFT)
 		*object = vector_add(
-			*object, vector_scale(camera->right, -MOVE_SPEED));
+				*object, vector_scale(camera->right, -MOVE_SPEED));
 	if (dir == FORWARD)
 		*object = vector_add(
-			*object, vector_scale(camera->dir, MOVE_SPEED));
+				*object, vector_scale(camera->dir, MOVE_SPEED));
 	if (dir == BACK)
 		*object = vector_add(
-			*object, vector_scale(camera->dir, -MOVE_SPEED));
+				*object, vector_scale(camera->dir, -MOVE_SPEED));
 }
 
 void	move_shapes(t_direction dir)
 {
 	t_list	*shapes;
-	t_shape *shape;
+	t_shape	*shape;
 
 	shapes = rtx()->shapes;
 	while (shapes)
@@ -78,7 +78,7 @@ static void	move_lights(t_direction dir)
 	t_light	*light;
 
 	lights = rtx()->lights;
-	while(lights)
+	while (lights)
 	{
 		light = (t_light *)lights->content;
 		translate_vector(&light->pos, dir);

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/28 19:05:18 by aklein            #+#    #+#             */
+/*   Updated: 2024/08/28 20:37:04 by aklein           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
 # include <libft.h>
-# include <MLX42/MLX42.h> // mlx 
+# include <MLX42/MLX42.h>
 
 typedef enum e_shape_type
 {
@@ -27,6 +39,14 @@ typedef enum e_direction
 	FORWARD,
 	BACK
 }	t_direction;
+
+typedef struct s_thread_data
+{
+	int		start_x;
+	int		end_x;
+	int		start_y;	
+	int		end_y;
+}	t_thread_data;
 
 typedef struct s_vector
 {
@@ -72,17 +92,17 @@ typedef struct s_light
 	double		bright;
 }	t_light;
 
-typedef struct s_quadratic_coeffs
+typedef struct s_quad_coeffs
 {
 	double	a;
 	double	b;
 	double	c;
-} t_quadratic_coeffs;
+}	t_quad_coeffs;
 
 typedef struct s_aabb
 {
-	t_vector min;
-	t_vector max;
+	t_vector	min;
+	t_vector	max;
 }	t_aabb;
 
 typedef struct s_shape
@@ -108,7 +128,7 @@ typedef struct s_shape
 	double			sin_theta;
 	t_vector		u_axis;
 	t_vector		v_axis;
-	t_aabb 			(*boxfunc)(struct s_shape *sphere);
+	t_aabb			(*boxfunc)(struct s_shape	*sphere);
 	char			*bmp_path;
 	char			*tex_path;
 	bool			chk;
@@ -116,7 +136,7 @@ typedef struct s_shape
 
 typedef struct s_hit
 {
-	double		distance;
+	double		t;
 	t_shape		*shape;
 	bool		hit;
 	bool		inshape;

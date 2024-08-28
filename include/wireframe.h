@@ -1,24 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wireframe.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/28 19:05:32 by aklein            #+#    #+#             */
+/*   Updated: 2024/08/28 20:04:14 by aklein           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef WIREFRAME_H
 # define WIREFRAME_H
 
 # include <miniRT.h>
 
-# define MAX_DEPTH 10
 # define AABB_LINE_THICKNESS 0.1
-
-
-static const t_color depth_colors[MAX_DEPTH] = {
-	RGBA(COLOR_GREEN),
-	RGBA(COLOR_BLUE),
-	RGBA(COLOR_RED),
-	RGBA(COLOR_YELLOW),
-	RGBA(COLOR_MAGENTA),
-	RGBA(COLOR_CYAN),
-	RGBA(COLOR_ORANGE),
-	RGBA(COLOR_PURPLE),
-	RGBA(COLOR_LIME),
-	RGBA(COLOR_GRAY),
-};
 
 typedef struct s_coeff
 {
@@ -27,6 +24,11 @@ typedef struct s_coeff
 	double	c;
 	double	d;
 	double	e;
+	double	inv_denom;
 }	t_coeff;
+
+t_color	wireframe_color(int depth);
+void	generate_aabb_lines(t_bvh *node, int depth, t_list **lines);
+void	make_aabb_line(t_list **lines, t_vector start, t_vector end, int depth);
 
 #endif
