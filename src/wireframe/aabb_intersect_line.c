@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aabb_intersect_line.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:47 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:15:48 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:11:33 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline double	calc_denominator(t_coeff coeff)
 	return (1.0 / denom);
 }
 
-static inline t_vector calc_closest_points(t_ray *ray, t_shape *line,
+static inline	t_vector calc_closest_points(t_ray *ray, t_shape *line,
 										double line_t, double ray_t)
 {
 	t_vector	p_on_line;
@@ -48,12 +48,17 @@ static inline t_vector calc_closest_points(t_ray *ray, t_shape *line,
 	return (vector_subtract(p_on_line, p_on_ray));
 }
 
-static inline bool	check_intersection(double line_t, double ray_t, t_ray *ray,
+static inline bool	check_intersection(t_coeff *coeff, t_ray *ray,
 	t_shape *line, double *t)
 {
 	t_vector	closest_points;
 	double		distance_sq;
+	double		line_t;
+	double		ray_t;
 
+	line_t = fmin(fmax((coeff->b * coeff->e - coeff->c * coeff->d)
+		* coeff->inv_denom, 0), 1);
+	ray_t = (coeff->a * coeff->e - coeff->b * coeff->d) * coeff->inv_denom;
 	closest_points = calc_closest_points(ray, line, line_t, ray_t);
 	distance_sq = vector_length_squared(closest_points);
 	if (distance_sq <= line->radius * line->radius + EPSILON)
@@ -63,6 +68,7 @@ static inline bool	check_intersection(double line_t, double ray_t, t_ray *ray,
 	}
 	return (false);
 }
+
 /**
  * Checks if a ray intersects with an Axis-Aligned Bounding Box (AABB) line segment.
  * 
@@ -95,15 +101,10 @@ static inline bool	check_intersection(double line_t, double ray_t, t_ray *ray,
 bool	intersect_aabb_line(t_ray *ray, t_shape *line, double *t)
 {
 	t_coeff	coeff;
-	double	inv_denom;
-	double	line_t;
-	double	ray_t;
 
 	coeff = calc_coefficients(ray, line);
-	inv_denom = calc_denominator(coeff);
-	if (inv_denom == 0)
+	coeff.inv_denom = calc_denominator(coeff);
+	if (coeff.inv_denom == 0)
 		return (false);
-	line_t = fmin(fmax((coeff.b * coeff.e - coeff.c * coeff.d) * inv_denom, 0), 1);
-	ray_t = (coeff.a * coeff.e - coeff.b * coeff.d) * inv_denom;
-	return (check_intersection(line_t, ray_t, ray, line, t));
+	return (check_intersection(&coeff, ray, line, t));
 }
