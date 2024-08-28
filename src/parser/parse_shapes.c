@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shapes.c                                      :+:      :+:    :+:   */
+/*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 17:42:08 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 18:05:19 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	parse_cone(char **element)
 	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half_angle
 			* cone->tan_half_angle);
 	cone->sin_theta = cone->tan_half_angle * cone->cos_theta;
+	cone->k = 1 + pow(cone->radius / cone->height, 2);
 	cone->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cone->boxfunc = box_cone;
 	cone->box = cone->boxfunc(cone);

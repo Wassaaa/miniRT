@@ -3,56 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:01 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:02 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 18:06:54 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-t_shape	*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color)
-{
-	t_shape			*cone;
-
-	cone = ft_calloc(1, sizeof(t_shape));
-	cone->type = CONE;
-	cone->pos = pos;
-	cone->dir = check_dir(vector_scale(dir, -1));
-	cone->diameter = diameter;
-	cone->radius = diameter * 0.5;
-	cone->height = height;
-	cone->color = color_from_int(color.r, color.g, color.b);
-	cone->boxfunc = box_cone;
-	cone->box = cone->boxfunc(cone);
-	cone->half_angle = atan(cone->radius / cone->height);
-	cone->tan_half_angle = tan(cone->half_angle);
-	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half_angle * cone->tan_half_angle);
-	cone->sin_theta = cone->tan_half_angle * cone->cos_theta;
-	cone->shine = SHINE;
-	cone->reflectivity = 0.0;
-	// cone->image = rtx()->checkerboard;
-	// cone->image = png_to_image(rtx()->mlx, "textures/trunk.png", false);
-	cone->bump = png_to_image(rtx()->mlx, "textures/trunk.png", true);
-	create_local_system(cone);
-	return (cone);
-}
-
 t_quadratic_coeffs	quadratic_coeffs_cone(t_ray *ray, t_shape *cone)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
-	double				k;
 
 	oc = vector_subtract(ray->origin, cone->pos);
-	k = pow(cone->radius / cone->height, 2);
-	coeffs.a = vector_dot(ray->direction, ray->direction) -
-		(1 + k) * pow(vector_dot(ray->direction, cone->dir), 2);
-	coeffs.b = 2 * (vector_dot(ray->direction, oc) -
-		(1 + k) * vector_dot(ray->direction, cone->dir) * vector_dot(oc, cone->dir));
-	coeffs.c = vector_dot(oc, oc) -
-		(1 + k) * pow(vector_dot(oc, cone->dir), 2);
+	coeffs.a = vector_dot(ray->direction, ray->direction)
+		- cone->k
+		* pow(vector_dot(ray->direction, cone->dir), 2);
+	coeffs.b = 2 * (vector_dot(ray->direction, oc)
+			- cone->k
+			* vector_dot(ray->direction, cone->dir)
+			* vector_dot(oc, cone->dir));
+	coeffs.c = vector_dot(oc, oc)
+		- cone->k
+		* pow(vector_dot(oc, cone->dir), 2);
 	return (coeffs);
 }
 
@@ -62,13 +37,18 @@ double	intersect_cone_base(t_ray *ray, t_shape *cone)
 	double		t;
 	t_vector	p;
 
-	base_center = vector_subtract(cone->pos, vector_scale(cone->dir, -cone->height));
-	t = vector_dot(vector_subtract(base_center, ray->origin), cone->dir) / 
-		vector_dot(ray->direction, cone->dir);
+	base_center = vector_subtract(
+			cone->pos,
+			vector_scale(cone->dir, -cone->height));
+	t = vector_dot(
+			vector_subtract(base_center, ray->origin),
+			cone->dir);
+	t = t / vector_dot(ray->direction, cone->dir);
 	if (t > 0)
 	{
-		p = vector_subtract(vector_add(ray->origin, vector_scale(ray->direction, t)), 
-			base_center);
+		p = vector_subtract(
+				vector_add(ray->origin, vector_scale(ray->direction, t)),
+				base_center);
 		if (vector_dot(p, p) <= cone->radius * cone->radius)
 			return (t);
 	}
@@ -86,8 +66,12 @@ void	check_height(double t_body[2], t_ray *ray, t_shape *cone)
 	i = 0;
 	while (i < 2)
 	{
-		intersection = vector_add(ray->origin, vector_scale(ray->direction, t_body[i]));
-		y = vector_dot(vector_subtract(intersection, cone->pos), cone->dir);
+		intersection = vector_add(
+				ray->origin,
+				vector_scale(ray->direction, t_body[i]));
+		y = vector_dot(
+				vector_subtract(intersection, cone->pos),
+				cone->dir);
 		if (y < 0 || y > cone->height)
 			t_body[i] = INFINITY;
 		i++;

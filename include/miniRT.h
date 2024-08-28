@@ -181,8 +181,6 @@ t_rtx			*rtx(void);
 void			init_rtx(void);
 void			fix_camera(void);
 void			setup_scene(void);
-void			get_lights(void);
-void			get_shapes(void);
 mlx_image_t		*make_checkerboard(t_color color);
 t_bvh			*bvh(t_list *shapes);
 //bvh
@@ -245,12 +243,6 @@ bool			rotate_objects(t_direction dir);
 void			translate_vector(t_vector *object, t_direction dir);
 void			move_shapes(t_direction dir);
 bool			scale(t_direction dir);
-
-//shapes
-t_shape			*make_sphere(t_vector pos, double diameter, t_color color);
-t_shape			*make_cone(t_vector pos, t_vector dir, double diameter, double height, t_color color);
-t_shape			*make_plane(t_vector pos, t_vector dir, t_color color);
-t_shape			*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color);
 
 //axis-aligned bounding boxes
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);

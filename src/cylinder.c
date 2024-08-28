@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:06 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:07 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 17:53:19 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
-
-t_shape	*make_cylinder(t_vector pos, t_vector dir, double diameter, double height, t_color color)
-{
-	t_shape	*cylinder;
-
-	cylinder = ft_calloc(1, sizeof(t_shape));
-	cylinder->type = CYLINDER;
-	cylinder->pos = pos;
-	cylinder->dir = check_dir(dir);
-	cylinder->diameter = diameter;
-	cylinder->radius = diameter * 0.5;
-	cylinder->height = height;
-	cylinder->half_height = height / 2;
-	cylinder->color = color_from_int(color.r, color.g, color.b);
-	cylinder->boxfunc = box_cylinder;
-	cylinder->box = cylinder->boxfunc(cylinder);
-	cylinder->shine = SHINE;
-	cylinder->reflectivity = 0.0;
-	// cylinder->image = rtx()->checkerboard;
-	cylinder->texture = png_to_image(rtx()->mlx, "textures/trunk.png", false);
-	cylinder->bump = png_to_image(rtx()->mlx, "textures/trunk.png", true);
-	create_local_system(cylinder);
-	return (cylinder);
-}
 
 t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 {
@@ -45,7 +21,8 @@ t_quadratic_coeffs	quadratic_coeffs_cylinder(t_ray *ray, t_shape *shape)
 	coeffs.a = vector_dot(ray->direction, ray->direction)
 		- pow(vector_dot(ray->direction, shape->dir), 2);
 	coeffs.b = 2 * (vector_dot(ray->direction, oc)
-		- vector_dot(ray->direction, shape->dir) * vector_dot(oc, shape->dir));
+			- vector_dot(ray->direction, shape->dir)
+			* vector_dot(oc, shape->dir));
 	coeffs.c = vector_dot(oc, oc) - pow(vector_dot(oc, shape->dir), 2)
 		- shape->radius * shape->radius;
 	return (coeffs);

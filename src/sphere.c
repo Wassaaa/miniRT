@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:28 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:19:59 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 17:52:21 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
-
-t_shape	*make_sphere(t_vector pos, double diameter, t_color color)
-{
-	t_shape			*sphere;
-
-	sphere = ft_calloc(1, sizeof(t_shape));
-	sphere->type = SPHERE;
-	sphere->pos = pos;
-	sphere->dir = WORLD_UP;
-	sphere->diameter = diameter;
-	sphere->radius = sphere->diameter * 0.5;
-	sphere->color = color_from_int(color.r, color.g, color.b);
-	sphere->boxfunc = box_sphere;
-	sphere->box = sphere->boxfunc(sphere);
-	sphere->shine = SHINE;
-	// sphere->image = png_to_image(rtx()->mlx,"hive.png", false);
-	// sphere->image = png_to_image(rtx()->mlx, "textures/smile2.png", false);
-	sphere->bump = png_to_image(rtx()->mlx, "textures/bumptest.png", true);
-	// sphere->image = rtx()->checkerboard;
-	create_local_system(sphere);
-	return (sphere);
-}
 
 /*
 Sphere equation: (P - C) · (P - C) = r^2
@@ -40,8 +18,10 @@ Sphere equation: (P - C) · (P - C) = r^2
 	C is the center of the sphere
 	r is the radius of the sphere
 	(P - C) represents a vector from the center to any point on the surface
-	(P - C) · (P - C) is the dot product of this vector with itself, which gives us the square of its length
-The square of the distance between any point on the sphere (P) and the center of the sphere (C)
+	(P - C) · (P - C) is the dot product of this vector with itself, which
+	gives us the square of its length
+The square of the distance between any point on the sphere (P) and the
+center of the sphere (C)
 is equal to the square of the radius (r^2)."
 
 Ray equation: P(t) = O + tD
@@ -61,11 +41,11 @@ x = (-b ± √(b² - 4ac)) / (2a)
 (D · D)t² + 2((O - C) · D)t + ((O - C) · (O - C) - r²) = 0
 |  a  |     |     b      |    |          c           |
 */
-t_quadratic_coeffs quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
+t_quadratic_coeffs	quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
 {
 	t_quadratic_coeffs	coeffs;
 	t_vector			oc;
-	
+
 	oc = vector_subtract(ray->origin, shape->pos);
 	coeffs.a = vector_dot(ray->direction, ray->direction);
 	coeffs.b = 2.0 * vector_dot(oc, ray->direction);
@@ -73,11 +53,7 @@ t_quadratic_coeffs quadratic_coeffs_sphere(t_ray *ray, t_shape *shape)
 	return (coeffs);
 }
 
-/*
-t = (-b ± √(b² - 4ac)) / (2a)
-           |discriminant|
-*/
-bool intersect_sphere(t_ray *ray, t_shape *sphere, double* t)
+bool	intersect_sphere(t_ray *ray, t_shape *sphere, double *t)
 {
 	t_quadratic_coeffs	coeffs;
 	double				discriminant;

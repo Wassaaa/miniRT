@@ -101,6 +101,7 @@ typedef struct s_shape
 	mlx_image_t		*texture;
 	mlx_image_t		*bump;
 	mlx_image_t		*checkerboard;
+	double			k;
 	double			half_angle;
 	double			tan_half_angle;
 	double			cos_theta;
