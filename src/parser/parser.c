@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:41:11 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:11:36 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:52:02 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,18 @@ void	parse_bonus(char **element, t_shape	*shape)
 {
 	while (*element)
 	{
-		parse_checkerboard(*element, shape);
-		parse_texture(*element, shape);
-		parse_bump_map(*element, shape);
-		parse_shine(*element, shape);
-		parse_reflectivity(*element, shape);
+		if (ft_strncmp(*element, "chk", 3) == 0)
+			parse_checkerboard(*element, shape);
+		else if (ft_strncmp(*element, "tex:", 4) == 0)
+			parse_texture(*element, shape);
+		else if (ft_strncmp(*element, "bmp:", 4) == 0)
+			parse_bump_map(*element, shape);
+		else if (ft_strncmp(*element, "shn:", 4) == 0)
+			parse_shine(*element, shape);
+		else if (ft_strncmp(*element, "ref:", 4) == 0)
+			parse_reflectivity(*element, shape);
+		else
+			error(E_PARSER, "ERR_ELEMENT");
 		element++;
 	}
 }
@@ -70,6 +77,8 @@ void	parse_element(char **element, int check[2])
 		parse_cylinder(element);
 	else if (ft_strncmp(element[0], "cn", 3) == 0)
 		parse_cone(element);
+	else
+		error(E_PARSER, ERR_ELEMENT);
 }
 
 void	parse_input(char *argv[])

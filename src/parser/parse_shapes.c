@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 18:05:19 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/28 20:53:55 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	parse_sphere(char	**element)
 {
 	t_shape	*sphere;
 
+	if (!check_float(element[2]))
+		error(E_PARSER, ERR_FLOAT_FORMAT);
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
 	sphere->pos = parse_vector(element[1], false);
@@ -51,6 +53,8 @@ void	parse_cylinder(char **element)
 {
 	t_shape	*cylinder;
 
+	if (!check_float(element[3]) || !check_float(element[4]))
+		error(E_PARSER, ERR_FLOAT_FORMAT);
 	cylinder = ft_calloc(1, sizeof(t_shape));
 	cylinder->type = CYLINDER;
 	cylinder->pos = parse_vector(element[1], false);
@@ -64,8 +68,8 @@ void	parse_cylinder(char **element)
 	cylinder->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cylinder->boxfunc = box_cylinder;
 	cylinder->box = cylinder->boxfunc(cylinder);
-	if (array_len(element) > 4)
-		parse_bonus(element + 4, cylinder);
+	if (array_len(element) > 6)
+		parse_bonus(element + 6, cylinder);
 	create_local_system(cylinder);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cylinder));
 }
@@ -74,6 +78,8 @@ void	parse_cone(char **element)
 {
 	t_shape	*cone;
 
+	if (!check_float(element[3]) || !check_float(element[4]))
+		error(E_PARSER, ERR_FLOAT_FORMAT);
 	cone = ft_calloc(1, sizeof(t_shape));
 	cone->type = CONE;
 	cone->pos = parse_vector(element[1], false);
@@ -92,8 +98,8 @@ void	parse_cone(char **element)
 	cone->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cone->boxfunc = box_cone;
 	cone->box = cone->boxfunc(cone);
-	if (array_len(element) > 4)
-		parse_bonus(element + 4, cone);
+	if (array_len(element) > 6)
+		parse_bonus(element + 6, cone);
 	create_local_system(cone);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cone));
 }

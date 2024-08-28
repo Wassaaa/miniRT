@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:47:18 by jtu               #+#    #+#             */
-/*   Updated: 2024/04/03 15:44:38 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:15:17 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 /**
  * The strrchr() function returns a pointer to the last
  * occurrence of the character c in the string s.
+ * @param s The string to be searched.
+ * @param c The character to search for (passed as an int, but converted to char).
+ *
+ * @return If the character is found, returns a pointer to the last occurrence
+ *         of the character in the string. If the character is not found,
+ *         returns NULL. If 'c' is the null terminator, returns a pointer to
+ *         the null terminator of the string
  */
 char	*ft_strrchr(const char *s, int c)
 {

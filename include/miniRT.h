@@ -132,6 +132,7 @@ char			**split_line(char *line);
 char			**ft_safe_split(char const *s, char *set);
 char			**ft_split_new(char const *s, char *set);
 char			*ft_safe_strtrim(char const *s1, char const *set);
+int				ft_char_count(const char *s, int c);
 
 //error free
 // void			free_parser(char **element, char *err_msg);

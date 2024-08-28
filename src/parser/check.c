@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:51:47 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 15:31:26 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/28 20:28:40 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	check_vector(char *str)
 {
 	char	**components;
 
+	if (ft_char_count(str, ',') > 2)
+		error(E_PARSER, ERR_VEC_FORMAT);
 	components = ft_safe_split(str, ",");
 	if (array_len(components) != 3)
 		error(E_PARSER, ERR_VEC_FORMAT);
@@ -43,6 +45,8 @@ int	check_color(char *str)
 	char	**components;
 	int		i;
 
+	if (ft_char_count(str, ',') > 2)
+		error(E_PARSER, ERR_COLOR_FORMAT);
 	components = ft_safe_split(str, ",");
 	i = 0;
 	if (array_len(components) != 3)
