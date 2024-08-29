@@ -43,9 +43,9 @@ void	build_images(t_list *shapes)
 			free(shape->tex_path);
 			shape->tex_path = NULL;
 		}
-		if (shape->tex_path)
+		if (shape->bmp_path)
 		{
-			shape->bump = png_to_image(rtx()->mlx, shape->bmp_path, false);
+			shape->bump = png_to_image(rtx()->mlx, shape->bmp_path, true);
 			free(shape->bmp_path);
 			shape->bmp_path = NULL;
 		}
