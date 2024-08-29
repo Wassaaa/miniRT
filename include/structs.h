@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:42:12 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 00:42:23 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 02:00:39 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ typedef struct s_shape
 	mlx_image_t		*checkerboard;
 	double			k;
 	double			half_angle;
-	double			tan_half_angle;
+	double			tan_half;
 	double			cos_theta;
 	double			sin_theta;
 	t_vector		u_axis;

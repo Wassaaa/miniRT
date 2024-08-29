@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:53:55 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 02:00:39 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,9 @@ void	parse_cone(char **element)
 	cone->height = ft_atof(element[4]);
 	check_range_double(cone->height, 0.0, DBL_MAX, ERR_CONE_HEIGHT);
 	cone->half_angle = atan(cone->radius / cone->height);
-	cone->tan_half_angle = tan(cone->half_angle);
-	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half_angle
-			* cone->tan_half_angle);
-	cone->sin_theta = cone->tan_half_angle * cone->cos_theta;
+	cone->tan_half = tan(cone->half_angle);
+	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half * cone->tan_half);
+	cone->sin_theta = cone->tan_half * cone->cos_theta;
 	cone->k = 1 + pow(cone->radius / cone->height, 2);
 	cone->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cone->boxfunc = box_cone;

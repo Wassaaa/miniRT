@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 01:40:00 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:57:42 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@
 # define PAN_AMOUNT 0.13
 # define MOVE_SPEED 3.0
 
-typedef struct s_scene t_scene;
-typedef struct s_bvh t_bvh;
-typedef struct s_aabb t_aabb;
-
 // parsing
 double		ft_atof(char *str);
 void		parse_input(char *argv[]);
@@ -75,7 +71,8 @@ t_vector	parse_vector(char *vector_str, bool dir);
 void		parse_bonus(char **element, t_shape	*shape);
 void		parse_element(char **element, int check[2]);
 void		check_range_int(int value, int min, int max, char *err_msg);
-void		check_range_double(double value, double min, double max, char *err_msg);
+void		check_range_double(double value, double min,
+				double max, char *err_msg);
 void		check_ac(int check[2]);
 t_vector	check_dir(t_vector dir);
 int			check_float(char *str);
@@ -134,7 +131,7 @@ int			ft_char_count(const char *s, int c);
 //error
 void		error(t_err_type err, const char *msg);
 
-//init
+//init rtx
 t_rtx		*rtx(void);
 void		init_rtx(void);
 void		fix_camera(void);
@@ -154,13 +151,13 @@ void		render_scene(void);
 void		render_multi_threaded(void);
 t_ray		create_ray(t_vector origin, t_vector direction);
 t_ray		generate_ray(double x, double y);
-t_color		trace_ray (t_ray *ray, int depth);
+t_color		trace_ray(t_ray *ray, int depth);
 //intersect
 bool		check_unbound(t_ray *ray, t_hit *hit);
 bool		intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
 bool		intersect(t_shape *shape, t_ray *ray, double *t);
 void		get_valid_t(double t[2], t_quad_coeffs *coeffs, double *d);
-bool		intersect_sphere(t_ray *ray, t_shape *sphere, double* t);
+bool		intersect_sphere(t_ray *ray, t_shape *sphere, double *t);
 int			intersect_plane(t_ray *ray, t_shape *plane, double *t);
 int			intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t);
 int			intersect_cone(t_ray *ray, t_shape *cone, double *t);
@@ -188,7 +185,7 @@ t_color		color_blend(t_color c1, t_color c2, double factor);
 //MLX
 void		resize_hook(int32_t width, int32_t height, void *data);
 void		loop_hook(void *data);
-void		key_hook(mlx_key_data_t keydata, void* param);
+void		key_hook(mlx_key_data_t keydata, void *param);
 bool		keys(mlx_key_data_t keydata);
 bool		change_target(void);
 void		move_objects(t_direction dir);
