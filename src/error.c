@@ -6,26 +6,27 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:11 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:33:35 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:34:45 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <miniRT.h>
 
-void	error_exit(const char *err_msg)
+static void	clear_mlx(void)
 {
-	if (err_msg)
+	int	i;
+
+	i = 0;
+	mlx_delete_image(rtx()->mlx, rtx()->img);
+	while (i < SHAPE_NUM)
 	{
-		ft_putstr_fd("Error\n", STDERR_FILENO);
-		ft_putstr_fd((char *)err_msg, STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		if (rtx()->ui[i])
+			mlx_delete_image(rtx()->mlx, rtx()->ui[i]);
+		i++;
 	}
-	if (rtx()->mlx)
-		clear_mlx();
-	exit(EXIT_SUCCESS);
 }
 
-void	free_shape(void *content)
+static void	free_shape(void *content)
 {
 	t_shape	*shape;
 
@@ -43,25 +44,21 @@ void	free_shape(void *content)
 	free(shape);
 }
 
-void	clear_mlx(void)
+static void	error_exit(const char *err_msg)
 {
-	int	i;
-
-	i = 0;
-	mlx_delete_image(rtx()->mlx, rtx()->img);
-	while (i < SHAPE_NUM)
+	if (err_msg)
 	{
-		if (rtx()->ui[i])
-			mlx_delete_image(rtx()->mlx, rtx()->ui[i]);
-		i++;
+		ft_putstr_fd("Error\n", STDERR_FILENO);
+		ft_putstr_fd((char *)err_msg, STDERR_FILENO);
+		exit(EXIT_FAILURE);
 	}
+	if (rtx()->mlx)
+		clear_mlx();
+	exit(EXIT_SUCCESS);
 }
 
 void	error(t_err_type err, const char *msg)
 {
-	char	*mlx_error;
-
-	mlx_error = NULL;
 	free_bvh(&rtx()->bvh);
 	free_bvh(&rtx()->wireframe_bvh);
 	ft_lstclear(&rtx()->shapes, free_shape);

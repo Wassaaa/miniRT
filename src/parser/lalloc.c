@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lalloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:41:05 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 13:41:06 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 01:33:07 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	add_to_lal(void *ptr)
 
 	new_node = ft_lstnew(ptr);
 	if (!new_node)
-		error_exit("alloc fail");
+		error(E_MEM, NULL);
 	lalloc = allocs();
 	ft_lstadd_front(lalloc, new_node);
 }
