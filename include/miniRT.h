@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/28 20:34:21 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:40:00 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@
 # define MIN_FOV 10.0
 # define MAX_FOV 170.0
 
-# define PAN_AMOUNT M_PI / 24
+# define PAN_AMOUNT 0.13
 # define MOVE_SPEED 3.0
 
 typedef struct s_scene t_scene;
@@ -72,142 +72,139 @@ typedef struct s_bvh t_bvh;
 typedef struct s_aabb t_aabb;
 
 // parsing
-double			ft_atof(char *str);
-void			parse_input(char *argv[]);
-t_vector		check_dir(t_vector dir);
-t_color			parse_color(char *color_str);
-t_vector		parse_vector(char *vector_str, bool dir);
-void			parse_bonus(char **element, t_shape	*shape);
-void			parse_element(char **element, int check[2]);
-void			check_range_int(int value, int min, int max, char *err_msg);
-void			check_range_double(double value, double min, double max, char *err_msg);
-void			check_ac(int check[2]);
-t_vector		check_dir(t_vector dir);
-int				check_float(char *str);
-int				check_int(char *str);
-int				check_vector(char *str);
-int				check_color(char *str);
+double		ft_atof(char *str);
+void		parse_input(char *argv[]);
+t_vector	check_dir(t_vector dir);
+t_color		parse_color(char *color_str);
+t_vector	parse_vector(char *vector_str, bool dir);
+void		parse_bonus(char **element, t_shape	*shape);
+void		parse_element(char **element, int check[2]);
+void		check_range_int(int value, int min, int max, char *err_msg);
+void		check_range_double(double value, double min, double max, char *err_msg);
+void		check_ac(int check[2]);
+t_vector	check_dir(t_vector dir);
+int			check_float(char *str);
+int			check_int(char *str);
+int			check_vector(char *str);
+int			check_color(char *str);
 
 //lalloc
-t_list			**allocs(void);
-void			clear_lal(void);
-void			ft_free(void **ptr);
-void			free_content(void *content);
-void			add_to_lal(void *ptr);
-void			free_one_lal(void *ptr);
+t_list		**allocs(void);
+void		clear_lal(void);
+void		ft_free(void **ptr);
+void		free_content(void *content);
+void		add_to_lal(void *ptr);
+void		free_one_lal(void *ptr);
 
 // init
-void			parse_ambient(char **element);
-void			parse_camera(char **element);
-void			parse_light(char **element);
-void			parse_sphere(char	**element);
-void			parse_plane(char	**element);
-void			parse_cylinder(char **element);
-void			parse_cone(char **element);
-void			parse_checkerboard(char *element, t_shape *shape);
-void			parse_texture(char *element, t_shape *shape);
-void			parse_bump_map(char *element, t_shape *shape);
-void			parse_shine(char *element, t_shape *shape);
-void			parse_reflectivity(char *element, t_shape *shape);
+void		parse_ambient(char **element);
+void		parse_camera(char **element);
+void		parse_light(char **element);
+void		parse_sphere(char	**element);
+void		parse_plane(char	**element);
+void		parse_cylinder(char **element);
+void		parse_cone(char **element);
+void		parse_checkerboard(char *element, t_shape *shape);
+void		parse_texture(char *element, t_shape *shape);
+void		parse_bump_map(char *element, t_shape *shape);
+void		parse_shine(char *element, t_shape *shape);
+void		parse_reflectivity(char *element, t_shape *shape);
 
 //basic vector equation
-t_vector		vector_add(t_vector a, t_vector b);
-t_vector		vector_subtract(t_vector a, t_vector b);
-t_vector		vector_scale(t_vector a, double scalar);
-double			vector_dot(t_vector a, t_vector b);
-t_vector		vector_cross(t_vector a, t_vector b);
-double			vector_length(t_vector a);
-t_vector		vector_normalize(t_vector a);
-double			vector_length_squared(t_vector a);
-t_vector		vector_min(t_vector a, t_vector b);
-t_vector		vector_max(t_vector a, t_vector b);
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_subtract(t_vector a, t_vector b);
+t_vector	vector_scale(t_vector a, double scalar);
+double		vector_dot(t_vector a, t_vector b);
+t_vector	vector_cross(t_vector a, t_vector b);
+double		vector_length(t_vector a);
+t_vector	vector_normalize(t_vector a);
+double		vector_length_squared(t_vector a);
+t_vector	vector_min(t_vector a, t_vector b);
+t_vector	vector_max(t_vector a, t_vector b);
 
 //clamp
-int				clampi(int value, int min, int max);
-double			clampd(double value, double min, double max);
+int			clampi(int value, int min, int max);
+double		clampd(double value, double min, double max);
 
 //util
-void			ft_swap(double *a, double *b);
-int				array_len(char **array);
-char			**split_line(char *line);
-char			**ft_safe_split(char const *s, char *set);
-char			**ft_split_new(char const *s, char *set);
-char			*ft_safe_strtrim(char const *s1, char const *set);
-int				ft_char_count(const char *s, int c);
+void		ft_swap(double *a, double *b);
+int			array_len(char **array);
+char		**split_line(char *line);
+char		**ft_safe_split(char const *s, char *set);
+char		**ft_split_new(char const *s, char *set);
+char		*ft_safe_strtrim(char const *s1, char const *set);
+int			ft_char_count(const char *s, int c);
 
-//error free
-// void			free_parser(char **element, char *err_msg);
-
-void			error_exit(const char *err_msg);
-void			error(t_err_type err, const char *msg);
+//error
+void		error(t_err_type err, const char *msg);
 
 //init
-t_rtx			*rtx(void);
-void			init_rtx(void);
-void			fix_camera(void);
-void			setup_scene(void);
-mlx_image_t		*make_checkerboard(t_color color);
-t_bvh			*bvh(t_list *shapes);
+t_rtx		*rtx(void);
+void		init_rtx(void);
+void		fix_camera(void);
+void		setup_scene(void);
+mlx_image_t	*make_checkerboard(t_color color);
+t_bvh		*bvh(t_list *shapes);
 //bvh
-t_aabb			compute_box(t_shape **shapes, int num_shapes);
-int				partition_shapes(t_shape **shapes, int num_shapes, int axis);
-t_shape			**shapes_to_arr(t_list *shapes, int num_shapes);
-void			rebuild_bvh(void);
-void			free_bvh(t_bvh **bvh);
+t_aabb		compute_box(t_shape **shapes, int num_shapes);
+int			partition_shapes(t_shape **shapes, int num_shapes, int axis);
+t_shape		**shapes_to_arr(t_list *shapes, int num_shapes);
+void		rebuild_bvh(void);
+void		free_bvh(t_bvh **bvh);
 
 //render
-void			render(void);
-void			render_scene(void);
-void			render_multi_threaded(void);
-t_ray			create_ray(t_vector origin, t_vector direction);
-t_ray			generate_ray(double x, double y);
-t_color			trace_ray (t_ray *ray, int depth);
+void		render(void);
+void		render_scene(void);
+void		render_multi_threaded(void);
+t_ray		create_ray(t_vector origin, t_vector direction);
+t_ray		generate_ray(double x, double y);
+t_color		trace_ray (t_ray *ray, int depth);
 //intersect
-bool			check_unbound(t_ray *ray, t_hit *hit);
-bool			intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
-bool			intersect(t_shape *shape, t_ray *ray, double *t);
-void			get_valid_t(double t[2], t_quad_coeffs *coeffs, double *d);
-bool			intersect_sphere(t_ray *ray, t_shape *sphere, double* t);
-int				intersect_plane(t_ray *ray, t_shape *plane, double *t);
-int				intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t);
-int				intersect_cone(t_ray *ray, t_shape *cone, double *t);
-void			fix_hit_normal(t_hit *hit);
+bool		check_unbound(t_ray *ray, t_hit *hit);
+bool		intersect_bvh(t_bvh *node, t_ray *ray, t_hit *hit);
+bool		intersect(t_shape *shape, t_ray *ray, double *t);
+void		get_valid_t(double t[2], t_quad_coeffs *coeffs, double *d);
+bool		intersect_sphere(t_ray *ray, t_shape *sphere, double* t);
+int			intersect_plane(t_ray *ray, t_shape *plane, double *t);
+int			intersect_cylinder(t_ray *ray, t_shape *cylinder, double *t);
+int			intersect_cone(t_ray *ray, t_shape *cone, double *t);
+void		fix_hit_normal(t_hit *hit);
 //lights
-double			get_diffuse(t_hit *hit, t_vector *light_dir);
-t_lighting		calc_lighting(t_hit *hit);
+double		get_diffuse(t_hit *hit, t_vector *light_dir);
+t_lighting	calc_lighting(t_hit *hit);
 //material
-t_color			add_material(t_hit *hit);
+t_color		add_material(t_hit *hit);
 //reflection
-t_color			get_reflections(t_hit *hit, int depth);
+t_color		get_reflections(t_hit *hit, int depth);
 //colors
-t_color			get_pixel_color(t_ray *ray, t_hit *hit, int depth);
-int				color_to_int(t_color c);
-t_color			color_from_int(int r, int g, int b);
-t_color			color_from_hex(unsigned int hex);
-t_color			color_clamp(t_color c);
-t_color			color_scale(t_color c, double scale);
-t_color			color_multiply(t_color c1, t_color c2);
-t_color			color_subtract(t_color c1, t_color c2);
-t_color			color_add(t_color c1, t_color c2);
-t_color			color_create(double r, double g, double b);
-t_color			color_blend(t_color c1, t_color c2, double factor);
+t_color		get_pixel_color(t_ray *ray, t_hit *hit, int depth);
+int			color_to_int(t_color c);
+t_color		color_from_int(int r, int g, int b);
+t_color		color_from_hex(unsigned int hex);
+t_color		color_clamp(t_color c);
+t_color		color_scale(t_color c, double scale);
+t_color		color_multiply(t_color c1, t_color c2);
+t_color		color_subtract(t_color c1, t_color c2);
+t_color		color_add(t_color c1, t_color c2);
+t_color		color_create(double r, double g, double b);
+t_color		color_blend(t_color c1, t_color c2, double factor);
 
 //MLX
-void			resize_hook(int32_t width, int32_t height, void *data);
-void			loop_hook(void *data);
-void			key_hook(mlx_key_data_t keydata, void* param);
-bool			keys(mlx_key_data_t keydata);
-bool			change_target(void);
-void			move_objects(t_direction dir);
-mlx_image_t		*mlx_image_gray(mlx_t *mlx, mlx_image_t *image);
-mlx_image_t		*png_to_image(mlx_t *mlx, char *path, bool to_grayscale);
+void		resize_hook(int32_t width, int32_t height, void *data);
+void		loop_hook(void *data);
+void		key_hook(mlx_key_data_t keydata, void* param);
+bool		keys(mlx_key_data_t keydata);
+bool		change_target(void);
+void		move_objects(t_direction dir);
+mlx_image_t	*mlx_image_gray(mlx_t *mlx, mlx_image_t *image);
+mlx_image_t	*png_to_image(mlx_t *mlx, char *path, bool to_grayscale);
 
 //rotate and translate
-t_vector		vector_rotate(t_vector v, t_vector axis, double angle);
-bool			rotate_objects(t_direction dir);
-void			translate_vector(t_vector *object, t_direction dir);
-void			move_shapes(t_direction dir);
-bool			scale(t_direction dir);
+t_vector	vector_rotate(t_vector v, t_vector axis, double angle);
+bool		rotate_objects(t_direction dir);
+void		translate_vector(t_vector *object, t_direction dir);
+void		move_shapes(t_direction dir);
+bool		scale(t_direction dir);
 
 //axis-aligned bounding boxes
 bool		intersect_aabb(t_ray ray, t_aabb box, double max_t);

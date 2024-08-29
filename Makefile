@@ -33,8 +33,9 @@ NAME			=	miniRT
 INCLUDES		=	./include
 M_HEADERS		=	$(INCLUDES)/miniRT.h \
 					$(INCLUDES)/wireframe.h \
-					$(INCLUDES)/struct.h \
-					$(INCLUDES)/error.h
+					$(INCLUDES)/structs.h \
+					$(INCLUDES)/error.h \
+					$(INCLUDES)/colors.h
 OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 SRC_DIR			=	./src
