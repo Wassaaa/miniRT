@@ -20,6 +20,8 @@ void	error_exit(const char *err_msg)
 		ft_putstr_fd((char *)err_msg, STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
+	if (rtx()->mlx)
+		clear_mlx();
 	exit(EXIT_SUCCESS);
 }
 
@@ -57,6 +59,9 @@ void	clear_mlx(void)
 
 void	error(t_err_type err, const char *msg)
 {
+	char	*mlx_error;
+
+	mlx_error = NULL;
 	free_bvh(&rtx()->bvh);
 	free_bvh(&rtx()->wireframe_bvh);
 	ft_lstclear(&rtx()->shapes, free_shape);
@@ -69,7 +74,5 @@ void	error(t_err_type err, const char *msg)
 		error_exit(strerror(errno));
 	if (err == E_PARSER)
 		error_exit(msg);
-	if (rtx()->mlx)
-		clear_mlx();
 	error_exit(NULL);
 }
