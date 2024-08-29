@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 19:05:18 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/28 20:37:04 by aklein           ###   ########.fr       */
+/*   Created: 2024/08/30 00:42:12 by aklein            #+#    #+#             */
+/*   Updated: 2024/08/30 00:42:23 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCT_H
-# define STRUCT_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 # include <libft.h>
 # include <MLX42/MLX42.h>

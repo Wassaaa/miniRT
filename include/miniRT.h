@@ -13,17 +13,16 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include <math.h>
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
+# include <fcntl.h>
 # include <libft.h>
-# include <math.h> // math
-# include <stdio.h> // printf
-# include <string.h> //strerror
-# include <errno.h> //errno
-# include <MLX42/MLX42.h> // mlx
-# include <float.h> //ft_atof
-# include <colors.h> //colors
-# include <error.h> //errors
-# include <struct.h> //structs
-# include <fcntl.h> //read file
+# include <MLX42/MLX42.h>
+# include <structs.h>
+# include <error.h>
+# include <colors.h>
 
 # define VV (t_vector){0, 0, 0}
 
@@ -36,6 +35,8 @@
 # define M_PI 3.14159265358979323846
 
 # define EPSILON 1e-6
+# define DBL_MAX __DBL_MAX__
+# define DBL_DIG __DBL_DIG__
 
 # define SCALE_PLANE 0.01
 # define SCALE_STEP 0.1
