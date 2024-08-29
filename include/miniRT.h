@@ -24,8 +24,6 @@
 # include <error.h>
 # include <colors.h>
 
-# define VV (t_vector){0, 0, 0}
-
 # define NUM_THREADS 24
 # define SSAA 1
 # define RESIZE_TIME 0.5
@@ -125,6 +123,7 @@ double		clampd(double value, double min, double max);
 
 //util
 void		ft_swap(double *a, double *b);
+t_hit		new_hit(void);
 int			array_len(char **array);
 char		**split_line(char *line);
 char		**ft_safe_split(char const *s, char *set);

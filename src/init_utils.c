@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:25 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:49:36 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:51:24 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ void	build_images(t_list *shapes)
 			shape->checkerboard = make_checkerboard(shape->color);
 		shapes = shapes->next;
 	}
+}
+
+t_hit	new_hit(void)
+{
+	t_hit	hit;
+
+	ft_bzero(&hit, sizeof(t_hit));
+	hit.t = INFINITY;
+	return (hit);
 }
 
 void	setup_scene(void)

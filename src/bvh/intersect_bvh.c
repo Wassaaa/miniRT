@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:33 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:22:09 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:52:17 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static inline bool	next_branches(t_bvh *node, t_ray *ray, t_hit *hit)
 	t_hit	right;
 	t_hit	left;
 
-	left = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
-	right = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
+	left = new_hit();
+	right = new_hit();
 	hit_left = intersect_bvh(node->left, ray, &left);
 	hit_right = intersect_bvh(node->right, ray, &right);
 	if (hit_left && (!hit_right || left.t < right.t))
@@ -58,7 +58,7 @@ bool	intersect_bvh(t_bvh *node, t_ray *ray, t_hit *old_hit)
 	bool	curr_hit;
 	t_hit	hit;
 
-	hit = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
+	hit = new_hit();
 	curr_hit = false;
 	if (!node)
 		return (false);

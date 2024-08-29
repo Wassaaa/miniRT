@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:00 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:24:53 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:52:11 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_color	trace_ray(t_ray *ray, int depth)
 {
 	t_hit	hit;
 
-	hit = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
+	hit = new_hit();
 	if (rtx()->wireframe_bvh && rtx()->wireframe)
 		hit.hit |= intersect_bvh(rtx()->wireframe_bvh, ray, &hit);
 	if (rtx()->bvh)

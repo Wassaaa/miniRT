@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:57 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:43:01 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:52:11 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	check_shadow(t_hit *hit, t_light *light)
 	double		light_distance;
 	t_vector	direction;
 
-	temp = (t_hit){INFINITY, NULL, 0, 0, VV, VV, VV, NULL, 0, 0};
+	temp = new_hit();
 	direction = vector_subtract(
 			light->pos,
 			hit->hit_point);
