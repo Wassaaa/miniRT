@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:09 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:38:43 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 02:37:47 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ t_color	super_sample(int x, int y)
 	t_ray			ray;
 	unsigned int	seed;
 
-	seed = rtx()->seed ^ (unsigned int)pthread_self()
-		^ (unsigned int)(mlx_get_time() * 100000);
+	seed = pow(rtx()->seed, (unsigned int)(mlx_get_time() * 100000));
 	pixel_color = color_create(0, 0, 0);
 	i = 0;
 	while (i++ < SSAA)
@@ -65,8 +64,6 @@ void	render_multi_threaded(void)
 	t_thread_data	data[NUM_THREADS];
 	int				i;
 
-	rtx()->grid_size = sqrt(SSAA);
-	rtx()->ssaa = SSAA;
 	i = 0;
 	while (i < NUM_THREADS)
 	{

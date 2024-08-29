@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 00:42:12 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 02:00:39 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 02:32:49 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,6 @@ typedef struct s_rtx
 	double			resize_time;
 	int				bvh_node_id;
 	int				wireframe;
-	int				grid_size;
-	int				ssaa;
 	t_shape_type	target;
 	unsigned int	seed;
 }	t_rtx;
