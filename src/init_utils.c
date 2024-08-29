@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:25 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 01:51:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 02:30:34 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,15 @@ void	build_images(t_list *shapes)
 
 t_hit	new_hit(void)
 {
-	t_hit	hit;
+	static t_hit	hit;
+	static bool		init = true;
 
-	ft_bzero(&hit, sizeof(t_hit));
-	hit.t = INFINITY;
+	if (init)
+	{
+		ft_bzero(&hit, sizeof(t_hit));
+		hit.t = INFINITY;
+		init = false;
+	}
 	return (hit);
 }
 
