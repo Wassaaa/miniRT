@@ -41,9 +41,6 @@
 # define SCALE_PLANE 0.01
 # define SCALE_STEP 0.1
 
-# define WORLD_UP (t_vector){0, 1, 0}
-# define WORLD_RIGHT (t_vector){1, 0, 0}
-
 # define AXIS_X 1
 # define AXIS_Y 2
 # define AXIS_Z 3

@@ -21,7 +21,7 @@ void	parse_sphere(char	**element)
 	sphere = ft_calloc(1, sizeof(t_shape));
 	sphere->type = SPHERE;
 	sphere->pos = parse_vector(element[1], false);
-	sphere->dir = WORLD_UP;
+	sphere->dir = (t_vector){0, 1, 0};
 	sphere->diameter = ft_atof(element[2]);
 	check_range_double(sphere->diameter, 0.0, DBL_MAX, ERR_SPHERE_DIAM);
 	sphere->radius = sphere->diameter * 0.5;

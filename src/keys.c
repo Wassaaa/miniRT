@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:35 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 18:25:54 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:46:08 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	pan_camera(double h_angle, double v_angle)
 	t_camera	*camera;
 
 	camera = &(rtx()->camera);
-	camera->dir = vector_rotate(camera->dir, WORLD_UP, h_angle);
+	camera->dir = vector_rotate(camera->dir, (t_vector){0, 1, 0}, h_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -v_angle);
-	camera->right = vector_rotate(camera->right, WORLD_UP, h_angle);
+	camera->right = vector_rotate(camera->right, (t_vector){0, 1, 0}, h_angle);
 	camera->right = vector_rotate(camera->right, camera->right, -v_angle);
-	camera->up = vector_rotate(camera->up, WORLD_UP, h_angle);
+	camera->up = vector_rotate(camera->up, (t_vector){0, 1, 0}, h_angle);
 	camera->up = vector_rotate(camera->up, camera->right, -v_angle);
 }
 

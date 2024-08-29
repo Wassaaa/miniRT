@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:18 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:25:12 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 01:46:24 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	create_local_system(t_shape *shape)
 	t_vector	normal;
 
 	normal = shape->dir;
-	u_axis = vector_cross(normal, WORLD_UP);
+	u_axis = vector_cross(normal, (t_vector){0, 1, 0});
 	if (vector_length(u_axis) < EPSILON)
-		u_axis = vector_cross(normal, WORLD_RIGHT);
+		u_axis = vector_cross(normal, (t_vector){1, 0, 0});
 	u_axis = vector_normalize(u_axis);
 	v_axis = vector_normalize(vector_cross(normal, u_axis));
 	shape->u_axis = u_axis;
