@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:11 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 01:34:45 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 02:19:06 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	clear_mlx(void)
 			mlx_delete_image(rtx()->mlx, rtx()->ui[i]);
 		i++;
 	}
+	mlx_terminate(rtx()->mlx);
 }
 
 static void	free_shape(void *content)
