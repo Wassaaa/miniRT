@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:05:12 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/28 19:05:13 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 13:27:41 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum e_err_type
 # define ERR_MULTI_AMBIENT "Multiple ambient lights are not allowed!\n"
 # define ERR_NO_CAMERA "No camera given\n"
 # define ERR_ARG_COUNT "Invalid argument number!\n"
-# define ERR_INPUT_FORMAT "Invalid input format!\n"
+# define ERR_INPUT_FORMAT "Invalid input file!\n"
 # define ERR_FILE_OPEN "Open failed!\n"
 # define ERR_CAM_SETUP "Invalid camera setup!\n"
 # define ERR_FOV_RANGE "Invalid horizontal field of view! Range:[0,180]\n"
@@ -50,7 +50,7 @@ typedef enum e_err_type
 # define ERR_AMBIENT_SETUP "Invalid ambient setup!\n"
 # define ERR_AMBIENT_RATIO "Invalid ambient lighting ratio! Range:[0.0, 1.0]\n"
 # define ERR_MULTI_CAMERA "Multiple cameras are not allowed!\n"
-# define ERR_CHK "Invalid checkerboard! chn:1 or chn:0\n"
+# define ERR_CHK "Invalid checkerboard! chk:1 or chk:0\n"
 # define ERR_ELEMENT "Invalid element!\n"
 
 #endif
