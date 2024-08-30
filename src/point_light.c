@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:57 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 01:52:11 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 16:00:47 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ double	get_diffuse(t_hit *hit, t_vector *light_dir)
 	return (diffuse);
 }
 
-void	light_one(t_lighting *lighting, t_light *light, t_hit *hit)
+void	light_one(t_lighting *lighting, t_light *light,
+			t_hit *hit, double intensity_scale)
 {
 	t_vector	light_dir;
 	double		diff_int;
@@ -73,14 +74,15 @@ void	light_one(t_lighting *lighting, t_light *light, t_hit *hit)
 	t_color		diff_contrib;
 	t_color		spec_contrib;
 
-	light_dir = vector_normalize(
-			vector_subtract(light->pos, hit->hit_point));
+	light_dir = vector_normalize(vector_subtract(light->pos, hit->hit_point));
 	if (vector_dot(hit->normal_pre_perturb, light_dir) < -EPSILON)
 		return ;
 	diff_int = get_diffuse(hit, &light_dir);
 	spec_int = get_specular(hit, &light_dir);
-	diff_contrib = color_scale(light->color, light->bright * diff_int);
-	spec_contrib = color_scale(light->color, light->bright * spec_int);
+	diff_contrib = color_scale(light->color,
+			light->bright * diff_int * intensity_scale);
+	spec_contrib = color_scale(light->color,
+			light->bright * spec_int * intensity_scale);
 	lighting->diffuse = color_add(lighting->diffuse, diff_contrib);
 	lighting->specular = color_add(lighting->specular, spec_contrib);
 }
@@ -91,6 +93,7 @@ t_lighting	calc_lighting(t_hit *hit)
 	t_light		*light;
 	t_lighting	lighting;
 	double		total_intensity;
+	double		light_intensity;
 
 	lights = rtx()->lights;
 	lighting = (t_lighting){{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
@@ -100,12 +103,13 @@ t_lighting	calc_lighting(t_hit *hit)
 		light = (t_light *)lights->content;
 		if (!check_shadow(hit, light))
 		{
-			light_one(&lighting, light, hit);
-			total_intensity += light->bright;
+			light_intensity = light->bright;
+			total_intensity += light_intensity;
+			if (total_intensity > 1.0)
+				light_intensity *= (1.0 / total_intensity);
+			light_one(&lighting, light, hit, light_intensity);
 		}
 		lights = lights->next;
 	}
-	if (total_intensity > 1.0)
-		lighting.diffuse = color_scale(lighting.diffuse, 1.0 / total_intensity);
 	return (lighting);
 }
