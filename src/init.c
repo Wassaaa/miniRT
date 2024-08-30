@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:28 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:49:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 16:58:29 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	start_mlx(int width, int height)
 		if (!rtx()->mlx)
 			error(E_MLX, NULL);
 	}
-	if (rtx()->img)
-		mlx_delete_image(rtx()->mlx, rtx()->img);
 	rtx()->img = mlx_new_image(rtx()->mlx, width, height);
 	if (!rtx()->img)
 		error(E_MLX, NULL);

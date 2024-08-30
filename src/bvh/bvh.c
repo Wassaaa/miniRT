@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:15:30 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:23:47 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 18:09:20 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_bvh	*build_bvh(t_shape **shapes, int num_shapes)
 	{
 		node->box = shapes[0]->box;
 		node->shape = shapes[0];
-		shapes[0]->box = node->box;
 		return (node);
 	}
 	node->box = compute_box(shapes, num_shapes);

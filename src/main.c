@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:38 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/27 18:17:39 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 18:28:41 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	render(void)
 {
-	render_multi_threaded();
-	// render_scene();
+	// render_multi_threaded();
+	render_scene();
 }
 
 int	main(int argc, char *argv[])
@@ -24,6 +24,7 @@ int	main(int argc, char *argv[])
 		error(E_PARSER, "Wrong argument number!");
 	ft_bzero(rtx(), sizeof(t_rtx));
 	parse_input(argv);
+	clear_lal();
 	init_rtx();
 	setup_scene();
 	render();
