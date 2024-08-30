@@ -1,0 +1,4 @@
+C 0,0,-10 0,0,1 60
+L 5,5,0 0.9 255,255,255
+A 1 255,255,255
+sp	0,0,0		6				0,255,0 tex:textures/earth.png bmp:textures/earth_bump.png
