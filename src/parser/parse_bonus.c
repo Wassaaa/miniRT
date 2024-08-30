@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:53:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:39:16 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 17:26:42 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,31 @@ void	parse_checkerboard(char *element, t_shape *shape)
 void	parse_texture(char *element, t_shape *shape)
 {
 	int	len;
+	int	fd;
 
 	len = ft_strlen(element);
 	if (len < 5 || ft_strncmp(element + len - 4, ".png", 5))
 		error(E_PARSER, ERR_TEXTURE_FORMAT);
 	shape->tex_path = ft_strdup(element + 4);
+	fd = open(shape->tex_path, O_RDONLY);
+	if (fd < 0)
+		error(E_MEM, NULL);
+	close(fd);
 }
 
 void	parse_bump_map(char *element, t_shape *shape)
 {
 	int	len;
+	int	fd;
 
 	len = ft_strlen(element);
 	if (len < 5 || ft_strncmp(element + len - 4, ".png", 5))
 		error(E_PARSER, ERR_BUMP_FORMAT);
 	shape->bmp_path = ft_strdup(element + 4);
+		fd = open(shape->bmp_path, O_RDONLY);
+	if (fd < 0)
+		error(E_MEM, NULL);
+	close(fd);
 }
 
 void	parse_shine(char *element, t_shape *shape)
