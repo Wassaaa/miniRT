@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 01:57:42 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 12:14:07 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@
 # define PAN_AMOUNT 0.13
 # define MOVE_SPEED 3.0
 
+# define SHINE_PLANE 60
+# define SHINE_SPHERE 1000
+# define SHINE_CYLINDER 500
+# define SHINE_CONE 500
+
+
 // parsing
 double		ft_atof(char *str);
 void		parse_input(char *argv[]);
@@ -101,6 +107,7 @@ void		parse_texture(char *element, t_shape *shape);
 void		parse_bump_map(char *element, t_shape *shape);
 void		parse_shine(char *element, t_shape *shape);
 void		parse_reflectivity(char *element, t_shape *shape);
+void		scale_shape(t_shape *shape, double mult);
 
 //basic vector equation
 t_vector	vector_add(t_vector a, t_vector b);

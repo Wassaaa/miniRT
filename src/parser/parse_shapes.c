@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 02:00:39 by aklein           ###   ########.fr       */
+/*   Updated: 2024/08/30 12:10:39 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void	parse_sphere(char	**element)
 	sphere->dir = (t_vector){0, 1, 0};
 	sphere->diameter = ft_atof(element[2]);
 	check_range_double(sphere->diameter, 0.0, DBL_MAX, ERR_SPHERE_DIAM);
-	sphere->radius = sphere->diameter * 0.5;
 	sphere->color = color_scale(parse_color(element[3]), 1.0 / 255.0);
 	sphere->boxfunc = box_sphere;
-	sphere->box = sphere->boxfunc(sphere);
+	scale_shape(sphere, 1);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, sphere);
+	if (!sphere->shine)
+		sphere->shine = SHINE_SPHERE;
 	create_local_system(sphere);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(sphere));
 }
@@ -45,6 +46,8 @@ void	parse_plane(char	**element)
 	plane->color = color_scale(parse_color(element[3]), 1.0 / 255.0);
 	if (array_len(element) > 4)
 		parse_bonus(element + 4, plane);
+	if (!plane->shine)
+		plane->shine = SHINE_PLANE;
 	create_local_system(plane);
 	ft_lstadd_back(&rtx()->unbound, ft_lstnew(plane));
 }
@@ -61,15 +64,15 @@ void	parse_cylinder(char **element)
 	cylinder->dir = check_dir(parse_vector(element[2], true));
 	cylinder->diameter = ft_atof(element[3]);
 	check_range_double(cylinder->diameter, 0.0, DBL_MAX, ERR_CYL_DIAM);
-	cylinder->radius = cylinder->diameter * 0.5;
 	cylinder->height = ft_atof(element[4]);
-	cylinder->half_height = cylinder->height / 2;
 	check_range_double(cylinder->height, 0.0, DBL_MAX, ERR_CYL_HEIGHT);
 	cylinder->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cylinder->boxfunc = box_cylinder;
-	cylinder->box = cylinder->boxfunc(cylinder);
+	scale_shape(cylinder, 1);
 	if (array_len(element) > 6)
 		parse_bonus(element + 6, cylinder);
+	if (!cylinder->shine)
+		cylinder->shine = SHINE_CYLINDER;
 	create_local_system(cylinder);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cylinder));
 }
@@ -86,19 +89,15 @@ void	parse_cone(char **element)
 	cone->dir = check_dir(parse_vector(element[2], true));
 	cone->diameter = ft_atof(element[3]);
 	check_range_double(cone->diameter, 0.0, DBL_MAX, ERR_CONE_DIAM);
-	cone->radius = cone->diameter * 0.5;
 	cone->height = ft_atof(element[4]);
 	check_range_double(cone->height, 0.0, DBL_MAX, ERR_CONE_HEIGHT);
-	cone->half_angle = atan(cone->radius / cone->height);
-	cone->tan_half = tan(cone->half_angle);
-	cone->cos_theta = 1.0 / sqrt(1 + cone->tan_half * cone->tan_half);
-	cone->sin_theta = cone->tan_half * cone->cos_theta;
-	cone->k = 1 + pow(cone->radius / cone->height, 2);
 	cone->color = color_scale(parse_color(element[5]), 1.0 / 255.0);
 	cone->boxfunc = box_cone;
-	cone->box = cone->boxfunc(cone);
+	scale_shape(cone, 1);
 	if (array_len(element) > 6)
 		parse_bonus(element + 6, cone);
+	if (!cone->shine)
+		cone->shine = SHINE_CONE;
 	create_local_system(cone);
 	ft_lstadd_back(&rtx()->shapes, ft_lstnew(cone));
 }
