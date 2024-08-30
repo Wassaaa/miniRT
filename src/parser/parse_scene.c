@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:51 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 11:33:30 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 12:16:51 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void	parse_light(char **element)
 {
 	t_light	*light;
 
-	if ((array_len(element) != 3 && array_len(element) != 4) || !check_vector(element[1])
-		|| !check_float(element[2]) || (array_len(element) == 4 && !check_color(element[3])))
+	if ((array_len(element) != 3 && array_len(element) != 4)
+		|| !check_vector(element[1])
+		|| !check_float(element[2])
+		|| (array_len(element) == 4 && !check_color(element[3])))
 		error(E_PARSER, ERR_LIGHT_SETUP);
 	light = ft_calloc(1, sizeof(t_light));
 	light->pos = parse_vector(element[1], false);
@@ -58,6 +60,6 @@ void	parse_light(char **element)
 	if (element[3])
 		light->color = color_scale(parse_color(element[3]), 1.0 / 255.0);
 	else
-		light->color = (t_color){1,1,1};
+		light->color = (t_color){1, 1, 1};
 	ft_lstadd_back(&rtx()->lights, ft_lstnew(light));
 }

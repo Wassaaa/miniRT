@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 12:14:07 by jtu              ###   ########.fr       */
+/*   Updated: 2024/08/30 12:17:07 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@
 # define SHINE_SPHERE 1000
 # define SHINE_CYLINDER 500
 # define SHINE_CONE 500
-
 
 // parsing
 double		ft_atof(char *str);
