@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:35 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 01:46:08 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/19 19:32:10 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	pan_camera(double h_angle, double v_angle)
 {
 	t_camera	*camera;
 
+	h_angle = h_angle * M_PI / 180;
+	v_angle = v_angle * M_PI / 180;
 	camera = &(rtx()->camera);
 	camera->dir = vector_rotate(camera->dir, (t_vector){0, 1, 0}, h_angle);
 	camera->dir = vector_rotate(camera->dir, camera->right, -v_angle);
@@ -91,7 +93,7 @@ static bool	adjust_shapes(mlx_key_data_t keydata)
 	else if (keydata.key == MLX_KEY_COMMA && keydata.action == MLX_RELEASE)
 		return (scale(DOWN));
 	else
-		return (false);
+		return (false); 
 	return (true);
 }
 

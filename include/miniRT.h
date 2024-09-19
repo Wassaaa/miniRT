@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/08/30 14:54:24 by jtu              ###   ########.fr       */
+/*   Updated: 2024/09/19 19:35:30 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
 # define MIN_FOV 10.0
 # define MAX_FOV 170.0
 
-# define PAN_AMOUNT 0.13
+# define PAN_AMOUNT 7
 # define MOVE_SPEED 3.0
 
 # define SHINE_PLANE 60

@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:38 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 18:28:41 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/19 19:05:37 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	render(void)
 {
-	// render_multi_threaded();
-	render_scene();
+	render_multi_threaded();
+	// render_scene();
 }
 
 int	main(int argc, char *argv[])
