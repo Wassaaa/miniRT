@@ -60,7 +60,7 @@ SRCS			=	main.c \
 					normal.c \
 					reflections.c \
 					material.c \
-					point_light.c \
+					lighting.c \
 					color.c \
 					color_utils.c \
 					color_utils2.c \
@@ -95,7 +95,18 @@ SRCS			=	main.c \
 ################################################################################
 # RULES
 ################################################################################
-vpath %.c $(SRC_DIR) $(SRC_DIR)/wireframe $(SRC_DIR)/bvh $(SRC_DIR)/colors $(SRC_DIR)/parser $(SRC_DIR)/math
+vpath %.c	$(SRC_DIR) \
+			$(SRC_DIR)/wireframe \
+			$(SRC_DIR)/bvh \
+			$(SRC_DIR)/pixel_color \
+			$(SRC_DIR)/parser \
+			$(SRC_DIR)/math \
+			$(SRC_DIR)/init \
+			$(SRC_DIR)/mlx \
+			$(SRC_DIR)/reflections \
+			$(SRC_DIR)/shapes \
+			$(SRC_DIR)/utils \
+			$(SRC_DIR)/uv \
 
 all: libmlx $(NAME)
 
