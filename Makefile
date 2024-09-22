@@ -121,6 +121,7 @@ vpath %.c	$(SRC_DIR) \
 			$(SRC_DIR)/shapes \
 			$(SRC_DIR)/utils \
 			$(SRC_DIR)/uv \
+			$(SRC_DIR)/transformations \
 
 all: libmlx $(MAIN_NAME)
 
