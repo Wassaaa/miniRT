@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:26:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/09/19 19:35:30 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 18:31:26 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 
 # define REFLECT_DEPTH 1
 
-# define GAMMA 1.6
+# define GAMMA 1.4
 
 # define ROTATION_ANGLE 30
 
