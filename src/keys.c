@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:35 by jtu               #+#    #+#             */
-/*   Updated: 2024/09/19 19:32:10 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 13:43:24 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static bool	adjust_shapes(mlx_key_data_t keydata)
 	else if (keydata.key == MLX_KEY_COMMA && keydata.action == MLX_RELEASE)
 		return (scale(DOWN));
 	else
-		return (false); 
+		return (false);
 	return (true);
 }
 

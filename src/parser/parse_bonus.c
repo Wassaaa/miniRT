@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:53:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 17:26:42 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 13:43:59 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	parse_bump_map(char *element, t_shape *shape)
 	if (len < 5 || ft_strncmp(element + len - 4, ".png", 5))
 		error(E_PARSER, ERR_BUMP_FORMAT);
 	shape->bmp_path = ft_strdup(element + 4);
-		fd = open(shape->bmp_path, O_RDONLY);
+	fd = open(shape->bmp_path, O_RDONLY);
 	if (fd < 0)
 		error(E_MEM, NULL);
 	close(fd);

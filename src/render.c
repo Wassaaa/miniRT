@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:18:00 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 01:52:11 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 13:35:23 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ t_ray	generate_ray(double x, double y)
 	double		fov;
 
 	camera = &(rtx()->camera);
-	ray.origin = camera->pos;
 	aspect_ratio = (double)rtx()->width / (double)rtx()->height;
 	fov = camera->fov;
 	vector.x = (2 * (x / rtx()->width) - 1) * fov * aspect_ratio;
