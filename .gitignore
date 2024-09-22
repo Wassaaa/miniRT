@@ -1,5 +1,6 @@
 *.o
 miniRT
+miniRT_bonus
 libft.a
 gprof_analysis.txt
 gmon.out

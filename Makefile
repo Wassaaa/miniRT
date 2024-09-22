@@ -38,9 +38,23 @@ M_HEADERS		=	$(INCLUDES)/miniRT.h \
 					$(INCLUDES)/colors.h
 OBJ_DIR			=	./obj
 OBJECTS			=	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+
+################################################################################
+# BONUS
+################################################################################
+B_NAME			=	miniRT_bonus
+ifeq ($(filter bonus,$(MAKECMDGOALS)),bonus)
+	MAIN_SRC	=	main_bonus.c
+	MAIN_OBJ	=	$(OBJ_DIR)/main_bonus.o
+	MAIN_NAME	=	$(B_NAME)
+else
+	MAIN_SRC	=	main.c
+	MAIN_OBJ	=	$(OBJ_DIR)/main.o
+	MAIN_NAME	=	$(NAME)
+endif
+
 SRC_DIR			=	./src
-SRCS			=	main.c \
-					error.c \
+SRCS			=	error.c \
 					init.c \
 					ui.c \
 					bvh.c \
@@ -108,13 +122,17 @@ vpath %.c	$(SRC_DIR) \
 			$(SRC_DIR)/utils \
 			$(SRC_DIR)/uv \
 
-all: libmlx $(NAME)
+all: libmlx $(MAIN_NAME)
 
 libmlx:
 	cmake $(MLX42_DIR) $(MLX_DEBUG) -B $(MLX42_DIR)/build && make -C $(MLX42_DIR)/build -j4
 
-$(NAME): $(LIBFT) $(OBJECTS)
-	$(CC_FULL) $(OBJECTS) $(LIBFT) $(MLX42) -o $(NAME)
+$(MAIN_NAME): $(LIBFT) $(OBJECTS) $(MAIN_OBJ)
+	$(CC_FULL) $(OBJECTS) $(MAIN_OBJ) $(LIBFT) $(MLX42) -o $(MAIN_NAME)
+
+$(MAIN_OBJ): $(MAIN_SRC) $(M_HEADERS)
+	mkdir -p $(@D)
+	$(CC_FULL) -c $< -o $@
 
 $(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 	mkdir -p $(@D)
@@ -123,16 +141,18 @@ $(OBJ_DIR)/%.o: %.c $(M_HEADERS)
 $(LIBFT): libft_force
 	make -C $(LIBFT_DIR)
 
+bonus: all
+
 libft_force:
 	@true
 
 clean:
-	@rm -rf $(NAME).dSYM/ $(OBJECTS) $(OBJ_DIR)
+	@rm -rf $(NAME).dSYM/ $(B_NAME).dSYM/ $(OBJECTS) $(OBJ_DIR)
 	@rm -rf $(MLX42_DIR)/build
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME) $(OBJ_DIR)
+	rm -f $(NAME) $(B_NAME) $(OBJ_DIR)
 	make fclean -C $(LIBFT_DIR)
 
 re: fclean all
