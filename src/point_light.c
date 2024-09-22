@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:57 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 16:00:47 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 13:43:07 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ double	get_specular(t_hit *hit, t_vector *light_dir)
 
 	if (hit->shape->shine == 0)
 		return (0.0);
-	hit_view = vector_normalize(vector_scale(hit->hit_point, -1));
+	hit_view = vector_normalize(
+			vector_subtract(rtx()->camera.pos, hit->hit_point));
 	reflection_angle = vector_dot(*light_dir, hit->normal) * 2.0;
 	reflection = vector_scale(hit->normal, reflection_angle);
-	reflection = vector_subtract(reflection, *light_dir);
+	reflection = vector_normalize(vector_subtract(reflection, *light_dir));
 	specular = fmax(vector_dot(reflection, hit_view), 0.0);
 	specular = pow(specular, hit->shape->shine);
 	intensity_scale = hit->shape->shine / (hit->shape->shine + SHINE_MOD);
