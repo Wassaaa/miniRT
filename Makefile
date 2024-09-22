@@ -46,7 +46,6 @@ SRCS			=	main.c \
 					bvh.c \
 					bvh_utils.c \
 					init_utils.c \
-					init_lights.c \
 					checkerboard.c \
 					sphere.c \
 					plane.c \
