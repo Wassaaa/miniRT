@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:17:35 by jtu               #+#    #+#             */
-/*   Updated: 2024/09/22 13:43:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/22 17:41:15 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static bool	adjust_shapes(mlx_key_data_t keydata)
 
 bool	keys(mlx_key_data_t keydata)
 {
+	if (keydata.key == MLX_KEY_ESCAPE)
+		error(E_NOPE, NULL);
 	if (move_camera(keydata))
 		return (true);
 	if (keydata.key == MLX_KEY_TAB && keydata.action == MLX_RELEASE)
