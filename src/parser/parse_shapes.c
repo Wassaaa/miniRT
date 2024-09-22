@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:40:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/30 12:10:39 by jtu              ###   ########.fr       */
+/*   Updated: 2024/09/22 17:48:31 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	parse_cone(char **element)
 	cone->type = CONE;
 	cone->pos = parse_vector(element[1], false);
 	cone->dir = check_dir(parse_vector(element[2], true));
+	cone->dir = vector_scale(cone->dir, -1);
 	cone->diameter = ft_atof(element[3]);
 	check_range_double(cone->diameter, 0.0, DBL_MAX, ERR_CONE_DIAM);
 	cone->height = ft_atof(element[4]);
