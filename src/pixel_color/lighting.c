@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:11:55 by aklein            #+#    #+#             */
-/*   Updated: 2024/09/22 14:11:59 by aklein           ###   ########.fr       */
+/*   Updated: 2024/09/23 20:41:46 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	light_one(t_lighting *lighting, t_light *light,
 	diff_int = get_diffuse(hit, &light_dir);
 	spec_int = get_specular(hit, &light_dir);
 	diff_contrib = color_scale(light->color,
-			light->bright * diff_int * intensity_scale);
+			diff_int * intensity_scale);
 	spec_contrib = color_scale(light->color,
-			light->bright * spec_int * intensity_scale);
+			spec_int * intensity_scale);
 	lighting->diffuse = color_add(lighting->diffuse, diff_contrib);
 	lighting->specular = color_add(lighting->specular, spec_contrib);
 }
@@ -93,24 +93,17 @@ t_lighting	calc_lighting(t_hit *hit)
 	t_list		*lights;
 	t_light		*light;
 	t_lighting	lighting;
-	double		total_intensity;
-	double		light_intensity;
 
 	lights = rtx()->lights;
 	lighting = (t_lighting){{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-	total_intensity = 0.0;
 	while (lights)
 	{
 		light = (t_light *)lights->content;
 		if (!check_shadow(hit, light))
-		{
-			light_intensity = light->bright;
-			total_intensity += light_intensity;
-			if (total_intensity > 1.0)
-				light_intensity *= (1.0 / total_intensity);
-			light_one(&lighting, light, hit, light_intensity);
-		}
+			light_one(&lighting, light, hit, light->bright);
 		lights = lights->next;
 	}
+	lighting.diffuse = color_clamp(lighting.diffuse);
+	lighting.specular = color_clamp(lighting.specular);
 	return (lighting);
 }
