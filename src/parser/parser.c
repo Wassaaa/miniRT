@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
+/*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 13:41:11 by jtu               #+#    #+#             */
-/*   Updated: 2024/08/28 20:52:02 by jtu              ###   ########.fr       */
+/*   Updated: 2024/09/23 21:47:43 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parse_bonus(char **element, t_shape	*shape)
 		else if (ft_strncmp(*element, "ref:", 4) == 0)
 			parse_reflectivity(*element, shape);
 		else
-			error(E_PARSER, "ERR_ELEMENT");
+			error(E_PARSER, ERR_ELEMENT);
 		element++;
 	}
 }
